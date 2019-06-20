@@ -19,6 +19,14 @@ defmodule UiWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/transit", UiWeb do
+    pipe_through :api
+
+    get "/stops", StopsController, :index
+
+  end
+
+
   # Other scopes may use custom stacks.
   # scope "/api", UiWeb do
   #   pipe_through :api

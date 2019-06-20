@@ -317,8 +317,8 @@ errToString error =
 getStopPlace : LineStop -> Cmd Msg
 getStopPlace lineStop =
     Entur.query lineStop.id
-        |> Graphql.Http.queryRequest "https://api.entur.org/journeyplanner/2.0/index/graphql"
-        |> Graphql.Http.withHeader "ET-Client-Name" "github.com/ringvold/pidash-default_client_name"
+        |> Graphql.Http.queryRequest "https://api.entur.io/journey-planner/v2/graphql"
+        |> Graphql.Http.withHeader "ET-Client-Name" "github.com/ringvold/nerves-pidash-default_client_name"
         |> Graphql.Http.send RemoteData.fromResult
         |> Cmd.map (StopPlaceReceived lineStop.id lineStop.quay)
 
@@ -332,7 +332,7 @@ getStopPlaces stops =
 getStops : Cmd Msg
 getStops =
     Http.get
-        "/ruter/selectedStops"
+        "/transit/stops"
         decodeStops
         |> RemoteData.sendRequest
         |> Cmd.map StopsReceived
