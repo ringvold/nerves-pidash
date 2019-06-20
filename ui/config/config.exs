@@ -14,6 +14,13 @@ config :ui, UiWeb.Endpoint,
   render_errors: [view: UiWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Ui.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :ui, :stops,
+  [
+    %{name: "Storo sør", id: "NSR:StopPlace:58195", quay: "NSR:Quay:11128"},
+    %{name: "Grefsenveien nord", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11770"},
+    %{name: "Grefsenveien sør", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11769"}
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -22,12 +29,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :pidash,
-  stops: [
-    %{name: "Storo sør", id: "NSR:StopPlace:58195", quay: "NSR:Quay:11128"},
-    %{name: "Grefsenveien nord", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11770"},
-    %{name: "Grefsenveien sør", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11769"}
-  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

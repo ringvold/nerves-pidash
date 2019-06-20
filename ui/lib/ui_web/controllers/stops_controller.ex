@@ -4,6 +4,7 @@ defmodule UiWeb.StopsController do
   plug :action
 
   def index(conn, _params) do
-    render conn
+  	stops = Application.fetch_env!(:ui, :stops)
+    render conn, "index.json", stops: stops 
   end
 end
