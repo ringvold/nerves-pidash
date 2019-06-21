@@ -7,6 +7,7 @@ var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 var entryPath = path.join(__dirname, 'js/app.js');
 
 
@@ -15,8 +16,8 @@ var commonConfig = {
   entry: entryPath,
   mode: 'development',
   output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, '../priv/static/js')
+    filename: 'js/app.js',
+    path: path.resolve(__dirname, '../priv/static')
   },
 
   resolve: {
@@ -32,14 +33,6 @@ var commonConfig = {
       }
     ]
   },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/static/index.html',
-      inject: 'body',
-      filename: 'index.html'
-    })
-  ]
 };
 
 module.exports = merge(commonConfig, {
@@ -66,11 +59,34 @@ module.exports = merge(commonConfig, {
     },
 
     plugins: [
-      new MiniCssExtractPlugin({ filename: '../css/app.css' }),
+      new MiniCssExtractPlugin({ filename: 'css/app.css' }),
       new CopyWebpackPlugin([
         { 
           from: 'static/', 
-          to: '../' },
+          to: './' 
+        },
       ]),
+      new FileManagerPlugin({
+        onEnd: {
+          copy: [
+            { 
+              source: '../priv/static/*.eot',
+              destination: '../priv/static/css/' 
+            },
+            { 
+              source: '../priv/static/*.woff*',
+              destination: '../priv/static/css/' 
+            },
+            { 
+              source: '../priv/static/*.svg',
+              destination: '../priv/static/css/' 
+            },
+            { 
+              source: '../priv/static/*.ttf',
+              destination: '../priv/static/css/' 
+            },
+          ]
+        }
+      })
     ]
   });
