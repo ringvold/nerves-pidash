@@ -26,6 +26,10 @@ defmodule UiWeb.Router do
 
   end
 
+  scope "/weather", UiWeb do
+
+    get "/forecast", WeatherController, :index
+  end
 
   # Other scopes may use custom stacks.
   # scope "/api", UiWeb do

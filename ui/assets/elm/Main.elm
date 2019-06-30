@@ -224,18 +224,18 @@ fetchDepartures model =
 view : Model -> Html Msg
 view model =
     let
-        activeIndicator =
+        containerClass = 
             case model.activePeriod of
-                Active time ->
-                    "label label-success"
+                Active _ ->
+                    "active"
 
                 Inactive ->
-                    "label label-default"
+                    "cinactive"
     in
-    div []
+    div [ class containerClass ]
         [ div [ class "header container-fluid" ]
             [ h1 [ class "title" ]
-                [ span [ class activeIndicator ] [ text "Avganger" ]
+                [ span [] [ text "Avganger" ]
                 ]
             , viewClosestForecast model.forecasts
             ]
@@ -261,7 +261,7 @@ viewClosestForecast forecasts =
             case err of
                 Http.BadPayload error _ ->
                     wrapper
-                        [ text error
+                        [ text "error"
                         ]
 
                 _ ->
@@ -275,7 +275,7 @@ viewClosestForecast forecasts =
                 ]
 
 
-viewStopPlaces : Model -> Html Msg
+viewStopPlaces :  Model -> Html Msg
 viewStopPlaces model =
     case model.lineStops of
         RemoteData.Success stops ->

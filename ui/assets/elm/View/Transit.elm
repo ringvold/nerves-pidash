@@ -54,6 +54,7 @@ viewDepartures currentTime departuresDict lineStop =
                                 text "Ingen avganger akkurat nå"
                     in
                     List.map (\departure -> viewEstimatedCall departure currentTime) departures
+                        |> List.take 3
                         |> div []
                         |> markup
 

@@ -1,6 +1,7 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/_labels.scss';
 
 // can add Boostrap overrides, additional Sass/CSS below...
 body {
@@ -56,6 +57,25 @@ body {
   display: inline-block;
   margin-top: 0;
 }
+
+.active .title span {
+  @extend .label;
+  @extend .label-success;
+}
+
+.inactive .title span {
+  @extend .label;
+  @extend .label-default;
+}
+
+.active .departures  {
+  color: #d2d2d2;
+}
+
+.inactive .departures  {
+  color: #545454;
+}
+
 .departures {
   text-align: center;
 }

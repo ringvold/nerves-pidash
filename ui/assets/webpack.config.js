@@ -35,13 +35,26 @@ var commonConfig = {
   },
 };
 
-module.exports = merge(commonConfig, {
+module.exports = (env, argv) => {
+
+  let isProduction = argv.mode === 'production'; 
+  
+  return merge(commonConfig, {
     module: {
       rules: [
         {
           test: /\.elm$/,
           exclude: [/elm-stuff/, /node_modules/],
-          use: 'elm-webpack-loader'
+          use: [
+            {
+              loader: 'elm-webpack-loader',
+              options: {
+                verbose: !isProduction,
+                              debug: !isProduction,
+                optimize: isProduction,
+              },
+            },
+          ]
         },
         {
           test: /\.(css|scss)$/,
@@ -57,6 +70,8 @@ module.exports = merge(commonConfig, {
         }
       ]
     },
+
+    optimization: isProduction ? optimizationOptions() : {},
 
     plugins: [
       new MiniCssExtractPlugin({ filename: 'css/app.css' }),
@@ -89,4 +104,19 @@ module.exports = merge(commonConfig, {
         }
       })
     ]
-  });
+  })
+
+};
+
+const optimizationOptions = () => {
+    return {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true, // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({}),
+        ],
+    };
+};

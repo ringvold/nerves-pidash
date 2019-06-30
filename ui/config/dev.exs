@@ -13,8 +13,7 @@ config :ui, UiWeb.Endpoint,
   check_origin: false,
   watchers: [
     yarn: [
-      "build",
-      "--watch",
+      "watch",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
