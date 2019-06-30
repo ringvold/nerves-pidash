@@ -1,6 +1,6 @@
 # nerves-pidash
 
-Port of pidash (https://github.com/ringvold/pidash= to Phoenix from Go. This will use Nerves (nerves-project.org)
+Port of pidash (https://github.com/ringvold/pidash) to Phoenix from Go. This will use Nerves (nerves-project.org)
 to build a firmware to boot on Raspberry Pi 3 (https://github.com/LeToteTeam/kiosk_system_rpi3).
 
 ## Why?
