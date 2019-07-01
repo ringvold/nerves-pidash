@@ -230,7 +230,7 @@ view model =
                     "active"
 
                 Inactive ->
-                    "cinactive"
+                    "inactive"
     in
     div [ class containerClass ]
         [ div [ class "header container-fluid" ]
