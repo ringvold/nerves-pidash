@@ -23,14 +23,12 @@ type alias Symbol =
 
 decodeForecast : Decoder (List Forecast)
 decodeForecast =
-    Decode.at [ "Forecasts" ]
-        (Decode.list
-            (Decode.map4 Forecast
-                (Decode.field "Temperature" decodeTemperature)
-                (Decode.field "Symbol" decodeSymbol)
-                (Decode.field "FromTime" datetime)
-                (Decode.field "ToTime" datetime)
-            )
+    Decode.list
+        (Decode.map4 Forecast
+            (Decode.field "temperature" decodeTemperature)
+            (Decode.field "symbol" decodeSymbol)
+            (Decode.field "from" datetime)
+            (Decode.field "to" datetime)
         )
 
 
@@ -51,12 +49,12 @@ datetime =
 
 decodeTemperature : Decoder String
 decodeTemperature =
-    Decode.map String.fromInt (Decode.at [ "Value" ] Decode.int)
+    Decode.map String.fromInt (Decode.at [ "value" ] Decode.int)
 
 
 decodeSymbol : Decoder Symbol
 decodeSymbol =
     Decode.map3 Symbol
-        (Decode.field "Number" Decode.string)
-        (Decode.field "Name" Decode.string)
-        (Decode.field "Var" Decode.string)
+        (Decode.field "number" Decode.string)
+        (Decode.field "name" Decode.string)
+        (Decode.field "var" Decode.string)

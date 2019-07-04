@@ -12,8 +12,8 @@ defmodule UiWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :ui,
-    gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    gzip: true,
+    only: ~w(css fonts images js svg favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

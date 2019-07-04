@@ -41,4 +41,4 @@ timePeriod forecast =
 
 symbolSvg : String -> String
 symbolSvg symbol =
-    "/static/symbol/svg/" ++ symbol ++ ".svg"
+    "/svg/" ++ symbol ++ ".svg"
