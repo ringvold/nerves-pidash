@@ -4,7 +4,7 @@
 ##  The cookie needs to be configured prior to vm boot for
 ##  for read only filesystem.
 
-# -name example@0.0.0.0
+# -name pidash_fw@0.0.0.0
 -setcookie /Jnde0Hr143FzUp/uzr/9i8eKQ2lbtQwRqotbkWFZf8yzABEdbRtqwGB+0TOZfwB
 
 ## Use Ctrl-C to interrupt the current shell rather than invoking the emulator's

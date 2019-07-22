@@ -26,8 +26,8 @@ end
 # when running `mix release`, the first release in the file
 # will be used by default
 
-release :example do
-  set version: current_version(:example)
+release :pidash_fw do
+  set version: current_version(:pidash_fw)
   plugin Shoehorn
   plugin Nerves
 end

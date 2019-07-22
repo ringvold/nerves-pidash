@@ -5,7 +5,7 @@ defmodule Firmware.MixProject do
 
   def project do
     [
-      app: :example,
+      app: :pidash_fw,
       version: "1.0.0",
       elixir: "~> 1.8",
       archives: [nerves_bootstrap: "~> 1.0"],
