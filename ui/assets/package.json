@@ -12,7 +12,7 @@
     "start": "webpack-dev-server --hot --inline",
     "build": "webpack",
     "reinstall": "yarn add rimraf && rimraf node_modules && yarn && yarn elm install",
-    "deploy": "webpack --mode production",
+    "deploy": "rimraf ../priv/static && webpack --mode production",
     "watch": "webpack --mode development --watch-stdin"
   },
   "devDependencies": {

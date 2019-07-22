@@ -37,7 +37,8 @@ var commonConfig = {
 
 module.exports = (env, argv) => {
 
-  let isProduction = argv.mode === 'production'; 
+  const mode = argv.mode || 'production'; 
+  const isProduction = mode === 'production';
   
   return merge(commonConfig, {
     module: {
@@ -50,7 +51,7 @@ module.exports = (env, argv) => {
               loader: 'elm-webpack-loader',
               options: {
                 verbose: !isProduction,
-                              debug: !isProduction,
+                debug: !isProduction,
                 optimize: isProduction,
               },
             },
