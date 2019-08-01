@@ -22,7 +22,7 @@ config :shoehorn,
 # default :console backend.
 config :logger, backends: [RingLogger]
 
-network_iface = System.get_env("NERVES_NETWORK_IFACE") || "eth0"
+network_iface = System.get_env("NERVES_NETWORK_IFACE") || "wlan0"
 
 wlan_conf =
   if network_iface == "wlan0" do
