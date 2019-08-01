@@ -22,6 +22,10 @@ body {
   display: flex;
 }
 
+.inactive .quick-forecast {
+  color: #545454;
+}
+
 .quick-forecast .forecast {
   display: flex;
   flex-direction: column;
