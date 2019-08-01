@@ -28,8 +28,8 @@ wlan_conf =
   if network_iface == "wlan0" do
     config :nerves_network, :default,
       wlan0: [
-        ssid: System.get_env("NERVES_NETWORK_SSID"), 
-        psk: System.get_env("NERVES_NETWORK_PSK"), 
+        ssid: System.get_env("NERVES_NETWORK_SSID"),
+        psk: System.get_env("NERVES_NETWORK_PSK"),
         key_mgmt: System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
       ]
   else
@@ -65,7 +65,7 @@ config :ui, UiWeb.Endpoint,
   render_errors: [view: UiWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Nerves.PubSub, adapter: Phoenix.PubSub.PG2],
   code_reloader: false
-  
+
 
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
@@ -74,8 +74,7 @@ config :ui, UiWeb.Endpoint,
 keys =
   [
     Path.join([System.user_home!(), ".ssh", "id_rsa.pub"]),
-    Path.join([System.user_home!(), ".ssh", "id_ecdsa.pub"]),
-    Path.join([System.user_home!(), ".ssh", "id_ed25519.pub"])
+    Path.join([System.user_home!(), ".ssh", "id_rsa_mac.pub"])
   ]
   |> Enum.filter(&File.exists?/1)
 
