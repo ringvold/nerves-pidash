@@ -1,6 +1,8 @@
 module Main exposing (main)
 
 import Browser
+import DateFormat
+import DateFormat.Language
 import Dict exposing (Dict)
 import Entur as Entur exposing (EstimatedCall, Response, StopPlace)
 import Graphql.Http
@@ -13,7 +15,7 @@ import LineStop exposing (..)
 import Msg exposing (..)
 import RemoteData exposing (RemoteData(..), WebData, succeed)
 import Task exposing (perform)
-import Time
+import Time exposing (Posix, Zone)
 import View.Transit as Transit
 import View.Weather
 import Weather exposing (Forecast, Symbol, decodeForecast)
@@ -39,7 +41,10 @@ main =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (15 * second) <| checkIfActivePeriod model
+    Sub.batch
+        [ Time.every (15 * second) <| checkIfActivePeriod model
+        , Time.every (30 * second) <| TimeReceived
+        ]
 
 
 checkIfActivePeriod : Model -> Time.Posix -> Msg
@@ -83,6 +88,7 @@ type alias Model =
     , activePeriod : ActivePeriodStatus
     , forecasts : WebData (List Forecast)
     , departures : Dict String Departures
+    , zone : Zone
     }
 
 
@@ -95,12 +101,14 @@ init flags =
             , activePeriod = Inactive
             , forecasts = Loading
             , departures = Dict.empty
+            , zone = Time.utc
             }
     in
     ( model
     , Cmd.batch
         [ getStops
         , getForecast
+        , Task.perform ZoneReceived Time.here
         ]
     )
 
@@ -123,6 +131,9 @@ update msg model =
             ( { newModel | departures = setLoadingDepartures model }
             , Cmd.batch [ Task.perform ActivePeriodStartReceived Time.now, fetchDepartures model, getForecast ]
             )
+
+        ZoneReceived zone ->
+            ( { model | zone = zone }, Cmd.none )
 
         TimeRequested ->
             ( model, Cmd.batch [ Task.perform TimeReceived Time.now ] )
@@ -224,7 +235,7 @@ fetchDepartures model =
 view : Model -> Html Msg
 view model =
     let
-        containerClass = 
+        containerClass =
             case model.activePeriod of
                 Active _ ->
                     "active"
@@ -234,8 +245,8 @@ view model =
     in
     div [ class containerClass ]
         [ div [ class "header container-fluid" ]
-            [ h1 [ class "title" ]
-                [ span [] [ text "Avganger" ]
+            [ h2 [ class "datetime" ]
+                [ text <| formatDateTime model.zone model.currentTime
                 ]
             , viewClosestForecast model.forecasts
             ]
@@ -243,6 +254,27 @@ view model =
             [ class "container-fluid", onClick RefreshTriggered ]
             [ viewStopPlaces model ]
         ]
+
+
+formatDateTime : Zone -> Maybe Posix -> String
+formatDateTime zone maybeTime =
+    let
+        time =
+            Maybe.withDefault (Time.millisToPosix 0) maybeTime
+    in
+    DateFormat.format
+        [ DateFormat.monthFixed
+        , DateFormat.text "."
+        , DateFormat.dayOfMonthFixed
+        , DateFormat.text "."
+        , DateFormat.yearNumber
+        , DateFormat.text " "
+        , DateFormat.hourMilitaryFixed
+        , DateFormat.text ":"
+        , DateFormat.minuteFixed
+        ]
+        zone
+        time
 
 
 viewClosestForecast : WebData (List Forecast) -> Html Msg
@@ -275,7 +307,7 @@ viewClosestForecast forecasts =
                 ]
 
 
-viewStopPlaces :  Model -> Html Msg
+viewStopPlaces : Model -> Html Msg
 viewStopPlaces model =
     case model.lineStops of
         RemoteData.Success stops ->

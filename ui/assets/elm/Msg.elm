@@ -4,7 +4,7 @@ import Entur exposing (Response)
 import Graphql.Http
 import LineStop exposing (Departures, LineStop, StopId)
 import RemoteData exposing (RemoteData, WebData)
-import Time exposing (Posix)
+import Time exposing (Posix, Zone)
 import Weather exposing (Forecast)
 
 
@@ -15,6 +15,7 @@ import Weather exposing (Forecast)
 type Msg
     = NoOp
     | RefreshTriggered
+    | ZoneReceived Zone
     | TimeRequested
     | TimeReceived Posix
     | DeparturesRequested

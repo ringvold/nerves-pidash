@@ -57,19 +57,9 @@ body {
   height: 37px;
 }
 
-.title {
-  display: inline-block;
-  margin-top: 0;
-}
-
-.active .title span {
-  @extend .label;
-  @extend .label-success;
-}
-
-.inactive .title span {
-  @extend .label;
-  @extend .label-default;
+.datetime {
+  display: flex;
+  float: left;
 }
 
 .active .departures  {

@@ -19,7 +19,7 @@
             "justinmimbs/date": "1.0.0",
             "krisajenkins/remotedata": "5.0.0",
             "ringvold/elm-iso8601-date-strings": "1.0.2",
-            "ryannhg/date-format": "2.1.0"
+            "ryannhg/date-format": "2.3.0"
         },
         "indirect": {
             "elm/parser": "1.0.0",
