@@ -2,71 +2,70 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Interface.PlaceInterface exposing (commonSelection, id, latitude, longitude, onBikePark, onBikeRentalStation, onCarPark, onQuay, onStopPlace, selection)
+module EnturApi.Interface.PlaceInterface exposing (Fragments, fragments, id, latitude, longitude, maybeFragments)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (FragmentSelectionSet(..), SelectionSet(..))
 import Json.Decode as Decode
 
 
-{-| Select only common fields from the interface.
+type alias Fragments decodesTo =
+    { onStopPlace : SelectionSet decodesTo EnturApi.Object.StopPlace
+    , onQuay : SelectionSet decodesTo EnturApi.Object.Quay
+    , onBikeRentalStation : SelectionSet decodesTo EnturApi.Object.BikeRentalStation
+    , onBikePark : SelectionSet decodesTo EnturApi.Object.BikePark
+    , onCarPark : SelectionSet decodesTo EnturApi.Object.CarPark
+    }
+
+
+{-| Build an exhaustive selection of type-specific fragments.
 -}
-commonSelection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Interface.PlaceInterface
-commonSelection constructor =
-    Object.selection constructor
+fragments :
+    Fragments decodesTo
+    -> SelectionSet decodesTo EnturApi.Interface.PlaceInterface
+fragments selections =
+    Object.exhaustiveFragmentSelection
+        [ Object.buildFragment "StopPlace" selections.onStopPlace
+        , Object.buildFragment "Quay" selections.onQuay
+        , Object.buildFragment "BikeRentalStation" selections.onBikeRentalStation
+        , Object.buildFragment "BikePark" selections.onBikePark
+        , Object.buildFragment "CarPark" selections.onCarPark
+        ]
 
 
-{-| Select both common and type-specific fields from the interface.
+{-| Can be used to create a non-exhaustive set of fragments by using the record
+update syntax to add `SelectionSet`s for the types you want to handle.
 -}
-selection : (Maybe typeSpecific -> a -> constructor) -> List (FragmentSelectionSet typeSpecific EnturApi.Interface.PlaceInterface) -> SelectionSet (a -> constructor) EnturApi.Interface.PlaceInterface
-selection constructor typeSpecificDecoders =
-    Object.interfaceSelection typeSpecificDecoders constructor
+maybeFragments : Fragments (Maybe decodesTo)
+maybeFragments =
+    { onStopPlace = Graphql.SelectionSet.empty |> Graphql.SelectionSet.map (\_ -> Nothing)
+    , onQuay = Graphql.SelectionSet.empty |> Graphql.SelectionSet.map (\_ -> Nothing)
+    , onBikeRentalStation = Graphql.SelectionSet.empty |> Graphql.SelectionSet.map (\_ -> Nothing)
+    , onBikePark = Graphql.SelectionSet.empty |> Graphql.SelectionSet.map (\_ -> Nothing)
+    , onCarPark = Graphql.SelectionSet.empty |> Graphql.SelectionSet.map (\_ -> Nothing)
+    }
 
 
-onStopPlace : SelectionSet decodesTo EnturApi.Object.StopPlace -> FragmentSelectionSet decodesTo EnturApi.Interface.PlaceInterface
-onStopPlace (SelectionSet fields decoder) =
-    FragmentSelectionSet "StopPlace" fields decoder
-
-
-onQuay : SelectionSet decodesTo EnturApi.Object.Quay -> FragmentSelectionSet decodesTo EnturApi.Interface.PlaceInterface
-onQuay (SelectionSet fields decoder) =
-    FragmentSelectionSet "Quay" fields decoder
-
-
-onBikeRentalStation : SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> FragmentSelectionSet decodesTo EnturApi.Interface.PlaceInterface
-onBikeRentalStation (SelectionSet fields decoder) =
-    FragmentSelectionSet "BikeRentalStation" fields decoder
-
-
-onBikePark : SelectionSet decodesTo EnturApi.Object.BikePark -> FragmentSelectionSet decodesTo EnturApi.Interface.PlaceInterface
-onBikePark (SelectionSet fields decoder) =
-    FragmentSelectionSet "BikePark" fields decoder
-
-
-onCarPark : SelectionSet decodesTo EnturApi.Object.CarPark -> FragmentSelectionSet decodesTo EnturApi.Interface.PlaceInterface
-onCarPark (SelectionSet fields decoder) =
-    FragmentSelectionSet "CarPark" fields decoder
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Interface.PlaceInterface
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Interface.PlaceInterface
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-latitude : Field (Maybe Float) EnturApi.Interface.PlaceInterface
+latitude : SelectionSet (Maybe Float) EnturApi.Interface.PlaceInterface
 latitude =
-    Object.fieldDecoder "latitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "latitude" [] (Decode.float |> Decode.nullable)
 
 
-longitude : Field (Maybe Float) EnturApi.Interface.PlaceInterface
+longitude : SelectionSet (Maybe Float) EnturApi.Interface.PlaceInterface
 longitude =
-    Object.fieldDecoder "longitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "longitude" [] (Decode.float |> Decode.nullable)

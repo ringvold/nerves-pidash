@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.Mode exposing (Mode(..), decoder, toString)
+module EnturApi.Enum.Mode exposing (Mode(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -33,6 +33,11 @@ type Mode
     | Car_park
     | Car_dropoff
     | Car_pickup
+
+
+list : List Mode
+list =
+    [ Air, Bicycle, Bus, Cableway, Water, Funicular, Lift, Rail, Metro, Tram, Coach, Transit, Foot, Car, Car_park, Car_dropoff, Car_pickup ]
 
 
 decoder : Decoder Mode
@@ -152,3 +157,72 @@ toString enum =
 
         Car_pickup ->
             "car_pickup"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe Mode
+fromString enumString =
+    case enumString of
+        "air" ->
+            Just Air
+
+        "bicycle" ->
+            Just Bicycle
+
+        "bus" ->
+            Just Bus
+
+        "cableway" ->
+            Just Cableway
+
+        "water" ->
+            Just Water
+
+        "funicular" ->
+            Just Funicular
+
+        "lift" ->
+            Just Lift
+
+        "rail" ->
+            Just Rail
+
+        "metro" ->
+            Just Metro
+
+        "tram" ->
+            Just Tram
+
+        "coach" ->
+            Just Coach
+
+        "transit" ->
+            Just Transit
+
+        "foot" ->
+            Just Foot
+
+        "car" ->
+            Just Car
+
+        "car_park" ->
+            Just Car_park
+
+        "car_dropoff" ->
+            Just Car_dropoff
+
+        "car_pickup" ->
+            Just Car_pickup
+
+        _ ->
+            Nothing

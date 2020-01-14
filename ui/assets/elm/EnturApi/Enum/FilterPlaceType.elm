@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.FilterPlaceType exposing (FilterPlaceType(..), decoder, toString)
+module EnturApi.Enum.FilterPlaceType exposing (FilterPlaceType(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -11,7 +11,6 @@ import Json.Decode as Decode exposing (Decoder)
 
   - Quay - Quay
   - StopPlace - StopPlace
-  - Departure - Departure
   - BicycleRent - Bicycle rent stations
   - BikePark - Bike parks
   - CarPark - Car parks
@@ -20,10 +19,14 @@ import Json.Decode as Decode exposing (Decoder)
 type FilterPlaceType
     = Quay
     | StopPlace
-    | Departure
     | BicycleRent
     | BikePark
     | CarPark
+
+
+list : List FilterPlaceType
+list =
+    [ Quay, StopPlace, BicycleRent, BikePark, CarPark ]
 
 
 decoder : Decoder FilterPlaceType
@@ -37,9 +40,6 @@ decoder =
 
                     "stopPlace" ->
                         Decode.succeed StopPlace
-
-                    "departure" ->
-                        Decode.succeed Departure
 
                     "bicycleRent" ->
                         Decode.succeed BicycleRent
@@ -66,9 +66,6 @@ toString enum =
         StopPlace ->
             "stopPlace"
 
-        Departure ->
-            "departure"
-
         BicycleRent ->
             "bicycleRent"
 
@@ -77,3 +74,36 @@ toString enum =
 
         CarPark ->
             "carPark"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe FilterPlaceType
+fromString enumString =
+    case enumString of
+        "quay" ->
+            Just Quay
+
+        "stopPlace" ->
+            Just StopPlace
+
+        "bicycleRent" ->
+            Just BicycleRent
+
+        "bikePark" ->
+            Just BikePark
+
+        "carPark" ->
+            Just CarPark
+
+        _ ->
+            Nothing

@@ -9,8 +9,8 @@ import EnturApi.Enum.TransportSubmode
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -30,13 +30,25 @@ buildInputBanned fillOptionals =
 
 
 type alias InputBannedOptionalFields =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)), quays : OptionalArgument (List (Maybe String)), quaysHard : OptionalArgument (List (Maybe String)), serviceJourneys : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    , quays : OptionalArgument (List (Maybe String))
+    , quaysHard : OptionalArgument (List (Maybe String))
+    , serviceJourneys : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Type for the InputBanned input object.
 -}
 type alias InputBanned =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)), quays : OptionalArgument (List (Maybe String)), quaysHard : OptionalArgument (List (Maybe String)), serviceJourneys : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    , quays : OptionalArgument (List (Maybe String))
+    , quaysHard : OptionalArgument (List (Maybe String))
+    , serviceJourneys : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Encode a InputBanned into a value that can be used as an argument.
@@ -53,13 +65,17 @@ buildInputCoordinates required =
 
 
 type alias InputCoordinatesRequiredFields =
-    { latitude : Float, longitude : Float }
+    { latitude : Float
+    , longitude : Float
+    }
 
 
 {-| Type for the InputCoordinates input object.
 -}
 type alias InputCoordinates =
-    { latitude : Float, longitude : Float }
+    { latitude : Float
+    , longitude : Float
+    }
 
 
 {-| Encode a InputCoordinates into a value that can be used as an argument.
@@ -81,13 +97,23 @@ buildInputFilters fillOptionals =
 
 
 type alias InputFiltersOptionalFields =
-    { quays : OptionalArgument (List (Maybe String)), lines : OptionalArgument (List (Maybe String)), bikeRentalStations : OptionalArgument (List (Maybe String)), bikeParks : OptionalArgument (List (Maybe String)), carParks : OptionalArgument (List (Maybe String)) }
+    { quays : OptionalArgument (List (Maybe String))
+    , lines : OptionalArgument (List (Maybe String))
+    , bikeRentalStations : OptionalArgument (List (Maybe String))
+    , bikeParks : OptionalArgument (List (Maybe String))
+    , carParks : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Type for the InputFilters input object.
 -}
 type alias InputFilters =
-    { quays : OptionalArgument (List (Maybe String)), lines : OptionalArgument (List (Maybe String)), bikeRentalStations : OptionalArgument (List (Maybe String)), bikeParks : OptionalArgument (List (Maybe String)), carParks : OptionalArgument (List (Maybe String)) }
+    { quays : OptionalArgument (List (Maybe String))
+    , lines : OptionalArgument (List (Maybe String))
+    , bikeRentalStations : OptionalArgument (List (Maybe String))
+    , bikeParks : OptionalArgument (List (Maybe String))
+    , carParks : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Encode a InputFilters into a value that can be used as an argument.
@@ -109,13 +135,21 @@ buildInputPreferred fillOptionals =
 
 
 type alias InputPreferredOptionalFields =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)), otherThanPreferredLinesPenalty : OptionalArgument Int }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    , otherThanPreferredLinesPenalty : OptionalArgument Int
+    }
 
 
 {-| Type for the InputPreferred input object.
 -}
 type alias InputPreferred =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)), otherThanPreferredLinesPenalty : OptionalArgument Int }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    , otherThanPreferredLinesPenalty : OptionalArgument Int
+    }
 
 
 {-| Encode a InputPreferred into a value that can be used as an argument.
@@ -137,13 +171,19 @@ buildInputUnpreferred fillOptionals =
 
 
 type alias InputUnpreferredOptionalFields =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Type for the InputUnpreferred input object.
 -}
 type alias InputUnpreferred =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Encode a InputUnpreferred into a value that can be used as an argument.
@@ -165,13 +205,19 @@ buildInputWhiteListed fillOptionals =
 
 
 type alias InputWhiteListedOptionalFields =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Type for the InputWhiteListed input object.
 -}
 type alias InputWhiteListed =
-    { lines : OptionalArgument (List (Maybe String)), authorities : OptionalArgument (List (Maybe String)), organisations : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , authorities : OptionalArgument (List (Maybe String))
+    , organisations : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Encode a InputWhiteListed into a value that can be used as an argument.
@@ -193,13 +239,19 @@ buildLocation fillOptionals =
 
 
 type alias LocationOptionalFields =
-    { name : OptionalArgument String, place : OptionalArgument String, coordinates : OptionalArgument InputCoordinates }
+    { name : OptionalArgument String
+    , place : OptionalArgument String
+    , coordinates : OptionalArgument InputCoordinates
+    }
 
 
 {-| Type for the Location input object.
 -}
 type alias Location =
-    { name : OptionalArgument String, place : OptionalArgument String, coordinates : OptionalArgument InputCoordinates }
+    { name : OptionalArgument String
+    , place : OptionalArgument String
+    , coordinates : OptionalArgument InputCoordinates
+    }
 
 
 {-| Encode a Location into a value that can be used as an argument.
@@ -216,13 +268,17 @@ buildTransportSubmodeFilter required =
 
 
 type alias TransportSubmodeFilterRequiredFields =
-    { transportMode : EnturApi.Enum.TransportMode.TransportMode, transportSubmodes : List (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) }
+    { transportMode : EnturApi.Enum.TransportMode.TransportMode
+    , transportSubmodes : List (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode)
+    }
 
 
 {-| Type for the TransportSubmodeFilter input object.
 -}
 type alias TransportSubmodeFilter =
-    { transportMode : EnturApi.Enum.TransportMode.TransportMode, transportSubmodes : List (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) }
+    { transportMode : EnturApi.Enum.TransportMode.TransportMode
+    , transportSubmodes : List (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode)
+    }
 
 
 {-| Encode a TransportSubmodeFilter into a value that can be used as an argument.

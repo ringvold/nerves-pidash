@@ -2,124 +2,149 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PtSituationElement exposing (authority, description, detail, id, infoLink, journeyPatterns, lines, organisation, quays, reportType, selection, serviceJourneys, situationNumber, stopConditions, stopPlaces, summary, validityPeriod)
+module EnturApi.Object.PtSituationElement exposing (advice, authority, description, detail, id, infoLink, infoLinks, journeyPatterns, lines, organisation, quays, reportAuthority, reportType, serviceJourneys, severity, situationNumber, stopConditions, stopPlaces, summary, validityPeriod)
 
 import EnturApi.Enum.ReportType
+import EnturApi.Enum.Severity
 import EnturApi.Enum.StopCondition
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PtSituationElement
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.PtSituationElement
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.PtSituationElement
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-authority : SelectionSet decodesTo EnturApi.Object.Authority -> Field (Maybe decodesTo) EnturApi.Object.PtSituationElement
+{-| Get affected authority for this situation element
+-}
+authority : SelectionSet decodesTo EnturApi.Object.Authority -> SelectionSet (Maybe decodesTo) EnturApi.Object.PtSituationElement
 authority object_ =
-    Object.selectionField "authority" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "authority" [] object_ (identity >> Decode.nullable)
 
 
-organisation : SelectionSet decodesTo EnturApi.Object.Organisation -> Field (Maybe decodesTo) EnturApi.Object.PtSituationElement
+organisation : SelectionSet decodesTo EnturApi.Object.Organisation -> SelectionSet (Maybe decodesTo) EnturApi.Object.PtSituationElement
 organisation object_ =
-    Object.selectionField "organisation" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "organisation" [] object_ (identity >> Decode.nullable)
 
 
-lines : SelectionSet decodesTo EnturApi.Object.Line -> Field (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
+lines : SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
 lines object_ =
-    Object.selectionField "lines" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "lines" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
+serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
 serviceJourneys object_ =
-    Object.selectionField "serviceJourneys" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "serviceJourneys" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-quays : SelectionSet decodesTo EnturApi.Object.Quay -> Field (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
+quays : SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
 quays object_ =
-    Object.selectionField "quays" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "quays" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-stopPlaces : SelectionSet decodesTo EnturApi.Object.StopPlace -> Field (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
+stopPlaces : SelectionSet decodesTo EnturApi.Object.StopPlace -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
 stopPlaces object_ =
-    Object.selectionField "stopPlaces" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "stopPlaces" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Get all journey patterns for this situation element
 -}
-journeyPatterns : SelectionSet decodesTo EnturApi.Object.JourneyPattern -> Field (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
+journeyPatterns : SelectionSet decodesTo EnturApi.Object.JourneyPattern -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.PtSituationElement
 journeyPatterns object_ =
-    Object.selectionField "journeyPatterns" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "journeyPatterns" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Summary of situation in all different translations available
 -}
-summary : SelectionSet decodesTo EnturApi.Object.MultilingualString -> Field (List decodesTo) EnturApi.Object.PtSituationElement
+summary : SelectionSet decodesTo EnturApi.Object.MultilingualString -> SelectionSet (List decodesTo) EnturApi.Object.PtSituationElement
 summary object_ =
-    Object.selectionField "summary" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "summary" [] object_ (identity >> Decode.list)
 
 
 {-| Description of situation in all different translations available
 -}
-description : SelectionSet decodesTo EnturApi.Object.MultilingualString -> Field (List decodesTo) EnturApi.Object.PtSituationElement
+description : SelectionSet decodesTo EnturApi.Object.MultilingualString -> SelectionSet (List decodesTo) EnturApi.Object.PtSituationElement
 description object_ =
-    Object.selectionField "description" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "description" [] object_ (identity >> Decode.list)
 
 
 {-| Details of situation in all different translations available
 -}
-detail : SelectionSet decodesTo EnturApi.Object.MultilingualString -> Field (List decodesTo) EnturApi.Object.PtSituationElement
+detail : SelectionSet decodesTo EnturApi.Object.MultilingualString -> SelectionSet (List decodesTo) EnturApi.Object.PtSituationElement
 detail object_ =
-    Object.selectionField "detail" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "detail" [] object_ (identity >> Decode.list)
+
+
+{-| Advice of situation in all different translations available
+-}
+advice : SelectionSet decodesTo EnturApi.Object.MultilingualString -> SelectionSet (List decodesTo) EnturApi.Object.PtSituationElement
+advice object_ =
+    Object.selectionForCompositeField "advice" [] object_ (identity >> Decode.list)
 
 
 {-| Url with more information
 -}
-infoLink : Field (Maybe String) EnturApi.Object.PtSituationElement
+infoLink : SelectionSet (Maybe String) EnturApi.Object.PtSituationElement
 infoLink =
-    Object.fieldDecoder "infoLink" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "infoLink" [] (Decode.string |> Decode.nullable)
+
+
+{-| Optional links to more information.
+-}
+infoLinks : SelectionSet decodesTo EnturApi.Object.InfoLink -> SelectionSet (Maybe (List (Maybe decodesTo))) EnturApi.Object.PtSituationElement
+infoLinks object_ =
+    Object.selectionForCompositeField "infoLinks" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
 
 
 {-| Period this situation is in effect
 -}
-validityPeriod : SelectionSet decodesTo EnturApi.Object.ValidityPeriod -> Field (Maybe decodesTo) EnturApi.Object.PtSituationElement
+validityPeriod : SelectionSet decodesTo EnturApi.Object.ValidityPeriod -> SelectionSet (Maybe decodesTo) EnturApi.Object.PtSituationElement
 validityPeriod object_ =
-    Object.selectionField "validityPeriod" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "validityPeriod" [] object_ (identity >> Decode.nullable)
 
 
 {-| ReportType of this situation
 -}
-reportType : Field (Maybe EnturApi.Enum.ReportType.ReportType) EnturApi.Object.PtSituationElement
+reportType : SelectionSet (Maybe EnturApi.Enum.ReportType.ReportType) EnturApi.Object.PtSituationElement
 reportType =
-    Object.fieldDecoder "reportType" [] (EnturApi.Enum.ReportType.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.ReportType.ReportType)" "reportType" [] (EnturApi.Enum.ReportType.decoder |> Decode.nullable)
 
 
 {-| StopConditions of this situation
 -}
-stopConditions : Field (List (Maybe EnturApi.Enum.StopCondition.StopCondition)) EnturApi.Object.PtSituationElement
+stopConditions : SelectionSet (List (Maybe EnturApi.Enum.StopCondition.StopCondition)) EnturApi.Object.PtSituationElement
 stopConditions =
-    Object.fieldDecoder "stopConditions" [] (EnturApi.Enum.StopCondition.decoder |> Decode.nullable |> Decode.list)
+    Object.selectionForField "(List (Maybe Enum.StopCondition.StopCondition))" "stopConditions" [] (EnturApi.Enum.StopCondition.decoder |> Decode.nullable |> Decode.list)
 
 
 {-| Operator's internal id for this situation
 -}
-situationNumber : Field (Maybe String) EnturApi.Object.PtSituationElement
+situationNumber : SelectionSet (Maybe String) EnturApi.Object.PtSituationElement
 situationNumber =
-    Object.fieldDecoder "situationNumber" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "situationNumber" [] (Decode.string |> Decode.nullable)
+
+
+{-| Severity of this situation
+-}
+severity : SelectionSet (Maybe EnturApi.Enum.Severity.Severity) EnturApi.Object.PtSituationElement
+severity =
+    Object.selectionForField "(Maybe Enum.Severity.Severity)" "severity" [] (EnturApi.Enum.Severity.decoder |> Decode.nullable)
+
+
+{-| Authority that reported this situation
+-}
+reportAuthority : SelectionSet decodesTo EnturApi.Object.Authority -> SelectionSet (Maybe decodesTo) EnturApi.Object.PtSituationElement
+reportAuthority object_ =
+    Object.selectionForCompositeField "reportAuthority" [] object_ (identity >> Decode.nullable)

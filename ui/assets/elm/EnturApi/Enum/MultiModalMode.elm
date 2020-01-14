@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.MultiModalMode exposing (MultiModalMode(..), decoder, toString)
+module EnturApi.Enum.MultiModalMode exposing (MultiModalMode(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -18,6 +18,11 @@ type MultiModalMode
     = Parent
     | Child
     | All
+
+
+list : List MultiModalMode
+list =
+    [ Parent, Child, All ]
 
 
 decoder : Decoder MultiModalMode
@@ -53,3 +58,30 @@ toString enum =
 
         All ->
             "all"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe MultiModalMode
+fromString enumString =
+    case enumString of
+        "parent" ->
+            Just Parent
+
+        "child" ->
+            Just Child
+
+        "all" ->
+            Just All
+
+        _ ->
+            Nothing

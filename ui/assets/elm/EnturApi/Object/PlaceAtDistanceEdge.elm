@@ -2,38 +2,32 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistanceEdge exposing (cursor, node, selection)
+module EnturApi.Object.PlaceAtDistanceEdge exposing (cursor, node)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PlaceAtDistanceEdge
-selection constructor =
-    Object.selection constructor
-
-
 {-| The item at the end of the edge
 -}
-node : SelectionSet decodesTo EnturApi.Object.PlaceAtDistance -> Field (Maybe decodesTo) EnturApi.Object.PlaceAtDistanceEdge
+node : SelectionSet decodesTo EnturApi.Object.PlaceAtDistance -> SelectionSet (Maybe decodesTo) EnturApi.Object.PlaceAtDistanceEdge
 node object_ =
-    Object.selectionField "node" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "node" [] object_ (identity >> Decode.nullable)
 
 
 {-| cursor marks a unique position or index into the connection
 -}
-cursor : Field String EnturApi.Object.PlaceAtDistanceEdge
+cursor : SelectionSet String EnturApi.Object.PlaceAtDistanceEdge
 cursor =
-    Object.fieldDecoder "cursor" [] Decode.string
+    Object.selectionForField "String" "cursor" [] Decode.string

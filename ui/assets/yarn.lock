@@ -2,16 +2,15 @@
 # yarn lockfile v1
 
 
-"@dillonkearns/elm-graphql@^1.0.4":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@dillonkearns/elm-graphql/-/elm-graphql-1.0.8.tgz#f0ef34e82e5ce816020e10ac0426fc1fc9f86743"
-  integrity sha512-tNaoTmKiunmWcJ/qw+LM0QGnYk9Gl/x8/SDpObG9ORvk2K5uh6ZQTHB21ljcfD+rQJny+nOisgx85/yIrRLVRA==
+"@dillonkearns/elm-graphql@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@dillonkearns/elm-graphql/-/elm-graphql-4.0.0.tgz#bc5fd5510cb4c3176ccb96619094c8ef1c673e7b"
+  integrity sha512-bG79PGn21bIZ3qfTpgJCEHldgghOD17Y/F2wWnXWUXuc0xubnCgRADt4tZQClvDdxdFipVjHjqPiYWqvtQJZFw==
   dependencies:
     encoding "^0.1.12"
-    glob "^7.1.2"
-    graphql-request "^1.4.0"
-    minimist "^1.2.0"
-    request "^2.83.0"
+    glob "^7.1.4"
+    graphql-request "^1.8.2"
+    request "^2.88.0"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -2036,10 +2035,12 @@ elm@^0.19.0:
   dependencies:
     binwrap "0.1.4"
 
-elm@^0.19.0-no-deps:
-  version "0.19.0-no-deps"
-  resolved "https://registry.yarnpkg.com/elm/-/elm-0.19.0-no-deps.tgz#4754b658c424771823ee91bd5bf6387647954add"
-  integrity sha512-tOlSeo5Bt0Rkrt/aBjL+/a+TmAFdfeqjrOlThrhgKOoGeHt1hU7/hJ+HFMlHiODf09AQh7Anl64o7V6thzmRHw==
+elm@latest-0.19.1:
+  version "0.19.1-3"
+  resolved "https://registry.yarnpkg.com/elm/-/elm-0.19.1-3.tgz#2382aa1943bc79974b5d95b0a6acbe010ee16909"
+  integrity sha512-6y36ewCcVmTOx8lj7cKJs3bhI5qMfoVEigePZ9PhEUNKpwjjML/pU2u2YSpHVAznuCcojoF6KIsrS1Ci7GtVaQ==
+  dependencies:
+    request "^2.88.0"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -2829,7 +2830,7 @@ graceful-fs@~3.0.2:
   dependencies:
     natives "^1.1.0"
 
-graphql-request@^1.4.0:
+graphql-request@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-1.8.2.tgz#398d10ae15c585676741bde3fc01d5ca948f8fbe"
   integrity sha512-dDX2M+VMsxXFCmUX0Vo0TopIZIX4ggzOtiCsThgtrKR4niiaagsGTDIHj3fsOMFETpa064vzovI+4YV4QnMbcg==
@@ -5613,7 +5614,7 @@ request-promise@^4.2.0:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request@^2.81.0, request@^2.83.0, request@^2.87.0, request@^2.88.0:
+request@^2.81.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.TransportSubmode exposing (TransportSubmode(..), decoder, toString)
+module EnturApi.Enum.TransportSubmode exposing (TransportSubmode(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -120,6 +120,11 @@ type TransportSubmode
     | HireMotorbike
     | HireCycle
     | AllHireVehicles
+
+
+list : List TransportSubmode
+list =
+    [ Unknown, Undefined, InternationalFlight, DomesticFlight, IntercontinentalFlight, DomesticScheduledFlight, ShuttleFlight, IntercontinentalCharterFlight, InternationalCharterFlight, RoundTripCharterFlight, SightseeingFlight, HelicopterService, DomesticCharterFlight, SchengenAreaFlight, AirshipService, ShortHaulInternationalFlight, CanalBarge, LocalBus, RegionalBus, ExpressBus, NightBus, PostBus, SpecialNeedsBus, MobilityBus, MobilityBusForRegisteredDisabled, SightseeingBus, ShuttleBus, HighFrequencyBus, DedicatedLaneBus, SchoolBus, SchoolAndPublicServiceBus, RailReplacementBus, DemandAndResponseBus, AirportLinkBus, InternationalCoach, NationalCoach, ShuttleCoach, RegionalCoach, SpecialCoach, SchoolCoach, SightseeingCoach, TouristCoach, CommuterCoach, Funicular, StreetCableCar, AllFunicularServices, UndefinedFunicular, Metro, Tube, UrbanRailway, CityTram, LocalTram, RegionalTram, SightseeingTram, ShuttleTram, TrainTram, Telecabin, CableCar, Lift, ChairLift, DragLift, TelecabinLink, Local, HighSpeedRail, SuburbanRailway, RegionalRail, InterregionalRail, LongDistance, International, SleeperRailService, NightRail, CarTransportRailService, TouristRailway, AirportLinkRail, RailShuttle, ReplacementRailService, SpecialTrain, CrossCountryRail, RackAndPinionRailway, InternationalCarFerry, NationalCarFerry, RegionalCarFerry, LocalCarFerry, InternationalPassengerFerry, NationalPassengerFerry, RegionalPassengerFerry, LocalPassengerFerry, PostBoat, TrainFerry, RoadFerryLink, AirportBoatLink, HighSpeedVehicleService, HighSpeedPassengerService, SightseeingService, SchoolBoat, CableFerry, RiverBus, ScheduledFerry, ShuttleFerryService, CommunalTaxi, CharterTaxi, WaterTaxi, RailTaxi, BikeTaxi, BlackCab, MiniCab, AllTaxiServices, HireCar, HireVan, HireMotorbike, HireCycle, AllHireVehicles ]
 
 
 decoder : Decoder TransportSubmode
@@ -809,3 +814,357 @@ toString enum =
 
         AllHireVehicles ->
             "allHireVehicles"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe TransportSubmode
+fromString enumString =
+    case enumString of
+        "unknown" ->
+            Just Unknown
+
+        "undefined" ->
+            Just Undefined
+
+        "internationalFlight" ->
+            Just InternationalFlight
+
+        "domesticFlight" ->
+            Just DomesticFlight
+
+        "intercontinentalFlight" ->
+            Just IntercontinentalFlight
+
+        "domesticScheduledFlight" ->
+            Just DomesticScheduledFlight
+
+        "shuttleFlight" ->
+            Just ShuttleFlight
+
+        "intercontinentalCharterFlight" ->
+            Just IntercontinentalCharterFlight
+
+        "internationalCharterFlight" ->
+            Just InternationalCharterFlight
+
+        "roundTripCharterFlight" ->
+            Just RoundTripCharterFlight
+
+        "sightseeingFlight" ->
+            Just SightseeingFlight
+
+        "helicopterService" ->
+            Just HelicopterService
+
+        "domesticCharterFlight" ->
+            Just DomesticCharterFlight
+
+        "SchengenAreaFlight" ->
+            Just SchengenAreaFlight
+
+        "airshipService" ->
+            Just AirshipService
+
+        "shortHaulInternationalFlight" ->
+            Just ShortHaulInternationalFlight
+
+        "canalBarge" ->
+            Just CanalBarge
+
+        "localBus" ->
+            Just LocalBus
+
+        "regionalBus" ->
+            Just RegionalBus
+
+        "expressBus" ->
+            Just ExpressBus
+
+        "nightBus" ->
+            Just NightBus
+
+        "postBus" ->
+            Just PostBus
+
+        "specialNeedsBus" ->
+            Just SpecialNeedsBus
+
+        "mobilityBus" ->
+            Just MobilityBus
+
+        "mobilityBusForRegisteredDisabled" ->
+            Just MobilityBusForRegisteredDisabled
+
+        "sightseeingBus" ->
+            Just SightseeingBus
+
+        "shuttleBus" ->
+            Just ShuttleBus
+
+        "highFrequencyBus" ->
+            Just HighFrequencyBus
+
+        "dedicatedLaneBus" ->
+            Just DedicatedLaneBus
+
+        "schoolBus" ->
+            Just SchoolBus
+
+        "schoolAndPublicServiceBus" ->
+            Just SchoolAndPublicServiceBus
+
+        "railReplacementBus" ->
+            Just RailReplacementBus
+
+        "demandAndResponseBus" ->
+            Just DemandAndResponseBus
+
+        "airportLinkBus" ->
+            Just AirportLinkBus
+
+        "internationalCoach" ->
+            Just InternationalCoach
+
+        "nationalCoach" ->
+            Just NationalCoach
+
+        "shuttleCoach" ->
+            Just ShuttleCoach
+
+        "regionalCoach" ->
+            Just RegionalCoach
+
+        "specialCoach" ->
+            Just SpecialCoach
+
+        "schoolCoach" ->
+            Just SchoolCoach
+
+        "sightseeingCoach" ->
+            Just SightseeingCoach
+
+        "touristCoach" ->
+            Just TouristCoach
+
+        "commuterCoach" ->
+            Just CommuterCoach
+
+        "funicular" ->
+            Just Funicular
+
+        "streetCableCar" ->
+            Just StreetCableCar
+
+        "allFunicularServices" ->
+            Just AllFunicularServices
+
+        "undefinedFunicular" ->
+            Just UndefinedFunicular
+
+        "metro" ->
+            Just Metro
+
+        "tube" ->
+            Just Tube
+
+        "urbanRailway" ->
+            Just UrbanRailway
+
+        "cityTram" ->
+            Just CityTram
+
+        "localTram" ->
+            Just LocalTram
+
+        "regionalTram" ->
+            Just RegionalTram
+
+        "sightseeingTram" ->
+            Just SightseeingTram
+
+        "shuttleTram" ->
+            Just ShuttleTram
+
+        "trainTram" ->
+            Just TrainTram
+
+        "telecabin" ->
+            Just Telecabin
+
+        "cableCar" ->
+            Just CableCar
+
+        "lift" ->
+            Just Lift
+
+        "chairLift" ->
+            Just ChairLift
+
+        "dragLift" ->
+            Just DragLift
+
+        "telecabinLink" ->
+            Just TelecabinLink
+
+        "local" ->
+            Just Local
+
+        "highSpeedRail" ->
+            Just HighSpeedRail
+
+        "suburbanRailway" ->
+            Just SuburbanRailway
+
+        "regionalRail" ->
+            Just RegionalRail
+
+        "interregionalRail" ->
+            Just InterregionalRail
+
+        "longDistance" ->
+            Just LongDistance
+
+        "international" ->
+            Just International
+
+        "sleeperRailService" ->
+            Just SleeperRailService
+
+        "nightRail" ->
+            Just NightRail
+
+        "carTransportRailService" ->
+            Just CarTransportRailService
+
+        "touristRailway" ->
+            Just TouristRailway
+
+        "airportLinkRail" ->
+            Just AirportLinkRail
+
+        "railShuttle" ->
+            Just RailShuttle
+
+        "replacementRailService" ->
+            Just ReplacementRailService
+
+        "specialTrain" ->
+            Just SpecialTrain
+
+        "crossCountryRail" ->
+            Just CrossCountryRail
+
+        "rackAndPinionRailway" ->
+            Just RackAndPinionRailway
+
+        "internationalCarFerry" ->
+            Just InternationalCarFerry
+
+        "nationalCarFerry" ->
+            Just NationalCarFerry
+
+        "regionalCarFerry" ->
+            Just RegionalCarFerry
+
+        "localCarFerry" ->
+            Just LocalCarFerry
+
+        "internationalPassengerFerry" ->
+            Just InternationalPassengerFerry
+
+        "nationalPassengerFerry" ->
+            Just NationalPassengerFerry
+
+        "regionalPassengerFerry" ->
+            Just RegionalPassengerFerry
+
+        "localPassengerFerry" ->
+            Just LocalPassengerFerry
+
+        "postBoat" ->
+            Just PostBoat
+
+        "trainFerry" ->
+            Just TrainFerry
+
+        "roadFerryLink" ->
+            Just RoadFerryLink
+
+        "airportBoatLink" ->
+            Just AirportBoatLink
+
+        "highSpeedVehicleService" ->
+            Just HighSpeedVehicleService
+
+        "highSpeedPassengerService" ->
+            Just HighSpeedPassengerService
+
+        "sightseeingService" ->
+            Just SightseeingService
+
+        "schoolBoat" ->
+            Just SchoolBoat
+
+        "cableFerry" ->
+            Just CableFerry
+
+        "riverBus" ->
+            Just RiverBus
+
+        "scheduledFerry" ->
+            Just ScheduledFerry
+
+        "shuttleFerryService" ->
+            Just ShuttleFerryService
+
+        "communalTaxi" ->
+            Just CommunalTaxi
+
+        "charterTaxi" ->
+            Just CharterTaxi
+
+        "waterTaxi" ->
+            Just WaterTaxi
+
+        "railTaxi" ->
+            Just RailTaxi
+
+        "bikeTaxi" ->
+            Just BikeTaxi
+
+        "blackCab" ->
+            Just BlackCab
+
+        "miniCab" ->
+            Just MiniCab
+
+        "allTaxiServices" ->
+            Just AllTaxiServices
+
+        "hireCar" ->
+            Just HireCar
+
+        "hireVan" ->
+            Just HireVan
+
+        "hireMotorbike" ->
+            Just HireMotorbike
+
+        "hireCycle" ->
+            Just HireCycle
+
+        "allHireVehicles" ->
+            Just AllHireVehicles
+
+        _ ->
+            Nothing

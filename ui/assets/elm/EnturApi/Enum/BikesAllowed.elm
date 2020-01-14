@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.BikesAllowed exposing (BikesAllowed(..), decoder, toString)
+module EnturApi.Enum.BikesAllowed exposing (BikesAllowed(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -18,6 +18,11 @@ type BikesAllowed
     = NoInformation
     | Allowed
     | NotAllowed
+
+
+list : List BikesAllowed
+list =
+    [ NoInformation, Allowed, NotAllowed ]
 
 
 decoder : Decoder BikesAllowed
@@ -53,3 +58,30 @@ toString enum =
 
         NotAllowed ->
             "notAllowed"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe BikesAllowed
+fromString enumString =
+    case enumString of
+        "noInformation" ->
+            Just NoInformation
+
+        "allowed" ->
+            Just Allowed
+
+        "notAllowed" ->
+            Just NotAllowed
+
+        _ ->
+            Nothing

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.ServiceAlteration exposing (ServiceAlteration(..), decoder, toString)
+module EnturApi.Enum.ServiceAlteration exposing (ServiceAlteration(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -11,6 +11,12 @@ type ServiceAlteration
     = Planned
     | Cancellation
     | ExtraJourney
+    | Replaced
+
+
+list : List ServiceAlteration
+list =
+    [ Planned, Cancellation, ExtraJourney, Replaced ]
 
 
 decoder : Decoder ServiceAlteration
@@ -27,6 +33,9 @@ decoder =
 
                     "extraJourney" ->
                         Decode.succeed ExtraJourney
+
+                    "replaced" ->
+                        Decode.succeed Replaced
 
                     _ ->
                         Decode.fail ("Invalid ServiceAlteration type, " ++ string ++ " try re-running the @dillonkearns/elm-graphql CLI ")
@@ -46,3 +55,36 @@ toString enum =
 
         ExtraJourney ->
             "extraJourney"
+
+        Replaced ->
+            "replaced"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe ServiceAlteration
+fromString enumString =
+    case enumString of
+        "planned" ->
+            Just Planned
+
+        "cancellation" ->
+            Just Cancellation
+
+        "extraJourney" ->
+            Just ExtraJourney
+
+        "replaced" ->
+            Just Replaced
+
+        _ ->
+            Nothing

@@ -2,29 +2,23 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.DebugOutput exposing (selection, totalTime)
+module EnturApi.Object.DebugOutput exposing (totalTime)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.DebugOutput
-selection constructor =
-    Object.selection constructor
-
-
-totalTime : Field (Maybe EnturApi.Scalar.Long) EnturApi.Object.DebugOutput
+totalTime : SelectionSet (Maybe EnturApi.ScalarCodecs.Long) EnturApi.Object.DebugOutput
 totalTime =
-    Object.fieldDecoder "totalTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Long |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Long)" "totalTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecLong |> .decoder |> Decode.nullable)

@@ -7,10 +7,9 @@ import EnturApi.Object.Quay as EOQ
 import EnturApi.Object.StopPlace as EOS
 import EnturApi.Query
 import EnturApi.Scalar exposing (DateTime(..), Id(..))
-import Graphql.Field as Field exposing (Field)
 import Graphql.Operation exposing (RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
-import Graphql.SelectionSet exposing (SelectionSet, fieldSelection, with)
+import Graphql.SelectionSet exposing (SelectionSet, with)
 import Iso8601
 import Time exposing (Posix)
 
@@ -50,9 +49,9 @@ query id =
 stopPlaceSelection : SelectionSet StopPlace EO.StopPlace
 stopPlaceSelection =
     EOS.selection StopPlace
-        |> with (EOS.id |> Field.map scalarIdToString)
+        |> with (EOS.id |> SelectionSet.map scalarIdToString)
         |> with EOS.name
-        |> with (estimatedCalls |> Field.map (List.filterMap identity))
+        |> with (estimatedCalls |> SelectionSet.map (List.filterMap identity))
 
 
 
@@ -75,7 +74,7 @@ estimatedCalls =
 estimatedCallSelection : SelectionSet EstimatedCall EO.EstimatedCall
 estimatedCallSelection =
     EOE.selection EstimatedCall
-        |> with (EOE.expectedArrivalTime |> Field.map mapDateTime)
+        |> with (EOE.expectedArrivalTime |> SelectionSet.map mapDateTime)
         |> with (EOE.destinationDisplay destinationDisplaySelection)
         |> with EOE.realtime
         |> with (EOE.quay quaySelection)
@@ -98,7 +97,7 @@ estimatedCallByQuay quay estimatedCall =
 quaySelection : SelectionSet String EO.Quay
 quaySelection =
     EOQ.selection identity
-        |> with (EOQ.id |> Field.map scalarIdToString)
+        |> with (EOQ.id |> SelectionSet.map scalarIdToString)
 
 
 

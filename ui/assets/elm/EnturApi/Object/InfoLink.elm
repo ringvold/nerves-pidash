@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.MultilingualString exposing (language, value)
+module EnturApi.Object.InfoLink exposing (label, uri)
 
 import EnturApi.InputObject
 import EnturApi.Interface
@@ -19,11 +19,15 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-value : SelectionSet (Maybe String) EnturApi.Object.MultilingualString
-value =
-    Object.selectionForField "(Maybe String)" "value" [] (Decode.string |> Decode.nullable)
+{-| URI
+-}
+uri : SelectionSet (Maybe String) EnturApi.Object.InfoLink
+uri =
+    Object.selectionForField "(Maybe String)" "uri" [] (Decode.string |> Decode.nullable)
 
 
-language : SelectionSet (Maybe String) EnturApi.Object.MultilingualString
-language =
-    Object.selectionForField "(Maybe String)" "language" [] (Decode.string |> Decode.nullable)
+{-| Label
+-}
+label : SelectionSet (Maybe String) EnturApi.Object.InfoLink
+label =
+    Object.selectionForField "(Maybe String)" "label" [] (Decode.string |> Decode.nullable)

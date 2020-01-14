@@ -2,9 +2,10 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.StopPlace exposing (EstimatedCallsOptionalArguments, QuaysOptionalArguments, adjacentSites, description, estimatedCalls, id, latitude, longitude, name, parent, quays, selection, tariffZones, timezone, transportMode, transportSubmode, weighting, wheelchairBoarding)
+module EnturApi.Object.StopPlace exposing (EstimatedCallsOptionalArguments, QuaysOptionalArguments, adjacentSites, description, estimatedCalls, id, latitude, longitude, name, parent, quays, tariffZones, timezone, transportMode, transportSubmode, weighting, wheelchairBoarding)
 
 import EnturApi.Enum.InterchangeWeighting
+import EnturApi.Enum.Mode
 import EnturApi.Enum.TransportMode
 import EnturApi.Enum.TransportSubmode
 import EnturApi.Enum.WheelchairBoarding
@@ -12,91 +13,85 @@ import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.StopPlace
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.StopPlace
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.StopPlace
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-name : Field String EnturApi.Object.StopPlace
+name : SelectionSet String EnturApi.Object.StopPlace
 name =
-    Object.fieldDecoder "name" [] Decode.string
+    Object.selectionForField "String" "name" [] Decode.string
 
 
-latitude : Field (Maybe Float) EnturApi.Object.StopPlace
+latitude : SelectionSet (Maybe Float) EnturApi.Object.StopPlace
 latitude =
-    Object.fieldDecoder "latitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "latitude" [] (Decode.float |> Decode.nullable)
 
 
-longitude : Field (Maybe Float) EnturApi.Object.StopPlace
+longitude : SelectionSet (Maybe Float) EnturApi.Object.StopPlace
 longitude =
-    Object.fieldDecoder "longitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "longitude" [] (Decode.float |> Decode.nullable)
 
 
-description : Field (Maybe String) EnturApi.Object.StopPlace
+description : SelectionSet (Maybe String) EnturApi.Object.StopPlace
 description =
-    Object.fieldDecoder "description" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "description" [] (Decode.string |> Decode.nullable)
 
 
 {-| Whether this stop place is suitable for wheelchair boarding.
 -}
-wheelchairBoarding : Field (Maybe EnturApi.Enum.WheelchairBoarding.WheelchairBoarding) EnturApi.Object.StopPlace
+wheelchairBoarding : SelectionSet (Maybe EnturApi.Enum.WheelchairBoarding.WheelchairBoarding) EnturApi.Object.StopPlace
 wheelchairBoarding =
-    Object.fieldDecoder "wheelchairBoarding" [] (EnturApi.Enum.WheelchairBoarding.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.WheelchairBoarding.WheelchairBoarding)" "wheelchairBoarding" [] (EnturApi.Enum.WheelchairBoarding.decoder |> Decode.nullable)
 
 
 {-| Relative weighting of this stop with regards to interchanges.
 -}
-weighting : Field (Maybe EnturApi.Enum.InterchangeWeighting.InterchangeWeighting) EnturApi.Object.StopPlace
+weighting : SelectionSet (Maybe EnturApi.Enum.InterchangeWeighting.InterchangeWeighting) EnturApi.Object.StopPlace
 weighting =
-    Object.fieldDecoder "weighting" [] (EnturApi.Enum.InterchangeWeighting.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.InterchangeWeighting.InterchangeWeighting)" "weighting" [] (EnturApi.Enum.InterchangeWeighting.decoder |> Decode.nullable)
 
 
-tariffZones : SelectionSet decodesTo EnturApi.Object.TariffZone -> Field (List (Maybe decodesTo)) EnturApi.Object.StopPlace
+tariffZones : SelectionSet decodesTo EnturApi.Object.TariffZone -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.StopPlace
 tariffZones object_ =
-    Object.selectionField "tariffZones" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "tariffZones" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| The transport mode serviced by this stop place.
 -}
-transportMode : Field (Maybe EnturApi.Enum.TransportMode.TransportMode) EnturApi.Object.StopPlace
+transportMode : SelectionSet (Maybe EnturApi.Enum.TransportMode.TransportMode) EnturApi.Object.StopPlace
 transportMode =
-    Object.fieldDecoder "transportMode" [] (EnturApi.Enum.TransportMode.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.TransportMode.TransportMode)" "transportMode" [] (EnturApi.Enum.TransportMode.decoder |> Decode.nullable)
 
 
 {-| The transport submode serviced by this stop place.
 -}
-transportSubmode : Field (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) EnturApi.Object.StopPlace
+transportSubmode : SelectionSet (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) EnturApi.Object.StopPlace
 transportSubmode =
-    Object.fieldDecoder "transportSubmode" [] (EnturApi.Enum.TransportSubmode.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.TransportSubmode.TransportSubmode)" "transportSubmode" [] (EnturApi.Enum.TransportSubmode.decoder |> Decode.nullable)
 
 
 {-| This stop place's adjacent sites
 -}
-adjacentSites : Field (Maybe (List (Maybe String))) EnturApi.Object.StopPlace
+adjacentSites : SelectionSet (Maybe (List (Maybe String))) EnturApi.Object.StopPlace
 adjacentSites =
-    Object.fieldDecoder "adjacentSites" [] (Decode.string |> Decode.nullable |> Decode.list |> Decode.nullable)
+    Object.selectionForField "(Maybe (List (Maybe String)))" "adjacentSites" [] (Decode.string |> Decode.nullable |> Decode.list |> Decode.nullable)
 
 
-timezone : Field String EnturApi.Object.StopPlace
+timezone : SelectionSet String EnturApi.Object.StopPlace
 timezone =
-    Object.fieldDecoder "timezone" [] Decode.string
+    Object.selectionForField "String" "timezone" [] Decode.string
 
 
 type alias QuaysOptionalArguments =
@@ -108,7 +103,7 @@ type alias QuaysOptionalArguments =
   - filterByInUse - If true only quays with at least one visiting line are included.
 
 -}
-quays : (QuaysOptionalArguments -> QuaysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> Field (Maybe (List (Maybe decodesTo))) EnturApi.Object.StopPlace
+quays : (QuaysOptionalArguments -> QuaysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (Maybe (List (Maybe decodesTo))) EnturApi.Object.StopPlace
 quays fillInOptionals object_ =
     let
         filledInOptionals =
@@ -118,18 +113,25 @@ quays fillInOptionals object_ =
             [ Argument.optional "filterByInUse" filledInOptionals.filterByInUse Encode.bool ]
                 |> List.filterMap identity
     in
-    Object.selectionField "quays" optionalArgs object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    Object.selectionForCompositeField "quays" optionalArgs object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
 
 
 {-| Returns parent stop for this stop
 -}
-parent : SelectionSet decodesTo EnturApi.Object.StopPlace -> Field (Maybe decodesTo) EnturApi.Object.StopPlace
+parent : SelectionSet decodesTo EnturApi.Object.StopPlace -> SelectionSet (Maybe decodesTo) EnturApi.Object.StopPlace
 parent object_ =
-    Object.selectionField "parent" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "parent" [] object_ (identity >> Decode.nullable)
 
 
 type alias EstimatedCallsOptionalArguments =
-    { startTime : OptionalArgument EnturApi.Scalar.DateTime, timeRange : OptionalArgument Int, numberOfDepartures : OptionalArgument Int, numberOfDeparturesPerLineAndDestinationDisplay : OptionalArgument Int, omitNonBoarding : OptionalArgument Bool, whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed }
+    { startTime : OptionalArgument EnturApi.ScalarCodecs.DateTime
+    , timeRange : OptionalArgument Int
+    , numberOfDepartures : OptionalArgument Int
+    , numberOfDeparturesPerLineAndDestinationDisplay : OptionalArgument Int
+    , omitNonBoarding : OptionalArgument Bool
+    , whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed
+    , whiteListedModes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode))
+    }
 
 
 {-| List of visits to this stop place as part of vehicle journeys.
@@ -138,16 +140,17 @@ type alias EstimatedCallsOptionalArguments =
   - numberOfDepartures - Limit the total number of departures returned.
   - numberOfDeparturesPerLineAndDestinationDisplay - Limit the number of departures per line and destination display returned. The parameter is only applied when the value is between 1 and 'numberOfDepartures'.
   - whiteListed - Parameters for indicating the only authorities and/or lines or quays to list estimatedCalls for
+  - whiteListedModes - Only show estimated calls for selected modes.
 
 -}
-estimatedCalls : (EstimatedCallsOptionalArguments -> EstimatedCallsOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.EstimatedCall -> Field (List (Maybe decodesTo)) EnturApi.Object.StopPlace
+estimatedCalls : (EstimatedCallsOptionalArguments -> EstimatedCallsOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.EstimatedCall -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.StopPlace
 estimatedCalls fillInOptionals object_ =
     let
         filledInOptionals =
-            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, whiteListed = Absent }
+            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, whiteListed = Absent, whiteListedModes = Absent }
 
         optionalArgs =
-            [ Argument.optional "startTime" filledInOptionals.startTime (\(EnturApi.Scalar.DateTime raw) -> Encode.string raw), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed ]
+            [ Argument.optional "startTime" filledInOptionals.startTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "whiteListedModes" filledInOptionals.whiteListedModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "estimatedCalls" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "estimatedCalls" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)

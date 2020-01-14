@@ -2,38 +2,32 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PointsOnLink exposing (length, points, selection)
+module EnturApi.Object.PointsOnLink exposing (length, points)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PointsOnLink
-selection constructor =
-    Object.selection constructor
-
-
 {-| The number of points in the string
 -}
-length : Field (Maybe Int) EnturApi.Object.PointsOnLink
+length : SelectionSet (Maybe Int) EnturApi.Object.PointsOnLink
 length =
-    Object.fieldDecoder "length" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "(Maybe Int)" "length" [] (Decode.int |> Decode.nullable)
 
 
-{-| The encoded points of the polyline.
+{-| The encoded points of the polyline. Be aware that the string could contain escape characters that need to be accounted for. (<https://www.freeformatter.com/javascript-escape.html>)
 -}
-points : Field (Maybe String) EnturApi.Object.PointsOnLink
+points : SelectionSet (Maybe String) EnturApi.Object.PointsOnLink
 points =
-    Object.fieldDecoder "points" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "points" [] (Decode.string |> Decode.nullable)

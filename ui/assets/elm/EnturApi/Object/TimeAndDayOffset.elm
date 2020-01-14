@@ -2,38 +2,32 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TimeAndDayOffset exposing (dayOffset, selection, time)
+module EnturApi.Object.TimeAndDayOffset exposing (dayOffset, time)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.TimeAndDayOffset
-selection constructor =
-    Object.selection constructor
-
-
 {-| Local time
 -}
-time : Field (Maybe EnturApi.Scalar.Time) EnturApi.Object.TimeAndDayOffset
+time : SelectionSet (Maybe EnturApi.ScalarCodecs.Time) EnturApi.Object.TimeAndDayOffset
 time =
-    Object.fieldDecoder "time" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Time |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Time)" "time" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecTime |> .decoder |> Decode.nullable)
 
 
 {-| Number of days offset from base line time
 -}
-dayOffset : Field (Maybe Int) EnturApi.Object.TimeAndDayOffset
+dayOffset : SelectionSet (Maybe Int) EnturApi.Object.TimeAndDayOffset
 dayOffset =
-    Object.fieldDecoder "dayOffset" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "(Maybe Int)" "dayOffset" [] (Decode.int |> Decode.nullable)
