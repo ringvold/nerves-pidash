@@ -291,7 +291,7 @@ viewClosestForecast forecasts =
 
         RemoteData.Failure err ->
             case err of
-                Http.BadPayload error _ ->
+                Http.BadBody error ->
                     wrapper
                         [ text "error"
                         ]
@@ -335,11 +335,11 @@ errToString error =
         Http.NetworkError ->
             "NetworkError"
 
-        Http.BadStatus res ->
-            "BadStatus " ++ String.fromInt res.status.code ++ ": " ++ res.status.message
+        Http.BadStatus code ->
+            "BadStatus " ++ String.fromInt code
 
-        Http.BadPayload string res ->
-            "BadPayload " ++ string ++ ": " ++ res.body
+        Http.BadBody string ->
+            "BadBody " ++ string
 
 
 
@@ -364,14 +364,16 @@ getStopPlaces stops =
 getStops : Cmd Msg
 getStops =
     Http.get
-        "/transit/stops"
-        decodeStops
-        |> RemoteData.sendRequest
+        { url = "/transit/stops"
+        , expect = Http.expectJson RemoteData.fromResult decodeStops
+        }
         |> Cmd.map StopsReceived
 
 
 getForecast : Cmd Msg
 getForecast =
-    Http.get "/weather/forecast" decodeForecast
-        |> RemoteData.sendRequest
+    Http.get
+        { url = "/weather/forecast"
+        , expect = Http.expectJson RemoteData.fromResult decodeForecast
+        }
         |> Cmd.map ForecastReceived

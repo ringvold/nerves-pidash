@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.AbsoluteDirection exposing (AbsoluteDirection(..), decoder, toString)
+module EnturApi.Enum.AbsoluteDirection exposing (AbsoluteDirection(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -16,6 +16,11 @@ type AbsoluteDirection
     | Southwest
     | West
     | Northwest
+
+
+list : List AbsoluteDirection
+list =
+    [ North, Northeast, East, Southeast, South, Southwest, West, Northwest ]
 
 
 decoder : Decoder AbsoluteDirection
@@ -81,3 +86,45 @@ toString enum =
 
         Northwest ->
             "northwest"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe AbsoluteDirection
+fromString enumString =
+    case enumString of
+        "north" ->
+            Just North
+
+        "northeast" ->
+            Just Northeast
+
+        "east" ->
+            Just East
+
+        "southeast" ->
+            Just Southeast
+
+        "south" ->
+            Just South
+
+        "southwest" ->
+            Just Southwest
+
+        "west" ->
+            Just West
+
+        "northwest" ->
+            Just Northwest
+
+        _ ->
+            Nothing

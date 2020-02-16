@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.BookingMethod exposing (BookingMethod(..), decoder, toString)
+module EnturApi.Enum.BookingMethod exposing (BookingMethod(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -15,6 +15,11 @@ type BookingMethod
     | PhoneAtStop
     | Text
     | None
+
+
+list : List BookingMethod
+list =
+    [ CallDriver, CallOffice, Online, Other, PhoneAtStop, Text, None ]
 
 
 decoder : Decoder BookingMethod
@@ -74,3 +79,42 @@ toString enum =
 
         None ->
             "none"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe BookingMethod
+fromString enumString =
+    case enumString of
+        "callDriver" ->
+            Just CallDriver
+
+        "callOffice" ->
+            Just CallOffice
+
+        "online" ->
+            Just Online
+
+        "other" ->
+            Just Other
+
+        "phoneAtStop" ->
+            Just PhoneAtStop
+
+        "text" ->
+            Just Text
+
+        "none" ->
+            Just None
+
+        _ ->
+            Nothing

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.DirectionType exposing (DirectionType(..), decoder, toString)
+module EnturApi.Enum.DirectionType exposing (DirectionType(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -13,6 +13,11 @@ type DirectionType
     | Inbound
     | Clockwise
     | Anticlockwise
+
+
+list : List DirectionType
+list =
+    [ Unknown, Outbound, Inbound, Clockwise, Anticlockwise ]
 
 
 decoder : Decoder DirectionType
@@ -60,3 +65,36 @@ toString enum =
 
         Anticlockwise ->
             "anticlockwise"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe DirectionType
+fromString enumString =
+    case enumString of
+        "unknown" ->
+            Just Unknown
+
+        "outbound" ->
+            Just Outbound
+
+        "inbound" ->
+            Just Inbound
+
+        "clockwise" ->
+            Just Clockwise
+
+        "anticlockwise" ->
+            Just Anticlockwise
+
+        _ ->
+            Nothing

@@ -2,52 +2,46 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PageInfo exposing (endCursor, hasNextPage, hasPreviousPage, selection, startCursor)
+module EnturApi.Object.PageInfo exposing (endCursor, hasNextPage, hasPreviousPage, startCursor)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PageInfo
-selection constructor =
-    Object.selection constructor
-
-
 {-| When paginating forwards, are there more items?
 -}
-hasNextPage : Field Bool EnturApi.Object.PageInfo
+hasNextPage : SelectionSet Bool EnturApi.Object.PageInfo
 hasNextPage =
-    Object.fieldDecoder "hasNextPage" [] Decode.bool
+    Object.selectionForField "Bool" "hasNextPage" [] Decode.bool
 
 
 {-| When paginating backwards, are there more items?
 -}
-hasPreviousPage : Field Bool EnturApi.Object.PageInfo
+hasPreviousPage : SelectionSet Bool EnturApi.Object.PageInfo
 hasPreviousPage =
-    Object.fieldDecoder "hasPreviousPage" [] Decode.bool
+    Object.selectionForField "Bool" "hasPreviousPage" [] Decode.bool
 
 
 {-| When paginating backwards, the cursor to continue.
 -}
-startCursor : Field (Maybe String) EnturApi.Object.PageInfo
+startCursor : SelectionSet (Maybe String) EnturApi.Object.PageInfo
 startCursor =
-    Object.fieldDecoder "startCursor" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "startCursor" [] (Decode.string |> Decode.nullable)
 
 
 {-| When paginating forwards, the cursor to continue.
 -}
-endCursor : Field (Maybe String) EnturApi.Object.PageInfo
+endCursor : SelectionSet (Maybe String) EnturApi.Object.PageInfo
 endCursor =
-    Object.fieldDecoder "endCursor" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "endCursor" [] (Decode.string |> Decode.nullable)

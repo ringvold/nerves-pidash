@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.TransportMode exposing (TransportMode(..), decoder, toString)
+module EnturApi.Enum.TransportMode exposing (TransportMode(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -19,6 +19,11 @@ type TransportMode
     | Tram
     | Coach
     | Unknown
+
+
+list : List TransportMode
+list =
+    [ Air, Bus, Cableway, Water, Funicular, Lift, Rail, Metro, Tram, Coach, Unknown ]
 
 
 decoder : Decoder TransportMode
@@ -102,3 +107,54 @@ toString enum =
 
         Unknown ->
             "unknown"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe TransportMode
+fromString enumString =
+    case enumString of
+        "air" ->
+            Just Air
+
+        "bus" ->
+            Just Bus
+
+        "cableway" ->
+            Just Cableway
+
+        "water" ->
+            Just Water
+
+        "funicular" ->
+            Just Funicular
+
+        "lift" ->
+            Just Lift
+
+        "rail" ->
+            Just Rail
+
+        "metro" ->
+            Just Metro
+
+        "tram" ->
+            Just Tram
+
+        "coach" ->
+            Just Coach
+
+        "unknown" ->
+            Just Unknown
+
+        _ ->
+            Nothing

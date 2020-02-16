@@ -2,183 +2,198 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.EstimatedCall exposing (actualArrivalTime, actualDepartureTime, aimedArrival, aimedArrivalTime, aimedDeparture, aimedDepartureTime, bookingArrangements, cancellation, date, destinationDisplay, expectedArrival, expectedArrivalTime, expectedDeparture, expectedDepartureTime, forAlighting, forBoarding, notices, quay, realtime, realtimeState, requestStop, selection, serviceJourney, situations, timingPoint)
+module EnturApi.Object.EstimatedCall exposing (actualArrivalTime, actualDepartureTime, aimedArrival, aimedArrivalTime, aimedDeparture, aimedDepartureTime, bookingArrangements, cancellation, date, destinationDisplay, expectedArrival, expectedArrivalTime, expectedDeparture, expectedDepartureTime, flexible, forAlighting, forBoarding, hostname, notices, predictionInaccurate, quay, realtime, realtimeState, requestStop, serviceJourney, situations, timingPoint)
 
 import EnturApi.Enum.RealtimeState
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.EstimatedCall
-selection constructor =
-    Object.selection constructor
-
-
-quay : SelectionSet decodesTo EnturApi.Object.Quay -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+quay : SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 quay object_ =
-    Object.selectionField "quay" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "quay" [] object_ (identity >> Decode.nullable)
 
 
 {-| Scheduled time of arrival at quay. Not affected by read time updated
 -}
-aimedArrivalTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+aimedArrivalTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 aimedArrivalTime =
-    Object.fieldDecoder "aimedArrivalTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "aimedArrivalTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Expected time of arrival at quay. Updated with real time information if available. Will be null if an actualArrivalTime exists
 -}
-expectedArrivalTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+expectedArrivalTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 expectedArrivalTime =
-    Object.fieldDecoder "expectedArrivalTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "expectedArrivalTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Actual time of arrival at quay. Updated from real time information if available
 -}
-actualArrivalTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+actualArrivalTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 actualArrivalTime =
-    Object.fieldDecoder "actualArrivalTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "actualArrivalTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Scheduled time of departure from quay. Not affected by read time updated
 -}
-aimedDepartureTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+aimedDepartureTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 aimedDepartureTime =
-    Object.fieldDecoder "aimedDepartureTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "aimedDepartureTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Expected time of departure from quay. Updated with real time information if available. Will be null if an actualDepartureTime exists
 -}
-expectedDepartureTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+expectedDepartureTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 expectedDepartureTime =
-    Object.fieldDecoder "expectedDepartureTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "expectedDepartureTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Actual time of departure from quay. Updated with real time information if available
 -}
-actualDepartureTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.EstimatedCall
+actualDepartureTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 actualDepartureTime =
-    Object.fieldDecoder "actualDepartureTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "actualDepartureTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Scheduled time of arrival at quay. Not affected by read time updated
 -}
-aimedArrival : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+aimedArrival : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 aimedArrival object_ =
-    Object.selectionField "aimedArrival" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "aimedArrival" [] object_ (identity >> Decode.nullable)
 
 
 {-| Expected time of arrival at quay. Updated with real time information if available
 -}
-expectedArrival : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+expectedArrival : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 expectedArrival object_ =
-    Object.selectionField "expectedArrival" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "expectedArrival" [] object_ (identity >> Decode.nullable)
 
 
 {-| Scheduled time of departure from quay. Not affected by read time updated
 -}
-aimedDeparture : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+aimedDeparture : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 aimedDeparture object_ =
-    Object.selectionField "aimedDeparture" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "aimedDeparture" [] object_ (identity >> Decode.nullable)
 
 
 {-| Expected time of departure from quay. Updated with real time information if available
 -}
-expectedDeparture : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+expectedDeparture : SelectionSet decodesTo EnturApi.Object.TimeAndDayOffset -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 expectedDeparture object_ =
-    Object.selectionField "expectedDeparture" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "expectedDeparture" [] object_ (identity >> Decode.nullable)
 
 
 {-| Whether this is a timing point or not. Boarding and alighting is not allowed at timing points.
 -}
-timingPoint : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+timingPoint : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 timingPoint =
-    Object.fieldDecoder "timingPoint" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "timingPoint" [] (Decode.bool |> Decode.nullable)
 
 
 {-| Whether this call has been updated with real time information.
 -}
-realtime : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+realtime : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 realtime =
-    Object.fieldDecoder "realtime" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "realtime" [] (Decode.bool |> Decode.nullable)
 
 
-realtimeState : Field (Maybe EnturApi.Enum.RealtimeState.RealtimeState) EnturApi.Object.EstimatedCall
-realtimeState =
-    Object.fieldDecoder "realtimeState" [] (EnturApi.Enum.RealtimeState.decoder |> Decode.nullable)
-
-
-{-| Whether vehicle may be borded at quay.
+{-| Whether the updated estimates are expected to be inaccurate.
 -}
-forBoarding : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+predictionInaccurate : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
+predictionInaccurate =
+    Object.selectionForField "(Maybe Bool)" "predictionInaccurate" [] (Decode.bool |> Decode.nullable)
+
+
+realtimeState : SelectionSet (Maybe EnturApi.Enum.RealtimeState.RealtimeState) EnturApi.Object.EstimatedCall
+realtimeState =
+    Object.selectionForField "(Maybe Enum.RealtimeState.RealtimeState)" "realtimeState" [] (EnturApi.Enum.RealtimeState.decoder |> Decode.nullable)
+
+
+{-| Whether vehicle may be boarded at quay.
+-}
+forBoarding : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 forBoarding =
-    Object.fieldDecoder "forBoarding" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "forBoarding" [] (Decode.bool |> Decode.nullable)
 
 
 {-| Whether vehicle may be alighted at quay.
 -}
-forAlighting : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+forAlighting : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 forAlighting =
-    Object.fieldDecoder "forAlighting" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "forAlighting" [] (Decode.bool |> Decode.nullable)
 
 
 {-| Whether vehicle will only stop on request.
 -}
-requestStop : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+requestStop : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 requestStop =
-    Object.fieldDecoder "requestStop" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "requestStop" [] (Decode.bool |> Decode.nullable)
 
 
 {-| Whether stop is cancellation.
 -}
-cancellation : Field (Maybe Bool) EnturApi.Object.EstimatedCall
+cancellation : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
 cancellation =
-    Object.fieldDecoder "cancellation" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "cancellation" [] (Decode.bool |> Decode.nullable)
 
 
 {-| The date the estimated call is valid for.
 -}
-date : Field (Maybe EnturApi.Scalar.Date) EnturApi.Object.EstimatedCall
+date : SelectionSet (Maybe EnturApi.ScalarCodecs.Date) EnturApi.Object.EstimatedCall
 date =
-    Object.fieldDecoder "date" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Date |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Date)" "date" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDate |> .decoder |> Decode.nullable)
 
 
-serviceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+serviceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 serviceJourney object_ =
-    Object.selectionField "serviceJourney" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "serviceJourney" [] object_ (identity >> Decode.nullable)
 
 
-destinationDisplay : SelectionSet decodesTo EnturApi.Object.DestinationDisplay -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+destinationDisplay : SelectionSet decodesTo EnturApi.Object.DestinationDisplay -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 destinationDisplay object_ =
-    Object.selectionField "destinationDisplay" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "destinationDisplay" [] object_ (identity >> Decode.nullable)
 
 
-notices : SelectionSet decodesTo EnturApi.Object.Notice -> Field (List (Maybe decodesTo)) EnturApi.Object.EstimatedCall
+notices : SelectionSet decodesTo EnturApi.Object.Notice -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.EstimatedCall
 notices object_ =
-    Object.selectionField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Get all relevant situations for this EstimatedCall.
 -}
-situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> Field (List (Maybe decodesTo)) EnturApi.Object.EstimatedCall
+situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.EstimatedCall
 situations object_ =
-    Object.selectionField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Booking arrangements for flexible service.
 -}
-bookingArrangements : SelectionSet decodesTo EnturApi.Object.BookingArrangement -> Field (Maybe decodesTo) EnturApi.Object.EstimatedCall
+bookingArrangements : SelectionSet decodesTo EnturApi.Object.BookingArrangement -> SelectionSet (Maybe decodesTo) EnturApi.Object.EstimatedCall
 bookingArrangements object_ =
-    Object.selectionField "bookingArrangements" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "bookingArrangements" [] object_ (identity >> Decode.nullable)
+
+
+{-| Whether this call is part of a flexible trip. This means that arrival or departure times are not scheduled but estimated within specified operating hours.
+-}
+flexible : SelectionSet (Maybe Bool) EnturApi.Object.EstimatedCall
+flexible =
+    Object.selectionForField "(Maybe Bool)" "flexible" [] (Decode.bool |> Decode.nullable)
+
+
+{-| Server name - for debugging only!
+-}
+hostname : SelectionSet (Maybe String) EnturApi.Object.EstimatedCall
+hostname =
+    Object.selectionForField "(Maybe String)" "hostname" [] (Decode.string |> Decode.nullable)

@@ -5,12 +5,11 @@ import EnturApi.Object.DestinationDisplay as EOD
 import EnturApi.Object.EstimatedCall as EOE
 import EnturApi.Object.Quay as EOQ
 import EnturApi.Object.StopPlace as EOS
-import EnturApi.Query
+import EnturApi.Query as Query
 import EnturApi.Scalar exposing (DateTime(..), Id(..))
-import Graphql.Field as Field exposing (Field)
 import Graphql.Operation exposing (RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
-import Graphql.SelectionSet exposing (SelectionSet, fieldSelection, with)
+import Graphql.SelectionSet as SelectionSet exposing (SelectionSet, with)
 import Iso8601
 import Time exposing (Posix)
 
@@ -40,26 +39,22 @@ type alias DestinationDisplay =
 
 query : String -> SelectionSet Response RootQuery
 query id =
-    EnturApi.Query.selection identity
-        |> with
-            (EnturApi.Query.stopPlace { id = id }
-                stopPlaceSelection
-            )
+    Query.stopPlace { id = id } stopPlaceSelection
 
 
 stopPlaceSelection : SelectionSet StopPlace EO.StopPlace
 stopPlaceSelection =
-    EOS.selection StopPlace
-        |> with (EOS.id |> Field.map scalarIdToString)
-        |> with EOS.name
-        |> with (estimatedCalls |> Field.map (List.filterMap identity))
+    SelectionSet.map3 StopPlace
+        (SelectionSet.map scalarIdToString EOS.id)
+        EOS.name
+        (SelectionSet.map (List.filterMap identity) estimatedCalls )
 
 
 
 -- EstimatedCall
 
 
-estimatedCalls : Field (List (Maybe EstimatedCall)) EO.StopPlace
+estimatedCalls : SelectionSet (List (Maybe EstimatedCall)) EO.StopPlace
 estimatedCalls =
     EOS.estimatedCalls
         (\optionals ->
@@ -74,11 +69,11 @@ estimatedCalls =
 
 estimatedCallSelection : SelectionSet EstimatedCall EO.EstimatedCall
 estimatedCallSelection =
-    EOE.selection EstimatedCall
-        |> with (EOE.expectedArrivalTime |> Field.map mapDateTime)
-        |> with (EOE.destinationDisplay destinationDisplaySelection)
-        |> with EOE.realtime
-        |> with (EOE.quay quaySelection)
+    SelectionSet.map4 EstimatedCall
+        (EOE.expectedArrivalTime |> SelectionSet.map mapDateTime)
+        (EOE.destinationDisplay destinationDisplaySelection)
+        EOE.realtime
+        (EOE.quay quaySelection)
 
 
 estimatedCallByQuay : String -> EstimatedCall -> Bool
@@ -97,8 +92,7 @@ estimatedCallByQuay quay estimatedCall =
 
 quaySelection : SelectionSet String EO.Quay
 quaySelection =
-    EOQ.selection identity
-        |> with (EOQ.id |> Field.map scalarIdToString)
+    (EOQ.id |> SelectionSet.map scalarIdToString)
 
 
 
@@ -106,8 +100,8 @@ quaySelection =
 
 
 destinationDisplaySelection =
-    EOD.selection DestinationDisplay
-        |> with EOD.frontText
+    SelectionSet.map DestinationDisplay
+        EOD.frontText
 
 
 

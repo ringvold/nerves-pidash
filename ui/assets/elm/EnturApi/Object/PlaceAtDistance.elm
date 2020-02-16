@@ -2,39 +2,33 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistance exposing (distance, id, place, selection)
+module EnturApi.Object.PlaceAtDistance exposing (distance, id, place)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PlaceAtDistance
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.PlaceAtDistance
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.PlaceAtDistance
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-place : SelectionSet decodesTo EnturApi.Interface.PlaceInterface -> Field (Maybe decodesTo) EnturApi.Object.PlaceAtDistance
+place : SelectionSet decodesTo EnturApi.Interface.PlaceInterface -> SelectionSet (Maybe decodesTo) EnturApi.Object.PlaceAtDistance
 place object_ =
-    Object.selectionField "place" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "place" [] object_ (identity >> Decode.nullable)
 
 
-distance : Field (Maybe Int) EnturApi.Object.PlaceAtDistance
+distance : SelectionSet (Maybe Int) EnturApi.Object.PlaceAtDistance
 distance =
-    Object.fieldDecoder "distance" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "(Maybe Int)" "distance" [] (Decode.int |> Decode.nullable)

@@ -136,11 +136,11 @@ errToString error =
         Http.NetworkError ->
             "NetworkError"
 
-        Http.BadStatus res ->
-            "BadStatus " ++ String.fromInt res.status.code ++ ": " ++ res.status.message
+        Http.BadStatus code ->
+            "BadStatus " ++ String.fromInt code
 
-        Http.BadPayload string res ->
-            "BadPayload " ++ string ++ ": " ++ res.body
+        Http.BadBody string  ->
+            "BadBody " ++ string 
 
 
 viewMessage : String -> String -> Html Msg

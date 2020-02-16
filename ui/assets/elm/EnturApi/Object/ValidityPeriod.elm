@@ -2,38 +2,32 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.ValidityPeriod exposing (endTime, selection, startTime)
+module EnturApi.Object.ValidityPeriod exposing (endTime, startTime)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.ValidityPeriod
-selection constructor =
-    Object.selection constructor
-
-
 {-| Start of validity period
 -}
-startTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.ValidityPeriod
+startTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.ValidityPeriod
 startTime =
-    Object.fieldDecoder "startTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "startTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| End of validity period
 -}
-endTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.ValidityPeriod
+endTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.ValidityPeriod
 endTime =
-    Object.fieldDecoder "endTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "endTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)

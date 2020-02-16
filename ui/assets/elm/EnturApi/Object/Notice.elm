@@ -2,39 +2,33 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Notice exposing (id, publicCode, selection, text)
+module EnturApi.Object.Notice exposing (id, publicCode, text)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.Notice
-selection constructor =
-    Object.selection constructor
-
-
-id : Field (Maybe String) EnturApi.Object.Notice
+id : SelectionSet (Maybe String) EnturApi.Object.Notice
 id =
-    Object.fieldDecoder "id" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "id" [] (Decode.string |> Decode.nullable)
 
 
-text : Field (Maybe String) EnturApi.Object.Notice
+text : SelectionSet (Maybe String) EnturApi.Object.Notice
 text =
-    Object.fieldDecoder "text" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "text" [] (Decode.string |> Decode.nullable)
 
 
-publicCode : Field (Maybe String) EnturApi.Object.Notice
+publicCode : SelectionSet (Maybe String) EnturApi.Object.Notice
 publicCode =
-    Object.fieldDecoder "publicCode" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "publicCode" [] (Decode.string |> Decode.nullable)

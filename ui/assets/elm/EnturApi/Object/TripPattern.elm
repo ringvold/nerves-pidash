@@ -2,87 +2,88 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TripPattern exposing (distance, duration, endTime, legs, selection, startTime, waitingTime, walkDistance, walkTime, weight)
+module EnturApi.Object.TripPattern exposing (directDuration, distance, duration, endTime, legs, startTime, waitingTime, walkDistance, walkTime, weight)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.TripPattern
-selection constructor =
-    Object.selection constructor
-
-
 {-| Time that the trip departs.
 -}
-startTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.TripPattern
+startTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.TripPattern
 startTime =
-    Object.fieldDecoder "startTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "startTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Time that the trip arrives.
 -}
-endTime : Field (Maybe EnturApi.Scalar.DateTime) EnturApi.Object.TripPattern
+endTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.TripPattern
 endTime =
-    Object.fieldDecoder "endTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.DateTime |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "endTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
 {-| Duration of the trip, in seconds.
 -}
-duration : Field (Maybe EnturApi.Scalar.Long) EnturApi.Object.TripPattern
+duration : SelectionSet (Maybe EnturApi.ScalarCodecs.Long) EnturApi.Object.TripPattern
 duration =
-    Object.fieldDecoder "duration" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Long |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Long)" "duration" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecLong |> .decoder |> Decode.nullable)
+
+
+{-| This sums the direct durations of each leg. Be careful about using this, as it is not equal to the duration between startTime and endTime. See the directDuration documentation on Leg.
+-}
+directDuration : SelectionSet (Maybe EnturApi.ScalarCodecs.Long) EnturApi.Object.TripPattern
+directDuration =
+    Object.selectionForField "(Maybe ScalarCodecs.Long)" "directDuration" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecLong |> .decoder |> Decode.nullable)
 
 
 {-| How much time is spent waiting for transit to arrive, in seconds.
 -}
-waitingTime : Field (Maybe EnturApi.Scalar.Long) EnturApi.Object.TripPattern
+waitingTime : SelectionSet (Maybe EnturApi.ScalarCodecs.Long) EnturApi.Object.TripPattern
 waitingTime =
-    Object.fieldDecoder "waitingTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Long |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Long)" "waitingTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecLong |> .decoder |> Decode.nullable)
 
 
 {-| Total distance for the trip, in meters.
 -}
-distance : Field (Maybe Float) EnturApi.Object.TripPattern
+distance : SelectionSet (Maybe Float) EnturApi.Object.TripPattern
 distance =
-    Object.fieldDecoder "distance" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "distance" [] (Decode.float |> Decode.nullable)
 
 
 {-| How much time is spent walking, in seconds.
 -}
-walkTime : Field (Maybe EnturApi.Scalar.Long) EnturApi.Object.TripPattern
+walkTime : SelectionSet (Maybe EnturApi.ScalarCodecs.Long) EnturApi.Object.TripPattern
 walkTime =
-    Object.fieldDecoder "walkTime" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Long |> Decode.nullable)
+    Object.selectionForField "(Maybe ScalarCodecs.Long)" "walkTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecLong |> .decoder |> Decode.nullable)
 
 
 {-| How far the user has to walk, in meters.
 -}
-walkDistance : Field (Maybe Float) EnturApi.Object.TripPattern
+walkDistance : SelectionSet (Maybe Float) EnturApi.Object.TripPattern
 walkDistance =
-    Object.fieldDecoder "walkDistance" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "walkDistance" [] (Decode.float |> Decode.nullable)
 
 
 {-| A list of legs. Each leg is either a walking (cycling, car) portion of the trip, or a ride leg on a particular vehicle. So a trip where the use walks to the Q train, transfers to the 6, then walks to their destination, has four legs.
 -}
-legs : SelectionSet decodesTo EnturApi.Object.Leg -> Field (List (Maybe decodesTo)) EnturApi.Object.TripPattern
+legs : SelectionSet decodesTo EnturApi.Object.Leg -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.TripPattern
 legs object_ =
-    Object.selectionField "legs" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "legs" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-{-| Weight of the itinerary. Used for debugging.
+{-| Weight of the itinerary. Used for debugging. The result might have been modified after (e.g. by removing short legs) and will notnecessarily exactly represent the tripPattern. It is however the weightthat was the basis for choosing the result in the first place. If the result has been heavily modified, this field will be null.
 -}
-weight : Field (Maybe Float) EnturApi.Object.TripPattern
+weight : SelectionSet (Maybe Float) EnturApi.Object.TripPattern
 weight =
-    Object.fieldDecoder "weight" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "weight" [] (Decode.float |> Decode.nullable)

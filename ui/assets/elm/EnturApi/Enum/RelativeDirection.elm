@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.RelativeDirection exposing (RelativeDirection(..), decoder, toString)
+module EnturApi.Enum.RelativeDirection exposing (RelativeDirection(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -21,6 +21,11 @@ type RelativeDirection
     | Elevator
     | UturnLeft
     | UturnRight
+
+
+list : List RelativeDirection
+list =
+    [ Depart, HardLeft, Left, SlightlyLeft, Continue, SlightlyRight, Right, HardRight, CircleClockwise, CircleCounterclockwise, Elevator, UturnLeft, UturnRight ]
 
 
 decoder : Decoder RelativeDirection
@@ -116,3 +121,60 @@ toString enum =
 
         UturnRight ->
             "uturnRight"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe RelativeDirection
+fromString enumString =
+    case enumString of
+        "depart" ->
+            Just Depart
+
+        "hardLeft" ->
+            Just HardLeft
+
+        "left" ->
+            Just Left
+
+        "slightlyLeft" ->
+            Just SlightlyLeft
+
+        "continue" ->
+            Just Continue
+
+        "slightlyRight" ->
+            Just SlightlyRight
+
+        "right" ->
+            Just Right
+
+        "hardRight" ->
+            Just HardRight
+
+        "circleClockwise" ->
+            Just CircleClockwise
+
+        "circleCounterclockwise" ->
+            Just CircleCounterclockwise
+
+        "elevator" ->
+            Just Elevator
+
+        "uturnLeft" ->
+            Just UturnLeft
+
+        "uturnRight" ->
+            Just UturnRight
+
+        _ ->
+            Nothing

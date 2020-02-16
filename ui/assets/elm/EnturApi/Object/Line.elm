@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Line exposing (authority, bikesAllowed, bookingArrangements, description, flexibleLineType, id, journeyPatterns, keyValues, name, notices, operator, organisation, presentation, publicCode, quays, selection, serviceJourneys, situations, transportMode, transportSubmode, url)
+module EnturApi.Object.Line exposing (authority, bikesAllowed, bookingArrangements, description, flexibleLineType, id, journeyPatterns, keyValues, name, notices, operator, organisation, presentation, publicCode, quays, serviceJourneys, situations, transportMode, transportSubmode, url)
 
 import EnturApi.Enum.BikesAllowed
 import EnturApi.Enum.FlexibleLineType
@@ -12,128 +12,122 @@ import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.Line
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.Line
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.Line
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-authority : SelectionSet decodesTo EnturApi.Object.Authority -> Field (Maybe decodesTo) EnturApi.Object.Line
+authority : SelectionSet decodesTo EnturApi.Object.Authority -> SelectionSet (Maybe decodesTo) EnturApi.Object.Line
 authority object_ =
-    Object.selectionField "authority" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "authority" [] object_ (identity >> Decode.nullable)
 
 
-operator : SelectionSet decodesTo EnturApi.Object.Operator -> Field (Maybe decodesTo) EnturApi.Object.Line
+operator : SelectionSet decodesTo EnturApi.Object.Operator -> SelectionSet (Maybe decodesTo) EnturApi.Object.Line
 operator object_ =
-    Object.selectionField "operator" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "operator" [] object_ (identity >> Decode.nullable)
 
 
-organisation : SelectionSet decodesTo EnturApi.Object.Organisation -> Field (Maybe decodesTo) EnturApi.Object.Line
+organisation : SelectionSet decodesTo EnturApi.Object.Organisation -> SelectionSet (Maybe decodesTo) EnturApi.Object.Line
 organisation object_ =
-    Object.selectionField "organisation" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "organisation" [] object_ (identity >> Decode.nullable)
 
 
 {-| Publicly announced code for line, differentiating it from other lines for the same operator.
 -}
-publicCode : Field (Maybe String) EnturApi.Object.Line
+publicCode : SelectionSet (Maybe String) EnturApi.Object.Line
 publicCode =
-    Object.fieldDecoder "publicCode" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "publicCode" [] (Decode.string |> Decode.nullable)
 
 
-name : Field (Maybe String) EnturApi.Object.Line
+name : SelectionSet (Maybe String) EnturApi.Object.Line
 name =
-    Object.fieldDecoder "name" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "name" [] (Decode.string |> Decode.nullable)
 
 
-transportMode : Field (Maybe EnturApi.Enum.TransportMode.TransportMode) EnturApi.Object.Line
+transportMode : SelectionSet (Maybe EnturApi.Enum.TransportMode.TransportMode) EnturApi.Object.Line
 transportMode =
-    Object.fieldDecoder "transportMode" [] (EnturApi.Enum.TransportMode.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.TransportMode.TransportMode)" "transportMode" [] (EnturApi.Enum.TransportMode.decoder |> Decode.nullable)
 
 
-transportSubmode : Field (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) EnturApi.Object.Line
+transportSubmode : SelectionSet (Maybe EnturApi.Enum.TransportSubmode.TransportSubmode) EnturApi.Object.Line
 transportSubmode =
-    Object.fieldDecoder "transportSubmode" [] (EnturApi.Enum.TransportSubmode.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.TransportSubmode.TransportSubmode)" "transportSubmode" [] (EnturApi.Enum.TransportSubmode.decoder |> Decode.nullable)
 
 
-description : Field (Maybe String) EnturApi.Object.Line
+description : SelectionSet (Maybe String) EnturApi.Object.Line
 description =
-    Object.fieldDecoder "description" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "description" [] (Decode.string |> Decode.nullable)
 
 
-url : Field (Maybe String) EnturApi.Object.Line
+url : SelectionSet (Maybe String) EnturApi.Object.Line
 url =
-    Object.fieldDecoder "url" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "url" [] (Decode.string |> Decode.nullable)
 
 
-presentation : SelectionSet decodesTo EnturApi.Object.Presentation -> Field (Maybe decodesTo) EnturApi.Object.Line
+presentation : SelectionSet decodesTo EnturApi.Object.Presentation -> SelectionSet (Maybe decodesTo) EnturApi.Object.Line
 presentation object_ =
-    Object.selectionField "presentation" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "presentation" [] object_ (identity >> Decode.nullable)
 
 
-bikesAllowed : Field (Maybe EnturApi.Enum.BikesAllowed.BikesAllowed) EnturApi.Object.Line
+bikesAllowed : SelectionSet (Maybe EnturApi.Enum.BikesAllowed.BikesAllowed) EnturApi.Object.Line
 bikesAllowed =
-    Object.fieldDecoder "bikesAllowed" [] (EnturApi.Enum.BikesAllowed.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.BikesAllowed.BikesAllowed)" "bikesAllowed" [] (EnturApi.Enum.BikesAllowed.decoder |> Decode.nullable)
 
 
-journeyPatterns : SelectionSet decodesTo EnturApi.Object.JourneyPattern -> Field (Maybe (List (Maybe decodesTo))) EnturApi.Object.Line
+journeyPatterns : SelectionSet decodesTo EnturApi.Object.JourneyPattern -> SelectionSet (Maybe (List (Maybe decodesTo))) EnturApi.Object.Line
 journeyPatterns object_ =
-    Object.selectionField "journeyPatterns" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    Object.selectionForCompositeField "journeyPatterns" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
 
 
-quays : SelectionSet decodesTo EnturApi.Object.Quay -> Field (List (Maybe decodesTo)) EnturApi.Object.Line
+quays : SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.Line
 quays object_ =
-    Object.selectionField "quays" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "quays" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (List (Maybe decodesTo)) EnturApi.Object.Line
+serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.Line
 serviceJourneys object_ =
-    Object.selectionField "serviceJourneys" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "serviceJourneys" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-notices : SelectionSet decodesTo EnturApi.Object.Notice -> Field (List (Maybe decodesTo)) EnturApi.Object.Line
+notices : SelectionSet decodesTo EnturApi.Object.Notice -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.Line
 notices object_ =
-    Object.selectionField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Get all situations active for the line
 -}
-situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> Field (List (Maybe decodesTo)) EnturApi.Object.Line
+situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.Line
 situations object_ =
-    Object.selectionField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| List of keyValue pairs for the line.
 -}
-keyValues : SelectionSet decodesTo EnturApi.Object.KeyValue -> Field (Maybe (List (Maybe decodesTo))) EnturApi.Object.Line
+keyValues : SelectionSet decodesTo EnturApi.Object.KeyValue -> SelectionSet (Maybe (List (Maybe decodesTo))) EnturApi.Object.Line
 keyValues object_ =
-    Object.selectionField "keyValues" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    Object.selectionForCompositeField "keyValues" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
 
 
 {-| Type of flexible line, or null if line is not flexible.
 -}
-flexibleLineType : Field (Maybe EnturApi.Enum.FlexibleLineType.FlexibleLineType) EnturApi.Object.Line
+flexibleLineType : SelectionSet (Maybe EnturApi.Enum.FlexibleLineType.FlexibleLineType) EnturApi.Object.Line
 flexibleLineType =
-    Object.fieldDecoder "flexibleLineType" [] (EnturApi.Enum.FlexibleLineType.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.FlexibleLineType.FlexibleLineType)" "flexibleLineType" [] (EnturApi.Enum.FlexibleLineType.decoder |> Decode.nullable)
 
 
 {-| Booking arrangements for flexible line.
 -}
-bookingArrangements : SelectionSet decodesTo EnturApi.Object.BookingArrangement -> Field (Maybe decodesTo) EnturApi.Object.Line
+bookingArrangements : SelectionSet decodesTo EnturApi.Object.BookingArrangement -> SelectionSet (Maybe decodesTo) EnturApi.Object.Line
 bookingArrangements object_ =
-    Object.selectionField "bookingArrangements" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "bookingArrangements" [] object_ (identity >> Decode.nullable)

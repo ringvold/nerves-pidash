@@ -2,59 +2,73 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.CarPark exposing (capacity, id, latitude, longitude, name, realtimeOccupancyAvailable, selection, spacesAvailable)
+module EnturApi.Object.CarPark exposing (capacity, capacityHandicap, capacityRecharging, id, latitude, longitude, name, realtimeOccupancyAvailable, spacesAvailable, spacesAvailableHandicap, spacesAvailableRecharging)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.CarPark
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.CarPark
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.CarPark
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-name : Field String EnturApi.Object.CarPark
+name : SelectionSet String EnturApi.Object.CarPark
 name =
-    Object.fieldDecoder "name" [] Decode.string
+    Object.selectionForField "String" "name" [] Decode.string
 
 
-capacity : Field (Maybe Int) EnturApi.Object.CarPark
+capacity : SelectionSet (Maybe Int) EnturApi.Object.CarPark
 capacity =
-    Object.fieldDecoder "capacity" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "(Maybe Int)" "capacity" [] (Decode.int |> Decode.nullable)
 
 
-spacesAvailable : Field (Maybe Int) EnturApi.Object.CarPark
+spacesAvailable : SelectionSet (Maybe Int) EnturApi.Object.CarPark
 spacesAvailable =
-    Object.fieldDecoder "spacesAvailable" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "(Maybe Int)" "spacesAvailable" [] (Decode.int |> Decode.nullable)
 
 
-realtimeOccupancyAvailable : Field (Maybe Bool) EnturApi.Object.CarPark
+capacityHandicap : SelectionSet (Maybe Int) EnturApi.Object.CarPark
+capacityHandicap =
+    Object.selectionForField "(Maybe Int)" "capacityHandicap" [] (Decode.int |> Decode.nullable)
+
+
+spacesAvailableHandicap : SelectionSet (Maybe Int) EnturApi.Object.CarPark
+spacesAvailableHandicap =
+    Object.selectionForField "(Maybe Int)" "spacesAvailableHandicap" [] (Decode.int |> Decode.nullable)
+
+
+capacityRecharging : SelectionSet (Maybe Int) EnturApi.Object.CarPark
+capacityRecharging =
+    Object.selectionForField "(Maybe Int)" "capacityRecharging" [] (Decode.int |> Decode.nullable)
+
+
+spacesAvailableRecharging : SelectionSet (Maybe Int) EnturApi.Object.CarPark
+spacesAvailableRecharging =
+    Object.selectionForField "(Maybe Int)" "spacesAvailableRecharging" [] (Decode.int |> Decode.nullable)
+
+
+realtimeOccupancyAvailable : SelectionSet (Maybe Bool) EnturApi.Object.CarPark
 realtimeOccupancyAvailable =
-    Object.fieldDecoder "realtimeOccupancyAvailable" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "realtimeOccupancyAvailable" [] (Decode.bool |> Decode.nullable)
 
 
-longitude : Field (Maybe Float) EnturApi.Object.CarPark
+longitude : SelectionSet (Maybe Float) EnturApi.Object.CarPark
 longitude =
-    Object.fieldDecoder "longitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "longitude" [] (Decode.float |> Decode.nullable)
 
 
-latitude : Field (Maybe Float) EnturApi.Object.CarPark
+latitude : SelectionSet (Maybe Float) EnturApi.Object.CarPark
 latitude =
-    Object.fieldDecoder "latitude" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "(Maybe Float)" "latitude" [] (Decode.float |> Decode.nullable)
