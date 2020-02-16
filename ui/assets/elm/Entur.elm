@@ -47,7 +47,7 @@ stopPlaceSelection =
     SelectionSet.map3 StopPlace
         (SelectionSet.map scalarIdToString EOS.id)
         EOS.name
-        (SelectionSet.map (List.filterMap identity) estimatedCalls )
+        (SelectionSet.map (List.filterMap identity) estimatedCalls)
 
 
 
@@ -92,7 +92,7 @@ estimatedCallByQuay quay estimatedCall =
 
 quaySelection : SelectionSet String EO.Quay
 quaySelection =
-    (EOQ.id |> SelectionSet.map scalarIdToString)
+    EOQ.id |> SelectionSet.map scalarIdToString
 
 
 
