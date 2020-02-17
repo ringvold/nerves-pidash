@@ -10,7 +10,7 @@ defmodule Firmware.MixProject do
       app: @app,
       version: @version,
       elixir: "~> 1.9",
-      archives: [nerves_bootstrap: "~> 1.0"],
+      archives: [nerves_bootstrap: "~> 1.7"],
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       aliases: [loadconfig: [&bootstrap/1]],
@@ -48,7 +48,7 @@ defmodule Firmware.MixProject do
       {:nerves_time, "~> 0.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:kiosk_system_rpi3, "~> 1.6.0", runtime: false, targets: :rpi3}
+      {:kiosk_system_rpi3, "~> 1.8.0", runtime: false, targets: :rpi3}
     ]
   end
 
