@@ -2,7 +2,17 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Scalar exposing (Date(..), DateTime(..), Id(..), LocalTime(..), Long(..), Time(..))
+module EnturApi.Scalar exposing (Codecs, Coordinates(..), Date(..), DateTime(..), Id(..), LocalTime(..), Long(..), Time(..), defaultCodecs, defineCodecs, unwrapCodecs, unwrapEncoder)
+
+import Graphql.Codec exposing (Codec)
+import Graphql.Internal.Builder.Object as Object
+import Graphql.Internal.Encode
+import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Encode
+
+
+type Coordinates
+    = Coordinates String
 
 
 type Date
@@ -27,3 +37,84 @@ type Long
 
 type Time
     = Time String
+
+
+defineCodecs :
+    { codecCoordinates : Codec valueCoordinates
+    , codecDate : Codec valueDate
+    , codecDateTime : Codec valueDateTime
+    , codecId : Codec valueId
+    , codecLocalTime : Codec valueLocalTime
+    , codecLong : Codec valueLong
+    , codecTime : Codec valueTime
+    }
+    -> Codecs valueCoordinates valueDate valueDateTime valueId valueLocalTime valueLong valueTime
+defineCodecs definitions =
+    Codecs definitions
+
+
+unwrapCodecs :
+    Codecs valueCoordinates valueDate valueDateTime valueId valueLocalTime valueLong valueTime
+    ->
+        { codecCoordinates : Codec valueCoordinates
+        , codecDate : Codec valueDate
+        , codecDateTime : Codec valueDateTime
+        , codecId : Codec valueId
+        , codecLocalTime : Codec valueLocalTime
+        , codecLong : Codec valueLong
+        , codecTime : Codec valueTime
+        }
+unwrapCodecs (Codecs unwrappedCodecs) =
+    unwrappedCodecs
+
+
+unwrapEncoder getter (Codecs unwrappedCodecs) =
+    (unwrappedCodecs |> getter |> .encoder) >> Graphql.Internal.Encode.fromJson
+
+
+type Codecs valueCoordinates valueDate valueDateTime valueId valueLocalTime valueLong valueTime
+    = Codecs (RawCodecs valueCoordinates valueDate valueDateTime valueId valueLocalTime valueLong valueTime)
+
+
+type alias RawCodecs valueCoordinates valueDate valueDateTime valueId valueLocalTime valueLong valueTime =
+    { codecCoordinates : Codec valueCoordinates
+    , codecDate : Codec valueDate
+    , codecDateTime : Codec valueDateTime
+    , codecId : Codec valueId
+    , codecLocalTime : Codec valueLocalTime
+    , codecLong : Codec valueLong
+    , codecTime : Codec valueTime
+    }
+
+
+defaultCodecs : RawCodecs Coordinates Date DateTime Id LocalTime Long Time
+defaultCodecs =
+    { codecCoordinates =
+        { encoder = \(Coordinates raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map Coordinates
+        }
+    , codecDate =
+        { encoder = \(Date raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map Date
+        }
+    , codecDateTime =
+        { encoder = \(DateTime raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map DateTime
+        }
+    , codecId =
+        { encoder = \(Id raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map Id
+        }
+    , codecLocalTime =
+        { encoder = \(LocalTime raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map LocalTime
+        }
+    , codecLong =
+        { encoder = \(Long raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map Long
+        }
+    , codecTime =
+        { encoder = \(Time raw) -> Encode.string raw
+        , decoder = Object.scalarDecoder |> Decode.map Time
+        }
+    }

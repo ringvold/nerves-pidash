@@ -2,45 +2,39 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.KeyValue exposing (key, selection, typeOfKey, value)
+module EnturApi.Object.KeyValue exposing (key, typeOfKey, value)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.KeyValue
-selection constructor =
-    Object.selection constructor
-
-
 {-| Identifier of value.
 -}
-key : Field (Maybe String) EnturApi.Object.KeyValue
+key : SelectionSet (Maybe String) EnturApi.Object.KeyValue
 key =
-    Object.fieldDecoder "key" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "key" [] (Decode.string |> Decode.nullable)
 
 
 {-| The actual value
 -}
-value : Field (Maybe String) EnturApi.Object.KeyValue
+value : SelectionSet (Maybe String) EnturApi.Object.KeyValue
 value =
-    Object.fieldDecoder "value" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "value" [] (Decode.string |> Decode.nullable)
 
 
 {-| Identifier of type of key
 -}
-typeOfKey : Field (Maybe String) EnturApi.Object.KeyValue
+typeOfKey : SelectionSet (Maybe String) EnturApi.Object.KeyValue
 typeOfKey =
-    Object.fieldDecoder "typeOfKey" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "typeOfKey" [] (Decode.string |> Decode.nullable)

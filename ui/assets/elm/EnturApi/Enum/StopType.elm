@@ -2,54 +2,48 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.ReportType exposing (ReportType(..), decoder, fromString, list, toString)
+module EnturApi.Enum.StopType exposing (StopType(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
 
-{-|
-
-  - General - Indicates a general info-message that should not affect trip.
-  - Incident - Indicates an incident that may affect trip.
-
--}
-type ReportType
-    = General
-    | Incident
+type StopType
+    = Regular
+    | Flexible_area
 
 
-list : List ReportType
+list : List StopType
 list =
-    [ General, Incident ]
+    [ Regular, Flexible_area ]
 
 
-decoder : Decoder ReportType
+decoder : Decoder StopType
 decoder =
     Decode.string
         |> Decode.andThen
             (\string ->
                 case string of
-                    "general" ->
-                        Decode.succeed General
+                    "regular" ->
+                        Decode.succeed Regular
 
-                    "incident" ->
-                        Decode.succeed Incident
+                    "flexible_area" ->
+                        Decode.succeed Flexible_area
 
                     _ ->
-                        Decode.fail ("Invalid ReportType type, " ++ string ++ " try re-running the @dillonkearns/elm-graphql CLI ")
+                        Decode.fail ("Invalid StopType type, " ++ string ++ " try re-running the @dillonkearns/elm-graphql CLI ")
             )
 
 
 {-| Convert from the union type representating the Enum to a string that the GraphQL server will recognize.
 -}
-toString : ReportType -> String
+toString : StopType -> String
 toString enum =
     case enum of
-        General ->
-            "general"
+        Regular ->
+            "regular"
 
-        Incident ->
-            "incident"
+        Flexible_area ->
+            "flexible_area"
 
 
 {-| Convert from a String representation to an elm representation enum.
@@ -63,14 +57,14 @@ This is the inverse of the Enum `toString` function. So you can call `toString` 
 This can be useful for generating Strings to use for <select> menus to check which item was selected.
 
 -}
-fromString : String -> Maybe ReportType
+fromString : String -> Maybe StopType
 fromString enumString =
     case enumString of
-        "general" ->
-            Just General
+        "regular" ->
+            Just Regular
 
-        "incident" ->
-            Just Incident
+        "flexible_area" ->
+            Just Flexible_area
 
         _ ->
             Nothing

@@ -2,38 +2,32 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistanceConnection exposing (edges, pageInfo, selection)
+module EnturApi.Object.PlaceAtDistanceConnection exposing (edges, pageInfo)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.PlaceAtDistanceConnection
-selection constructor =
-    Object.selection constructor
-
-
 {-| a list of edges
 -}
-edges : SelectionSet decodesTo EnturApi.Object.PlaceAtDistanceEdge -> Field (Maybe (List (Maybe decodesTo))) EnturApi.Object.PlaceAtDistanceConnection
+edges : SelectionSet decodesTo EnturApi.Object.PlaceAtDistanceEdge -> SelectionSet (Maybe (List (Maybe decodesTo))) EnturApi.Object.PlaceAtDistanceConnection
 edges object_ =
-    Object.selectionField "edges" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    Object.selectionForCompositeField "edges" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
 
 
 {-| details about this specific page
 -}
-pageInfo : SelectionSet decodesTo EnturApi.Object.PageInfo -> Field decodesTo EnturApi.Object.PlaceAtDistanceConnection
+pageInfo : SelectionSet decodesTo EnturApi.Object.PageInfo -> SelectionSet decodesTo EnturApi.Object.PlaceAtDistanceConnection
 pageInfo object_ =
-    Object.selectionField "pageInfo" [] object_ identity
+    Object.selectionForCompositeField "pageInfo" [] object_ identity

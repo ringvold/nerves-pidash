@@ -2,58 +2,52 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Interchange exposing (fromLine, fromServiceJourney, guaranteed, selection, staySeated, toLine, toServiceJourney)
+module EnturApi.Object.Interchange exposing (fromLine, fromServiceJourney, guaranteed, staySeated, toLine, toServiceJourney)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
+{-| The Line/Route/ServiceJourney changes, but the passenger can stay seated.
 -}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.Interchange
-selection constructor =
-    Object.selection constructor
-
-
-{-| Time that the trip departs.
--}
-staySeated : Field (Maybe Bool) EnturApi.Object.Interchange
+staySeated : SelectionSet (Maybe Bool) EnturApi.Object.Interchange
 staySeated =
-    Object.fieldDecoder "staySeated" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "staySeated" [] (Decode.bool |> Decode.nullable)
 
 
-{-| Time that the trip departs.
+{-| The interchange is guaranteed by the operator(s). Usually up to a maximum wait time.
 -}
-guaranteed : Field (Maybe Bool) EnturApi.Object.Interchange
+guaranteed : SelectionSet (Maybe Bool) EnturApi.Object.Interchange
 guaranteed =
-    Object.fieldDecoder "guaranteed" [] (Decode.bool |> Decode.nullable)
+    Object.selectionForField "(Maybe Bool)" "guaranteed" [] (Decode.bool |> Decode.nullable)
 
 
-fromLine : SelectionSet decodesTo EnturApi.Object.Line -> Field (Maybe decodesTo) EnturApi.Object.Interchange
+fromLine : SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet (Maybe decodesTo) EnturApi.Object.Interchange
 fromLine object_ =
-    Object.selectionField "FromLine" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "FromLine" [] object_ (identity >> Decode.nullable)
 
 
-toLine : SelectionSet decodesTo EnturApi.Object.Line -> Field (Maybe decodesTo) EnturApi.Object.Interchange
+toLine : SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet (Maybe decodesTo) EnturApi.Object.Interchange
 toLine object_ =
-    Object.selectionField "ToLine" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "ToLine" [] object_ (identity >> Decode.nullable)
 
 
-fromServiceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (Maybe decodesTo) EnturApi.Object.Interchange
+fromServiceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (Maybe decodesTo) EnturApi.Object.Interchange
 fromServiceJourney object_ =
-    Object.selectionField "FromServiceJourney" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "FromServiceJourney" [] object_ (identity >> Decode.nullable)
 
 
-toServiceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (Maybe decodesTo) EnturApi.Object.Interchange
+toServiceJourney : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (Maybe decodesTo) EnturApi.Object.Interchange
 toServiceJourney object_ =
-    Object.selectionField "ToServiceJourney" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "ToServiceJourney" [] object_ (identity >> Decode.nullable)

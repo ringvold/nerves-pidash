@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.PurchaseMoment exposing (PurchaseMoment(..), decoder, toString)
+module EnturApi.Enum.PurchaseMoment exposing (PurchaseMoment(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -14,6 +14,11 @@ type PurchaseMoment
     | AfterBoarding
     | OnCheckOut
     | Other
+
+
+list : List PurchaseMoment
+list =
+    [ OnReservation, BeforeBoarding, OnBoarding, AfterBoarding, OnCheckOut, Other ]
 
 
 decoder : Decoder PurchaseMoment
@@ -67,3 +72,39 @@ toString enum =
 
         Other ->
             "other"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe PurchaseMoment
+fromString enumString =
+    case enumString of
+        "onReservation" ->
+            Just OnReservation
+
+        "beforeBoarding" ->
+            Just BeforeBoarding
+
+        "onBoarding" ->
+            Just OnBoarding
+
+        "afterBoarding" ->
+            Just AfterBoarding
+
+        "onCheckOut" ->
+            Just OnCheckOut
+
+        "other" ->
+            Just Other
+
+        _ ->
+            Nothing

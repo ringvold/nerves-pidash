@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.FlexibleLineType exposing (FlexibleLineType(..), decoder, toString)
+module EnturApi.Enum.FlexibleLineType exposing (FlexibleLineType(..), decoder, fromString, list, toString)
 
 import Json.Decode as Decode exposing (Decoder)
 
@@ -18,6 +18,11 @@ type FlexibleLineType
     | MixedFlexibleAndFixed
     | Fixed
     | Other
+
+
+list : List FlexibleLineType
+list =
+    [ CorridorService, MainRouteWithFlexibleEnds, FlexibleAreasOnly, HailAndRideSections, FixedStopAreaWide, FreeAreaAreaWide, MixedFlexible, MixedFlexibleAndFixed, Fixed, Other ]
 
 
 decoder : Decoder FlexibleLineType
@@ -95,3 +100,51 @@ toString enum =
 
         Other ->
             "other"
+
+
+{-| Convert from a String representation to an elm representation enum.
+This is the inverse of the Enum `toString` function. So you can call `toString` and then convert back `fromString` safely.
+
+    Swapi.Enum.Episode.NewHope
+        |> Swapi.Enum.Episode.toString
+        |> Swapi.Enum.Episode.fromString
+        == Just NewHope
+
+This can be useful for generating Strings to use for <select> menus to check which item was selected.
+
+-}
+fromString : String -> Maybe FlexibleLineType
+fromString enumString =
+    case enumString of
+        "corridorService" ->
+            Just CorridorService
+
+        "mainRouteWithFlexibleEnds" ->
+            Just MainRouteWithFlexibleEnds
+
+        "flexibleAreasOnly" ->
+            Just FlexibleAreasOnly
+
+        "hailAndRideSections" ->
+            Just HailAndRideSections
+
+        "fixedStopAreaWide" ->
+            Just FixedStopAreaWide
+
+        "freeAreaAreaWide" ->
+            Just FreeAreaAreaWide
+
+        "mixedFlexible" ->
+            Just MixedFlexible
+
+        "mixedFlexibleAndFixed" ->
+            Just MixedFlexibleAndFixed
+
+        "fixed" ->
+            Just Fixed
+
+        "other" ->
+            Just Other
+
+        _ ->
+            Nothing

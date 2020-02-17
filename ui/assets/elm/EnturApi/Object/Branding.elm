@@ -2,57 +2,51 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Branding exposing (description, id, image, name, selection, url)
+module EnturApi.Object.Branding exposing (description, id, image, name, url)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.Branding
-selection constructor =
-    Object.selection constructor
-
-
-id : Field (Maybe String) EnturApi.Object.Branding
+id : SelectionSet (Maybe String) EnturApi.Object.Branding
 id =
-    Object.fieldDecoder "id" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "id" [] (Decode.string |> Decode.nullable)
 
 
 {-| Full name to be used for branding.
 -}
-name : Field (Maybe String) EnturApi.Object.Branding
+name : SelectionSet (Maybe String) EnturApi.Object.Branding
 name =
-    Object.fieldDecoder "name" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "name" [] (Decode.string |> Decode.nullable)
 
 
 {-| Description of branding.
 -}
-description : Field (Maybe String) EnturApi.Object.Branding
+description : SelectionSet (Maybe String) EnturApi.Object.Branding
 description =
-    Object.fieldDecoder "description" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "description" [] (Decode.string |> Decode.nullable)
 
 
 {-| URL to be used for branding
 -}
-url : Field (Maybe String) EnturApi.Object.Branding
+url : SelectionSet (Maybe String) EnturApi.Object.Branding
 url =
-    Object.fieldDecoder "url" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "url" [] (Decode.string |> Decode.nullable)
 
 
 {-| URL to an image be used for branding
 -}
-image : Field (Maybe String) EnturApi.Object.Branding
+image : SelectionSet (Maybe String) EnturApi.Object.Branding
 image =
-    Object.fieldDecoder "image" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "image" [] (Decode.string |> Decode.nullable)

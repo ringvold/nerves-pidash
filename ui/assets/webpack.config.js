@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var entryPath = path.join(__dirname, 'js/app.js');
 
 
@@ -37,9 +38,9 @@ var commonConfig = {
 
 module.exports = (env, argv) => {
 
-  const mode = argv.mode || 'production'; 
+  const mode = argv.mode || 'production';
   const isProduction = mode === 'production';
-  
+
   return merge(commonConfig, {
     module: {
       rules: [
@@ -76,30 +77,31 @@ module.exports = (env, argv) => {
 
     plugins: [
       new MiniCssExtractPlugin({ filename: 'css/app.css' }),
+      new CleanWebpackPlugin(),
       new CopyWebpackPlugin([
-        { 
-          from: 'static/', 
-          to: './' 
+        {
+          from: 'static/',
+          to: './'
         },
       ]),
       new FileManagerPlugin({
         onEnd: {
           copy: [
-            { 
+            {
               source: '../priv/static/*.eot',
-              destination: '../priv/static/css/' 
+              destination: '../priv/static/css/'
             },
-            { 
+            {
               source: '../priv/static/*.woff*',
-              destination: '../priv/static/css/' 
+              destination: '../priv/static/css/'
             },
-            { 
+            {
               source: '../priv/static/*.svg',
-              destination: '../priv/static/css/' 
+              destination: '../priv/static/css/'
             },
-            { 
+            {
               source: '../priv/static/*.ttf',
-              destination: '../priv/static/css/' 
+              destination: '../priv/static/css/'
             },
           ]
         }

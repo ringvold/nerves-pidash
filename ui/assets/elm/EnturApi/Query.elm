@@ -2,20 +2,22 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Query exposing (AuthorityRequiredArguments, BikeParkRequiredArguments, BikeRentalStationRequiredArguments, BikeRentalStationsByBboxOptionalArguments, CarParkRequiredArguments, CarParksOptionalArguments, LineRequiredArguments, LinesOptionalArguments, NearestOptionalArguments, NearestRequiredArguments, OperatorRequiredArguments, OrganisationRequiredArguments, QuayRequiredArguments, QuaysByBboxOptionalArguments, QuaysByRadiusOptionalArguments, QuaysOptionalArguments, ServiceJourneyRequiredArguments, ServiceJourneysOptionalArguments, StopPlaceRequiredArguments, StopPlacesByBboxOptionalArguments, StopPlacesOptionalArguments, TripOptionalArguments, TripRequiredArguments, authorities, authority, bikePark, bikeParks, bikeRentalStation, bikeRentalStations, bikeRentalStationsByBbox, carPark, carParks, line, lines, nearest, notices, operator, operators, organisation, organisations, quay, quays, quaysByBbox, quaysByRadius, routingParameters, selection, serviceJourney, serviceJourneys, situations, stopPlace, stopPlaces, stopPlacesByBbox, trip)
+module EnturApi.Query exposing (AuthorityRequiredArguments, BikeParkRequiredArguments, BikeRentalStationRequiredArguments, BikeRentalStationsByBboxOptionalArguments, BikeRentalStationsOptionalArguments, CarParkRequiredArguments, CarParksOptionalArguments, LineRequiredArguments, LinesOptionalArguments, NearestOptionalArguments, NearestRequiredArguments, OperatorRequiredArguments, OrganisationRequiredArguments, QuayRequiredArguments, QuaysByBboxOptionalArguments, QuaysByRadiusOptionalArguments, QuaysByRadiusRequiredArguments, QuaysOptionalArguments, ServiceJourneyRequiredArguments, ServiceJourneysOptionalArguments, SituationsOptionalArguments, StopPlaceRequiredArguments, StopPlacesByBboxOptionalArguments, StopPlacesOptionalArguments, TripOptionalArguments, TripRequiredArguments, authorities, authority, bikePark, bikeParks, bikeRentalStation, bikeRentalStations, bikeRentalStationsByBbox, carPark, carParks, line, lines, nearest, notices, operator, operators, organisation, organisations, quay, quays, quaysByBbox, quaysByRadius, routingParameters, serviceJourney, serviceJourneys, situations, stopPlace, stopPlaces, stopPlacesByBbox, trip)
 
 import EnturApi.Enum.FilterPlaceType
+import EnturApi.Enum.FlexibleLineType
 import EnturApi.Enum.Locale
 import EnturApi.Enum.Mode
 import EnturApi.Enum.MultiModalMode
 import EnturApi.Enum.OptimisationMethod
+import EnturApi.Enum.Severity
 import EnturApi.Enum.TransportMode
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -25,20 +27,53 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode exposing (Decoder)
 
 
-{-| Select fields to build up a top-level query. The request can be sent with
-functions from `Graphql.Http`.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) RootQuery
-selection constructor =
-    Object.selection constructor
-
-
 type alias TripOptionalArguments =
-    { dateTime : OptionalArgument EnturApi.Scalar.DateTime, wheelchair : OptionalArgument Bool, numTripPatterns : OptionalArgument Int, maximumWalkDistance : OptionalArgument Float, walkSpeed : OptionalArgument Float, bikeSpeed : OptionalArgument Float, optimisationMethod : OptionalArgument EnturApi.Enum.OptimisationMethod.OptimisationMethod, arriveBy : OptionalArgument Bool, vias : OptionalArgument (List (Maybe EnturApi.InputObject.Location)), preferred : OptionalArgument EnturApi.InputObject.InputPreferred, unpreferred : OptionalArgument EnturApi.InputObject.InputUnpreferred, banned : OptionalArgument EnturApi.InputObject.InputBanned, whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed, transferPenalty : OptionalArgument Int, modes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode)), transportSubmodes : OptionalArgument (List (Maybe EnturApi.InputObject.TransportSubmodeFilter)), allowBikeRental : OptionalArgument Bool, minimumTransferTime : OptionalArgument Int, maximumTransfers : OptionalArgument Int, ignoreRealtimeUpdates : OptionalArgument Bool, includePlannedCancellations : OptionalArgument Bool, locale : OptionalArgument EnturApi.Enum.Locale.Locale, heuristicStepsPerMainStep : OptionalArgument Int, compactLegsByReversedSearch : OptionalArgument Bool, reverseOptimizeOnTheFly : OptionalArgument Bool, maxPreTransitTime : OptionalArgument Int, preTransitPenalty : OptionalArgument Float, preTransitOverageRate : OptionalArgument Float, preTransitReluctance : OptionalArgument Float, maxPreTransitWalkDistance : OptionalArgument Float, walkBoardCost : OptionalArgument Int, walkReluctance : OptionalArgument Float }
+    { dateTime : OptionalArgument EnturApi.ScalarCodecs.DateTime
+    , wheelchair : OptionalArgument Bool
+    , numTripPatterns : OptionalArgument Int
+    , maximumWalkDistance : OptionalArgument Float
+    , maxTransferWalkDistance : OptionalArgument Float
+    , walkSpeed : OptionalArgument Float
+    , bikeSpeed : OptionalArgument Float
+    , optimisationMethod : OptionalArgument EnturApi.Enum.OptimisationMethod.OptimisationMethod
+    , arriveBy : OptionalArgument Bool
+    , vias : OptionalArgument (List (Maybe EnturApi.InputObject.Location))
+    , preferred : OptionalArgument EnturApi.InputObject.InputPreferred
+    , unpreferred : OptionalArgument EnturApi.InputObject.InputUnpreferred
+    , banned : OptionalArgument EnturApi.InputObject.InputBanned
+    , whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed
+    , transferPenalty : OptionalArgument Int
+    , modes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode))
+    , transportSubmodes : OptionalArgument (List (Maybe EnturApi.InputObject.TransportSubmodeFilter))
+    , allowBikeRental : OptionalArgument Bool
+    , minimumTransferTime : OptionalArgument Int
+    , maximumTransfers : OptionalArgument Int
+    , ignoreRealtimeUpdates : OptionalArgument Bool
+    , includePlannedCancellations : OptionalArgument Bool
+    , ignoreInterchanges : OptionalArgument Bool
+    , locale : OptionalArgument EnturApi.Enum.Locale.Locale
+    , heuristicStepsPerMainStep : OptionalArgument Int
+    , compactLegsByReversedSearch : OptionalArgument Bool
+    , reverseOptimizeOnTheFly : OptionalArgument Bool
+    , maxPreTransitTime : OptionalArgument Int
+    , preTransitPenalty : OptionalArgument Float
+    , preTransitOverageRate : OptionalArgument Float
+    , preTransitReluctance : OptionalArgument Float
+    , maxPreTransitWalkDistance : OptionalArgument Float
+    , useFlex : OptionalArgument Bool
+    , banFirstServiceJourneysFromReuseNo : OptionalArgument Int
+    , walkBoardCost : OptionalArgument Int
+    , walkReluctance : OptionalArgument Float
+    , waitReluctance : OptionalArgument Float
+    , ignoreMinimumBookingPeriod : OptionalArgument Bool
+    , transitDistanceReluctance : OptionalArgument Float
+    }
 
 
 type alias TripRequiredArguments =
-    { from : EnturApi.InputObject.Location, to : EnturApi.InputObject.Location }
+    { from : EnturApi.InputObject.Location
+    , to : EnturApi.InputObject.Location
+    }
 
 
 {-| Input type for executing a travel search for a trip between two locations. Returns trip patterns describing suggested alternatives for the trip.
@@ -48,7 +83,8 @@ type alias TripRequiredArguments =
   - to - The end location
   - wheelchair - Whether the trip must be wheelchair accessible.
   - numTripPatterns - The maximum number of trip patterns to return.
-  - maximumWalkDistance - The maximum distance (in meters) the user is willing to walk. Note that trip patterns with longer walking distances will be penalized, but not altogether disallowed. Maximum allowed value is 15000 m
+  - maximumWalkDistance - DEPRECATED - Use maxPreTransitWalkDistance/maxTransferWalkDistance instead. The maximum distance (in meters) the user is willing to walk. Note that trip patterns with longer walking distances will be penalized, but not altogether disallowed. Maximum allowed value is 15000 m
+  - maxTransferWalkDistance - The maximum walk distance allowed for transfers.
   - walkSpeed - The maximum walk speed along streets, in meters per second
   - bikeSpeed - The maximum bike speed along streets, in meters per second
   - optimisationMethod - The set of characteristics that the user wants to optimise for -- defaults to quick
@@ -66,6 +102,7 @@ type alias TripRequiredArguments =
   - maximumTransfers - Maximum number of transfers
   - ignoreRealtimeUpdates - When true, realtime updates are ignored during this search.
   - includePlannedCancellations - When true, service journeys cancelled in scheduled route data will be included during this search.
+  - ignoreInterchanges - DEPRECATED - For debugging only. Ignores interchanges defined in timetable data.
   - heuristicStepsPerMainStep - Search algorithm tuning parameter.
   - compactLegsByReversedSearch - Whether legs should be compacted by performing a reversed search. Experimental argument, will be removed!.
   - reverseOptimizeOnTheFly - For debugging only.
@@ -74,21 +111,28 @@ type alias TripRequiredArguments =
   - preTransitOverageRate - A multiplier in cost when over the maximum time of the ride part of "kiss and ride" and "ride and kiss".
   - preTransitReluctance - How much worse driving before and after transit is than riding on transit. Applies to ride and kiss, kiss and ride and park and ride.
   - maxPreTransitWalkDistance - Max walk distance for access/egress legs.
+  - banFirstServiceJourneysFromReuseNo - How many service journeys used in a tripPatterns should be banned from inclusion in successive tripPatterns. Counting from start of tripPattern.
   - walkBoardCost - DEPRECATED - ONLY FOR TESTING. Cost applied each time transit is boarded.
-  - walkReluctance - DEPRECATED - ONLY FOR TESTING. Walk cost is multiplied by this value.
+  - walkReluctance - Walk cost is multiplied by this value. This is the main parameter to use for limiting walking.
+  - waitReluctance - DEPRECATED - ONLY FOR TESTING. Wait cost is multiplied by this value.
+  - ignoreMinimumBookingPeriod - Ignore the MinimumBookingPeriod defined on the ServiceJourney and allow itineraries to start immediately after the current time.
+  - transitDistanceReluctance - The extra cost per meter that is travelled by transit. This is a cost point peter meter, so it should in most
+    cases be a very small fraction. The purpose of assigning a cost to distance is often because it correlates with
+    fare prices and you want to avoid situations where you take detours or travel back again even if it is
+    technically faster. Setting this value to 0 turns off the feature altogether.
 
 -}
-trip : (TripOptionalArguments -> TripOptionalArguments) -> TripRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Trip -> Field (Maybe decodesTo) RootQuery
+trip : (TripOptionalArguments -> TripOptionalArguments) -> TripRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Trip -> SelectionSet (Maybe decodesTo) RootQuery
 trip fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
-            fillInOptionals { dateTime = Absent, wheelchair = Absent, numTripPatterns = Absent, maximumWalkDistance = Absent, walkSpeed = Absent, bikeSpeed = Absent, optimisationMethod = Absent, arriveBy = Absent, vias = Absent, preferred = Absent, unpreferred = Absent, banned = Absent, whiteListed = Absent, transferPenalty = Absent, modes = Absent, transportSubmodes = Absent, allowBikeRental = Absent, minimumTransferTime = Absent, maximumTransfers = Absent, ignoreRealtimeUpdates = Absent, includePlannedCancellations = Absent, locale = Absent, heuristicStepsPerMainStep = Absent, compactLegsByReversedSearch = Absent, reverseOptimizeOnTheFly = Absent, maxPreTransitTime = Absent, preTransitPenalty = Absent, preTransitOverageRate = Absent, preTransitReluctance = Absent, maxPreTransitWalkDistance = Absent, walkBoardCost = Absent, walkReluctance = Absent }
+            fillInOptionals { dateTime = Absent, wheelchair = Absent, numTripPatterns = Absent, maximumWalkDistance = Absent, maxTransferWalkDistance = Absent, walkSpeed = Absent, bikeSpeed = Absent, optimisationMethod = Absent, arriveBy = Absent, vias = Absent, preferred = Absent, unpreferred = Absent, banned = Absent, whiteListed = Absent, transferPenalty = Absent, modes = Absent, transportSubmodes = Absent, allowBikeRental = Absent, minimumTransferTime = Absent, maximumTransfers = Absent, ignoreRealtimeUpdates = Absent, includePlannedCancellations = Absent, ignoreInterchanges = Absent, locale = Absent, heuristicStepsPerMainStep = Absent, compactLegsByReversedSearch = Absent, reverseOptimizeOnTheFly = Absent, maxPreTransitTime = Absent, preTransitPenalty = Absent, preTransitOverageRate = Absent, preTransitReluctance = Absent, maxPreTransitWalkDistance = Absent, useFlex = Absent, banFirstServiceJourneysFromReuseNo = Absent, walkBoardCost = Absent, walkReluctance = Absent, waitReluctance = Absent, ignoreMinimumBookingPeriod = Absent, transitDistanceReluctance = Absent }
 
         optionalArgs =
-            [ Argument.optional "dateTime" filledInOptionals.dateTime (\(EnturApi.Scalar.DateTime raw) -> Encode.string raw), Argument.optional "wheelchair" filledInOptionals.wheelchair Encode.bool, Argument.optional "numTripPatterns" filledInOptionals.numTripPatterns Encode.int, Argument.optional "maximumWalkDistance" filledInOptionals.maximumWalkDistance Encode.float, Argument.optional "walkSpeed" filledInOptionals.walkSpeed Encode.float, Argument.optional "bikeSpeed" filledInOptionals.bikeSpeed Encode.float, Argument.optional "optimisationMethod" filledInOptionals.optimisationMethod (Encode.enum EnturApi.Enum.OptimisationMethod.toString), Argument.optional "arriveBy" filledInOptionals.arriveBy Encode.bool, Argument.optional "vias" filledInOptionals.vias (EnturApi.InputObject.encodeLocation |> Encode.maybe |> Encode.list), Argument.optional "preferred" filledInOptionals.preferred EnturApi.InputObject.encodeInputPreferred, Argument.optional "unpreferred" filledInOptionals.unpreferred EnturApi.InputObject.encodeInputUnpreferred, Argument.optional "banned" filledInOptionals.banned EnturApi.InputObject.encodeInputBanned, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "transferPenalty" filledInOptionals.transferPenalty Encode.int, Argument.optional "modes" filledInOptionals.modes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list), Argument.optional "transportSubmodes" filledInOptionals.transportSubmodes (EnturApi.InputObject.encodeTransportSubmodeFilter |> Encode.maybe |> Encode.list), Argument.optional "allowBikeRental" filledInOptionals.allowBikeRental Encode.bool, Argument.optional "minimumTransferTime" filledInOptionals.minimumTransferTime Encode.int, Argument.optional "maximumTransfers" filledInOptionals.maximumTransfers Encode.int, Argument.optional "ignoreRealtimeUpdates" filledInOptionals.ignoreRealtimeUpdates Encode.bool, Argument.optional "includePlannedCancellations" filledInOptionals.includePlannedCancellations Encode.bool, Argument.optional "locale" filledInOptionals.locale (Encode.enum EnturApi.Enum.Locale.toString), Argument.optional "heuristicStepsPerMainStep" filledInOptionals.heuristicStepsPerMainStep Encode.int, Argument.optional "compactLegsByReversedSearch" filledInOptionals.compactLegsByReversedSearch Encode.bool, Argument.optional "reverseOptimizeOnTheFly" filledInOptionals.reverseOptimizeOnTheFly Encode.bool, Argument.optional "maxPreTransitTime" filledInOptionals.maxPreTransitTime Encode.int, Argument.optional "preTransitPenalty" filledInOptionals.preTransitPenalty Encode.float, Argument.optional "preTransitOverageRate" filledInOptionals.preTransitOverageRate Encode.float, Argument.optional "preTransitReluctance" filledInOptionals.preTransitReluctance Encode.float, Argument.optional "maxPreTransitWalkDistance" filledInOptionals.maxPreTransitWalkDistance Encode.float, Argument.optional "walkBoardCost" filledInOptionals.walkBoardCost Encode.int, Argument.optional "walkReluctance" filledInOptionals.walkReluctance Encode.float ]
+            [ Argument.optional "dateTime" filledInOptionals.dateTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "wheelchair" filledInOptionals.wheelchair Encode.bool, Argument.optional "numTripPatterns" filledInOptionals.numTripPatterns Encode.int, Argument.optional "maximumWalkDistance" filledInOptionals.maximumWalkDistance Encode.float, Argument.optional "maxTransferWalkDistance" filledInOptionals.maxTransferWalkDistance Encode.float, Argument.optional "walkSpeed" filledInOptionals.walkSpeed Encode.float, Argument.optional "bikeSpeed" filledInOptionals.bikeSpeed Encode.float, Argument.optional "optimisationMethod" filledInOptionals.optimisationMethod (Encode.enum EnturApi.Enum.OptimisationMethod.toString), Argument.optional "arriveBy" filledInOptionals.arriveBy Encode.bool, Argument.optional "vias" filledInOptionals.vias (EnturApi.InputObject.encodeLocation |> Encode.maybe |> Encode.list), Argument.optional "preferred" filledInOptionals.preferred EnturApi.InputObject.encodeInputPreferred, Argument.optional "unpreferred" filledInOptionals.unpreferred EnturApi.InputObject.encodeInputUnpreferred, Argument.optional "banned" filledInOptionals.banned EnturApi.InputObject.encodeInputBanned, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "transferPenalty" filledInOptionals.transferPenalty Encode.int, Argument.optional "modes" filledInOptionals.modes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list), Argument.optional "transportSubmodes" filledInOptionals.transportSubmodes (EnturApi.InputObject.encodeTransportSubmodeFilter |> Encode.maybe |> Encode.list), Argument.optional "allowBikeRental" filledInOptionals.allowBikeRental Encode.bool, Argument.optional "minimumTransferTime" filledInOptionals.minimumTransferTime Encode.int, Argument.optional "maximumTransfers" filledInOptionals.maximumTransfers Encode.int, Argument.optional "ignoreRealtimeUpdates" filledInOptionals.ignoreRealtimeUpdates Encode.bool, Argument.optional "includePlannedCancellations" filledInOptionals.includePlannedCancellations Encode.bool, Argument.optional "ignoreInterchanges" filledInOptionals.ignoreInterchanges Encode.bool, Argument.optional "locale" filledInOptionals.locale (Encode.enum EnturApi.Enum.Locale.toString), Argument.optional "heuristicStepsPerMainStep" filledInOptionals.heuristicStepsPerMainStep Encode.int, Argument.optional "compactLegsByReversedSearch" filledInOptionals.compactLegsByReversedSearch Encode.bool, Argument.optional "reverseOptimizeOnTheFly" filledInOptionals.reverseOptimizeOnTheFly Encode.bool, Argument.optional "maxPreTransitTime" filledInOptionals.maxPreTransitTime Encode.int, Argument.optional "preTransitPenalty" filledInOptionals.preTransitPenalty Encode.float, Argument.optional "preTransitOverageRate" filledInOptionals.preTransitOverageRate Encode.float, Argument.optional "preTransitReluctance" filledInOptionals.preTransitReluctance Encode.float, Argument.optional "maxPreTransitWalkDistance" filledInOptionals.maxPreTransitWalkDistance Encode.float, Argument.optional "useFlex" filledInOptionals.useFlex Encode.bool, Argument.optional "banFirstServiceJourneysFromReuseNo" filledInOptionals.banFirstServiceJourneysFromReuseNo Encode.int, Argument.optional "walkBoardCost" filledInOptionals.walkBoardCost Encode.int, Argument.optional "walkReluctance" filledInOptionals.walkReluctance Encode.float, Argument.optional "waitReluctance" filledInOptionals.waitReluctance Encode.float, Argument.optional "ignoreMinimumBookingPeriod" filledInOptionals.ignoreMinimumBookingPeriod Encode.bool, Argument.optional "transitDistanceReluctance" filledInOptionals.transitDistanceReluctance Encode.float ]
                 |> List.filterMap identity
     in
-    Object.selectionField "trip" (optionalArgs ++ [ Argument.required "from" requiredArgs.from EnturApi.InputObject.encodeLocation, Argument.required "to" requiredArgs.to EnturApi.InputObject.encodeLocation ]) object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "trip" (optionalArgs ++ [ Argument.required "from" requiredArgs.from EnturApi.InputObject.encodeLocation, Argument.required "to" requiredArgs.to EnturApi.InputObject.encodeLocation ]) object_ (identity >> Decode.nullable)
 
 
 type alias StopPlaceRequiredArguments =
@@ -97,9 +141,9 @@ type alias StopPlaceRequiredArguments =
 
 {-| Get a single stopPlace based on its id)
 -}
-stopPlace : StopPlaceRequiredArguments -> SelectionSet decodesTo EnturApi.Object.StopPlace -> Field (Maybe decodesTo) RootQuery
+stopPlace : StopPlaceRequiredArguments -> SelectionSet decodesTo EnturApi.Object.StopPlace -> SelectionSet (Maybe decodesTo) RootQuery
 stopPlace requiredArgs object_ =
-    Object.selectionField "stopPlace" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "stopPlace" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias StopPlacesOptionalArguments =
@@ -108,7 +152,7 @@ type alias StopPlacesOptionalArguments =
 
 {-| Get all stopPlaces
 -}
-stopPlaces : (StopPlacesOptionalArguments -> StopPlacesOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.StopPlace -> Field (List (Maybe decodesTo)) RootQuery
+stopPlaces : (StopPlacesOptionalArguments -> StopPlacesOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.StopPlace -> SelectionSet (List (Maybe decodesTo)) RootQuery
 stopPlaces fillInOptionals object_ =
     let
         filledInOptionals =
@@ -118,11 +162,18 @@ stopPlaces fillInOptionals object_ =
             [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "stopPlaces" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "stopPlaces" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias StopPlacesByBboxOptionalArguments =
-    { minimumLatitude : OptionalArgument Float, minimumLongitude : OptionalArgument Float, maximumLatitude : OptionalArgument Float, maximumLongitude : OptionalArgument Float, authority : OptionalArgument String, multiModalMode : OptionalArgument EnturApi.Enum.MultiModalMode.MultiModalMode, filterByInUse : OptionalArgument Bool }
+    { minimumLatitude : OptionalArgument Float
+    , minimumLongitude : OptionalArgument Float
+    , maximumLatitude : OptionalArgument Float
+    , maximumLongitude : OptionalArgument Float
+    , authority : OptionalArgument String
+    , multiModalMode : OptionalArgument EnturApi.Enum.MultiModalMode.MultiModalMode
+    , filterByInUse : OptionalArgument Bool
+    }
 
 
 {-| Get all stop places within the specified bounding box
@@ -131,7 +182,7 @@ type alias StopPlacesByBboxOptionalArguments =
   - filterByInUse - If true only stop places with at least one visiting line are included.
 
 -}
-stopPlacesByBbox : (StopPlacesByBboxOptionalArguments -> StopPlacesByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.StopPlace -> Field (List (Maybe decodesTo)) RootQuery
+stopPlacesByBbox : (StopPlacesByBboxOptionalArguments -> StopPlacesByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.StopPlace -> SelectionSet (List (Maybe decodesTo)) RootQuery
 stopPlacesByBbox fillInOptionals object_ =
     let
         filledInOptionals =
@@ -141,7 +192,7 @@ stopPlacesByBbox fillInOptionals object_ =
             [ Argument.optional "minimumLatitude" filledInOptionals.minimumLatitude Encode.float, Argument.optional "minimumLongitude" filledInOptionals.minimumLongitude Encode.float, Argument.optional "maximumLatitude" filledInOptionals.maximumLatitude Encode.float, Argument.optional "maximumLongitude" filledInOptionals.maximumLongitude Encode.float, Argument.optional "authority" filledInOptionals.authority Encode.string, Argument.optional "multiModalMode" filledInOptionals.multiModalMode (Encode.enum EnturApi.Enum.MultiModalMode.toString), Argument.optional "filterByInUse" filledInOptionals.filterByInUse Encode.bool ]
                 |> List.filterMap identity
     in
-    Object.selectionField "stopPlacesByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "stopPlacesByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias QuayRequiredArguments =
@@ -150,18 +201,20 @@ type alias QuayRequiredArguments =
 
 {-| Get a single quay based on its id)
 -}
-quay : QuayRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Quay -> Field (Maybe decodesTo) RootQuery
+quay : QuayRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (Maybe decodesTo) RootQuery
 quay requiredArgs object_ =
-    Object.selectionField "quay" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "quay" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias QuaysOptionalArguments =
-    { ids : OptionalArgument (List (Maybe String)), name : OptionalArgument String }
+    { ids : OptionalArgument (List (Maybe String))
+    , name : OptionalArgument String
+    }
 
 
 {-| Get all quays
 -}
-quays : (QuaysOptionalArguments -> QuaysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> Field (List (Maybe decodesTo)) RootQuery
+quays : (QuaysOptionalArguments -> QuaysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (List (Maybe decodesTo)) RootQuery
 quays fillInOptionals object_ =
     let
         filledInOptionals =
@@ -171,11 +224,17 @@ quays fillInOptionals object_ =
             [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "name" filledInOptionals.name Encode.string ]
                 |> List.filterMap identity
     in
-    Object.selectionField "quays" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "quays" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias QuaysByBboxOptionalArguments =
-    { minimumLatitude : OptionalArgument Float, minimumLongitude : OptionalArgument Float, maximumLatitude : OptionalArgument Float, maximumLongitude : OptionalArgument Float, authority : OptionalArgument String, filterByInUse : OptionalArgument Bool }
+    { minimumLatitude : OptionalArgument Float
+    , minimumLongitude : OptionalArgument Float
+    , maximumLatitude : OptionalArgument Float
+    , maximumLongitude : OptionalArgument Float
+    , authority : OptionalArgument String
+    , filterByInUse : OptionalArgument Bool
+    }
 
 
 {-| Get all quays within the specified bounding box
@@ -183,7 +242,7 @@ type alias QuaysByBboxOptionalArguments =
   - filterByInUse - If true only quays with at least one visiting line are included.
 
 -}
-quaysByBbox : (QuaysByBboxOptionalArguments -> QuaysByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> Field (List (Maybe decodesTo)) RootQuery
+quaysByBbox : (QuaysByBboxOptionalArguments -> QuaysByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (List (Maybe decodesTo)) RootQuery
 quaysByBbox fillInOptionals object_ =
     let
         filledInOptionals =
@@ -193,11 +252,23 @@ quaysByBbox fillInOptionals object_ =
             [ Argument.optional "minimumLatitude" filledInOptionals.minimumLatitude Encode.float, Argument.optional "minimumLongitude" filledInOptionals.minimumLongitude Encode.float, Argument.optional "maximumLatitude" filledInOptionals.maximumLatitude Encode.float, Argument.optional "maximumLongitude" filledInOptionals.maximumLongitude Encode.float, Argument.optional "authority" filledInOptionals.authority Encode.string, Argument.optional "filterByInUse" filledInOptionals.filterByInUse Encode.bool ]
                 |> List.filterMap identity
     in
-    Object.selectionField "quaysByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "quaysByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias QuaysByRadiusOptionalArguments =
-    { latitude : OptionalArgument Float, longitude : OptionalArgument Float, radius : OptionalArgument Int, authority : OptionalArgument String, before : OptionalArgument String, after : OptionalArgument String, first : OptionalArgument Int, last : OptionalArgument Int }
+    { authority : OptionalArgument String
+    , before : OptionalArgument String
+    , after : OptionalArgument String
+    , first : OptionalArgument Int
+    , last : OptionalArgument Int
+    }
+
+
+type alias QuaysByRadiusRequiredArguments =
+    { latitude : Float
+    , longitude : Float
+    , radius : Int
+    }
 
 
 {-| Get all quays within the specified radius from a location. The returned type has two fields quay and distance
@@ -211,25 +282,38 @@ type alias QuaysByRadiusOptionalArguments =
   - last - fetching only the last certain number of nodes
 
 -}
-quaysByRadius : (QuaysByRadiusOptionalArguments -> QuaysByRadiusOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.QuayAtDistanceConnection -> Field (Maybe decodesTo) RootQuery
-quaysByRadius fillInOptionals object_ =
+quaysByRadius : (QuaysByRadiusOptionalArguments -> QuaysByRadiusOptionalArguments) -> QuaysByRadiusRequiredArguments -> SelectionSet decodesTo EnturApi.Object.QuayAtDistanceConnection -> SelectionSet (Maybe decodesTo) RootQuery
+quaysByRadius fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
-            fillInOptionals { latitude = Absent, longitude = Absent, radius = Absent, authority = Absent, before = Absent, after = Absent, first = Absent, last = Absent }
+            fillInOptionals { authority = Absent, before = Absent, after = Absent, first = Absent, last = Absent }
 
         optionalArgs =
-            [ Argument.optional "latitude" filledInOptionals.latitude Encode.float, Argument.optional "longitude" filledInOptionals.longitude Encode.float, Argument.optional "radius" filledInOptionals.radius Encode.int, Argument.optional "authority" filledInOptionals.authority Encode.string, Argument.optional "before" filledInOptionals.before Encode.string, Argument.optional "after" filledInOptionals.after Encode.string, Argument.optional "first" filledInOptionals.first Encode.int, Argument.optional "last" filledInOptionals.last Encode.int ]
+            [ Argument.optional "authority" filledInOptionals.authority Encode.string, Argument.optional "before" filledInOptionals.before Encode.string, Argument.optional "after" filledInOptionals.after Encode.string, Argument.optional "first" filledInOptionals.first Encode.int, Argument.optional "last" filledInOptionals.last Encode.int ]
                 |> List.filterMap identity
     in
-    Object.selectionField "quaysByRadius" optionalArgs object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "quaysByRadius" (optionalArgs ++ [ Argument.required "latitude" requiredArgs.latitude Encode.float, Argument.required "longitude" requiredArgs.longitude Encode.float, Argument.required "radius" requiredArgs.radius Encode.int ]) object_ (identity >> Decode.nullable)
 
 
 type alias NearestOptionalArguments =
-    { maximumDistance : OptionalArgument Int, maximumResults : OptionalArgument Int, filterByPlaceTypes : OptionalArgument (List (Maybe EnturApi.Enum.FilterPlaceType.FilterPlaceType)), filterByModes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode)), filterByInUse : OptionalArgument Bool, filterByIds : OptionalArgument EnturApi.InputObject.InputFilters, multiModalMode : OptionalArgument EnturApi.Enum.MultiModalMode.MultiModalMode, before : OptionalArgument String, after : OptionalArgument String, first : OptionalArgument Int, last : OptionalArgument Int }
+    { maximumDistance : OptionalArgument Int
+    , maximumResults : OptionalArgument Int
+    , filterByPlaceTypes : OptionalArgument (List (Maybe EnturApi.Enum.FilterPlaceType.FilterPlaceType))
+    , filterByModes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode))
+    , filterByInUse : OptionalArgument Bool
+    , filterByIds : OptionalArgument EnturApi.InputObject.InputFilters
+    , multiModalMode : OptionalArgument EnturApi.Enum.MultiModalMode.MultiModalMode
+    , before : OptionalArgument String
+    , after : OptionalArgument String
+    , first : OptionalArgument Int
+    , last : OptionalArgument Int
+    }
 
 
 type alias NearestRequiredArguments =
-    { latitude : Float, longitude : Float }
+    { latitude : Float
+    , longitude : Float
+    }
 
 
 {-| Get all places (quays, stop places, car parks etc. with coordinates) within the specified radius from a location. The returned type has two fields place and distance. The search is done by walking so the distance is according to the network of walkables.
@@ -238,7 +322,7 @@ type alias NearestRequiredArguments =
   - longitude - Longitude of the location
   - maximumDistance - Maximum distance (in meters) to search for from the specified location. Default is 2000m.
   - maximumResults - Maximum number of results. Search is stopped when this limit is reached. Default is 20.
-  - filterByPlaceTypes - Only include places that imply this type. i.e. mode for quay, stop place etc. Also BICYCLE\_RENT for bike rental stations.
+  - filterByPlaceTypes - Only include places of given types if set. Default accepts all types
   - filterByModes - Only include places that include this mode. Only checked for places with mode i.e. quays, departures.
   - filterByInUse - Only affects queries for quays and stop places. If true only quays and stop places with at least one visiting line are included.
   - filterByIds - Only include places that match one of the given ids.
@@ -249,7 +333,7 @@ type alias NearestRequiredArguments =
   - last - fetching only the last certain number of nodes
 
 -}
-nearest : (NearestOptionalArguments -> NearestOptionalArguments) -> NearestRequiredArguments -> SelectionSet decodesTo EnturApi.Object.PlaceAtDistanceConnection -> Field (Maybe decodesTo) RootQuery
+nearest : (NearestOptionalArguments -> NearestOptionalArguments) -> NearestRequiredArguments -> SelectionSet decodesTo EnturApi.Object.PlaceAtDistanceConnection -> SelectionSet (Maybe decodesTo) RootQuery
 nearest fillInOptionals requiredArgs object_ =
     let
         filledInOptionals =
@@ -259,7 +343,7 @@ nearest fillInOptionals requiredArgs object_ =
             [ Argument.optional "maximumDistance" filledInOptionals.maximumDistance Encode.int, Argument.optional "maximumResults" filledInOptionals.maximumResults Encode.int, Argument.optional "filterByPlaceTypes" filledInOptionals.filterByPlaceTypes (Encode.enum EnturApi.Enum.FilterPlaceType.toString |> Encode.maybe |> Encode.list), Argument.optional "filterByModes" filledInOptionals.filterByModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list), Argument.optional "filterByInUse" filledInOptionals.filterByInUse Encode.bool, Argument.optional "filterByIds" filledInOptionals.filterByIds EnturApi.InputObject.encodeInputFilters, Argument.optional "multiModalMode" filledInOptionals.multiModalMode (Encode.enum EnturApi.Enum.MultiModalMode.toString), Argument.optional "before" filledInOptionals.before Encode.string, Argument.optional "after" filledInOptionals.after Encode.string, Argument.optional "first" filledInOptionals.first Encode.int, Argument.optional "last" filledInOptionals.last Encode.int ]
                 |> List.filterMap identity
     in
-    Object.selectionField "nearest" (optionalArgs ++ [ Argument.required "latitude" requiredArgs.latitude Encode.float, Argument.required "longitude" requiredArgs.longitude Encode.float ]) object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "nearest" (optionalArgs ++ [ Argument.required "latitude" requiredArgs.latitude Encode.float, Argument.required "longitude" requiredArgs.longitude Encode.float ]) object_ (identity >> Decode.nullable)
 
 
 type alias AuthorityRequiredArguments =
@@ -268,16 +352,16 @@ type alias AuthorityRequiredArguments =
 
 {-| Get an authority by ID
 -}
-authority : AuthorityRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Authority -> Field (Maybe decodesTo) RootQuery
+authority : AuthorityRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Authority -> SelectionSet (Maybe decodesTo) RootQuery
 authority requiredArgs object_ =
-    Object.selectionField "authority" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "authority" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 {-| Get all authorities
 -}
-authorities : SelectionSet decodesTo EnturApi.Object.Authority -> Field (List (Maybe decodesTo)) RootQuery
+authorities : SelectionSet decodesTo EnturApi.Object.Authority -> SelectionSet (List (Maybe decodesTo)) RootQuery
 authorities object_ =
-    Object.selectionField "authorities" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "authorities" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias OperatorRequiredArguments =
@@ -286,30 +370,30 @@ type alias OperatorRequiredArguments =
 
 {-| Get a operator by ID
 -}
-operator : OperatorRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Operator -> Field (Maybe decodesTo) RootQuery
+operator : OperatorRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Operator -> SelectionSet (Maybe decodesTo) RootQuery
 operator requiredArgs object_ =
-    Object.selectionField "operator" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "operator" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 {-| Get all operators
 -}
-operators : SelectionSet decodesTo EnturApi.Object.Operator -> Field (List (Maybe decodesTo)) RootQuery
+operators : SelectionSet decodesTo EnturApi.Object.Operator -> SelectionSet (List (Maybe decodesTo)) RootQuery
 operators object_ =
-    Object.selectionField "operators" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "operators" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias OrganisationRequiredArguments =
     { id : String }
 
 
-organisation : OrganisationRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Organisation -> Field (Maybe decodesTo) RootQuery
+organisation : OrganisationRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Organisation -> SelectionSet (Maybe decodesTo) RootQuery
 organisation requiredArgs object_ =
-    Object.selectionField "organisation" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "organisation" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
-organisations : SelectionSet decodesTo EnturApi.Object.Organisation -> Field (List (Maybe decodesTo)) RootQuery
+organisations : SelectionSet decodesTo EnturApi.Object.Organisation -> SelectionSet (List (Maybe decodesTo)) RootQuery
 organisations object_ =
-    Object.selectionField "organisations" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "organisations" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias LineRequiredArguments =
@@ -318,13 +402,20 @@ type alias LineRequiredArguments =
 
 {-| Get a single line based on its id
 -}
-line : LineRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Line -> Field (Maybe decodesTo) RootQuery
+line : LineRequiredArguments -> SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet (Maybe decodesTo) RootQuery
 line requiredArgs object_ =
-    Object.selectionField "line" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "line" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias LinesOptionalArguments =
-    { ids : OptionalArgument (List (Maybe String)), name : OptionalArgument String, publicCode : OptionalArgument String, publicCodes : OptionalArgument (List (Maybe String)), transportModes : OptionalArgument (List (Maybe EnturApi.Enum.TransportMode.TransportMode)), authorities : OptionalArgument (List (Maybe String)) }
+    { ids : OptionalArgument (List (Maybe String))
+    , name : OptionalArgument String
+    , publicCode : OptionalArgument String
+    , publicCodes : OptionalArgument (List (Maybe String))
+    , transportModes : OptionalArgument (List (Maybe EnturApi.Enum.TransportMode.TransportMode))
+    , authorities : OptionalArgument (List (Maybe String))
+    , flexibleLineTypes : OptionalArgument (List (Maybe EnturApi.Enum.FlexibleLineType.FlexibleLineType))
+    }
 
 
 {-| Get all lines
@@ -332,17 +423,17 @@ type alias LinesOptionalArguments =
   - authorities - Set of ids of authorities to fetch lines for.
 
 -}
-lines : (LinesOptionalArguments -> LinesOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Line -> Field (List (Maybe decodesTo)) RootQuery
+lines : (LinesOptionalArguments -> LinesOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet (List (Maybe decodesTo)) RootQuery
 lines fillInOptionals object_ =
     let
         filledInOptionals =
-            fillInOptionals { ids = Absent, name = Absent, publicCode = Absent, publicCodes = Absent, transportModes = Absent, authorities = Absent }
+            fillInOptionals { ids = Absent, name = Absent, publicCode = Absent, publicCodes = Absent, transportModes = Absent, authorities = Absent, flexibleLineTypes = Absent }
 
         optionalArgs =
-            [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "name" filledInOptionals.name Encode.string, Argument.optional "publicCode" filledInOptionals.publicCode Encode.string, Argument.optional "publicCodes" filledInOptionals.publicCodes (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "transportModes" filledInOptionals.transportModes (Encode.enum EnturApi.Enum.TransportMode.toString |> Encode.maybe |> Encode.list), Argument.optional "authorities" filledInOptionals.authorities (Encode.string |> Encode.maybe |> Encode.list) ]
+            [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "name" filledInOptionals.name Encode.string, Argument.optional "publicCode" filledInOptionals.publicCode Encode.string, Argument.optional "publicCodes" filledInOptionals.publicCodes (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "transportModes" filledInOptionals.transportModes (Encode.enum EnturApi.Enum.TransportMode.toString |> Encode.maybe |> Encode.list), Argument.optional "authorities" filledInOptionals.authorities (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "flexibleLineTypes" filledInOptionals.flexibleLineTypes (Encode.enum EnturApi.Enum.FlexibleLineType.toString |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "lines" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "lines" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias ServiceJourneyRequiredArguments =
@@ -351,13 +442,17 @@ type alias ServiceJourneyRequiredArguments =
 
 {-| Get a single service journey based on its id
 -}
-serviceJourney : ServiceJourneyRequiredArguments -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (Maybe decodesTo) RootQuery
+serviceJourney : ServiceJourneyRequiredArguments -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (Maybe decodesTo) RootQuery
 serviceJourney requiredArgs object_ =
-    Object.selectionField "serviceJourney" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "serviceJourney" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias ServiceJourneysOptionalArguments =
-    { lines : OptionalArgument (List (Maybe String)), privateCodes : OptionalArgument (List (Maybe String)), activeDates : OptionalArgument (List (Maybe EnturApi.Scalar.Date)), authorities : OptionalArgument (List (Maybe String)) }
+    { lines : OptionalArgument (List (Maybe String))
+    , privateCodes : OptionalArgument (List (Maybe String))
+    , activeDates : OptionalArgument (List (Maybe EnturApi.ScalarCodecs.Date))
+    , authorities : OptionalArgument (List (Maybe String))
+    }
 
 
 {-| Get all service journeys
@@ -368,44 +463,60 @@ type alias ServiceJourneysOptionalArguments =
   - authorities - Set of ids of authorities to fetch serviceJourneys for.
 
 -}
-serviceJourneys : (ServiceJourneysOptionalArguments -> ServiceJourneysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (List (Maybe decodesTo)) RootQuery
+serviceJourneys : (ServiceJourneysOptionalArguments -> ServiceJourneysOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (List (Maybe decodesTo)) RootQuery
 serviceJourneys fillInOptionals object_ =
     let
         filledInOptionals =
             fillInOptionals { lines = Absent, privateCodes = Absent, activeDates = Absent, authorities = Absent }
 
         optionalArgs =
-            [ Argument.optional "lines" filledInOptionals.lines (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "privateCodes" filledInOptionals.privateCodes (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "activeDates" filledInOptionals.activeDates ((\(EnturApi.Scalar.Date raw) -> Encode.string raw) |> Encode.maybe |> Encode.list), Argument.optional "authorities" filledInOptionals.authorities (Encode.string |> Encode.maybe |> Encode.list) ]
+            [ Argument.optional "lines" filledInOptionals.lines (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "privateCodes" filledInOptionals.privateCodes (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "activeDates" filledInOptionals.activeDates ((EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDate) |> Encode.maybe |> Encode.list), Argument.optional "authorities" filledInOptionals.authorities (Encode.string |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "serviceJourneys" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "serviceJourneys" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
-{-| Get a single bike rental station based on its id
+type alias BikeRentalStationsOptionalArguments =
+    { ids : OptionalArgument (List (Maybe String)) }
+
+
+{-| Get all bike rental stations
 -}
-bikeRentalStations : SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> Field (List (Maybe decodesTo)) RootQuery
-bikeRentalStations object_ =
-    Object.selectionField "bikeRentalStations" [] object_ (identity >> Decode.nullable >> Decode.list)
+bikeRentalStations : (BikeRentalStationsOptionalArguments -> BikeRentalStationsOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> SelectionSet (List (Maybe decodesTo)) RootQuery
+bikeRentalStations fillInOptionals object_ =
+    let
+        filledInOptionals =
+            fillInOptionals { ids = Absent }
+
+        optionalArgs =
+            [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list) ]
+                |> List.filterMap identity
+    in
+    Object.selectionForCompositeField "bikeRentalStations" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias BikeRentalStationRequiredArguments =
     { id : String }
 
 
-{-| Get all bike rental stations
+{-| Get a single bike rental station based on its id
 -}
-bikeRentalStation : BikeRentalStationRequiredArguments -> SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> Field (Maybe decodesTo) RootQuery
+bikeRentalStation : BikeRentalStationRequiredArguments -> SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> SelectionSet (Maybe decodesTo) RootQuery
 bikeRentalStation requiredArgs object_ =
-    Object.selectionField "bikeRentalStation" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "bikeRentalStation" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias BikeRentalStationsByBboxOptionalArguments =
-    { minimumLatitude : OptionalArgument Float, minimumLongitude : OptionalArgument Float, maximumLatitude : OptionalArgument Float, maximumLongitude : OptionalArgument Float }
+    { minimumLatitude : OptionalArgument Float
+    , minimumLongitude : OptionalArgument Float
+    , maximumLatitude : OptionalArgument Float
+    , maximumLongitude : OptionalArgument Float
+    }
 
 
 {-| Get all bike rental stations within the specified bounding box.
 -}
-bikeRentalStationsByBbox : (BikeRentalStationsByBboxOptionalArguments -> BikeRentalStationsByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> Field (List (Maybe decodesTo)) RootQuery
+bikeRentalStationsByBbox : (BikeRentalStationsByBboxOptionalArguments -> BikeRentalStationsByBboxOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.BikeRentalStation -> SelectionSet (List (Maybe decodesTo)) RootQuery
 bikeRentalStationsByBbox fillInOptionals object_ =
     let
         filledInOptionals =
@@ -415,7 +526,7 @@ bikeRentalStationsByBbox fillInOptionals object_ =
             [ Argument.optional "minimumLatitude" filledInOptionals.minimumLatitude Encode.float, Argument.optional "minimumLongitude" filledInOptionals.minimumLongitude Encode.float, Argument.optional "maximumLatitude" filledInOptionals.maximumLatitude Encode.float, Argument.optional "maximumLongitude" filledInOptionals.maximumLongitude Encode.float ]
                 |> List.filterMap identity
     in
-    Object.selectionField "bikeRentalStationsByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "bikeRentalStationsByBbox" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias BikeParkRequiredArguments =
@@ -424,16 +535,16 @@ type alias BikeParkRequiredArguments =
 
 {-| Get a single bike park based on its id
 -}
-bikePark : BikeParkRequiredArguments -> SelectionSet decodesTo EnturApi.Object.BikePark -> Field (Maybe decodesTo) RootQuery
+bikePark : BikeParkRequiredArguments -> SelectionSet decodesTo EnturApi.Object.BikePark -> SelectionSet (Maybe decodesTo) RootQuery
 bikePark requiredArgs object_ =
-    Object.selectionField "bikePark" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "bikePark" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 {-| Get all bike parks
 -}
-bikeParks : SelectionSet decodesTo EnturApi.Object.BikePark -> Field (List (Maybe decodesTo)) RootQuery
+bikeParks : SelectionSet decodesTo EnturApi.Object.BikePark -> SelectionSet (List (Maybe decodesTo)) RootQuery
 bikeParks object_ =
-    Object.selectionField "bikeParks" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "bikeParks" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
 type alias CarParkRequiredArguments =
@@ -442,9 +553,9 @@ type alias CarParkRequiredArguments =
 
 {-| Get a single car park based on its id
 -}
-carPark : CarParkRequiredArguments -> SelectionSet decodesTo EnturApi.Object.CarPark -> Field (Maybe decodesTo) RootQuery
+carPark : CarParkRequiredArguments -> SelectionSet decodesTo EnturApi.Object.CarPark -> SelectionSet (Maybe decodesTo) RootQuery
 carPark requiredArgs object_ =
-    Object.selectionField "carPark" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "carPark" [ Argument.required "id" requiredArgs.id Encode.string ] object_ (identity >> Decode.nullable)
 
 
 type alias CarParksOptionalArguments =
@@ -453,7 +564,7 @@ type alias CarParksOptionalArguments =
 
 {-| Get all car parks
 -}
-carParks : (CarParksOptionalArguments -> CarParksOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.CarPark -> Field (List (Maybe decodesTo)) RootQuery
+carParks : (CarParksOptionalArguments -> CarParksOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.CarPark -> SelectionSet (List (Maybe decodesTo)) RootQuery
 carParks fillInOptionals object_ =
     let
         filledInOptionals =
@@ -463,25 +574,43 @@ carParks fillInOptionals object_ =
             [ Argument.optional "ids" filledInOptionals.ids (Encode.string |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "carParks" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "carParks" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)
 
 
 {-| Get default routing parameters.
 -}
-routingParameters : SelectionSet decodesTo EnturApi.Object.RoutingParameters -> Field (Maybe decodesTo) RootQuery
+routingParameters : SelectionSet decodesTo EnturApi.Object.RoutingParameters -> SelectionSet (Maybe decodesTo) RootQuery
 routingParameters object_ =
-    Object.selectionField "routingParameters" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "routingParameters" [] object_ (identity >> Decode.nullable)
 
 
 {-| Get all notices
 -}
-notices : SelectionSet decodesTo EnturApi.Object.Notice -> Field (List (Maybe decodesTo)) RootQuery
+notices : SelectionSet decodesTo EnturApi.Object.Notice -> SelectionSet (List (Maybe decodesTo)) RootQuery
 notices object_ =
-    Object.selectionField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
+
+
+type alias SituationsOptionalArguments =
+    { authorities : OptionalArgument (List (Maybe String))
+    , severities : OptionalArgument (List (Maybe EnturApi.Enum.Severity.Severity))
+    }
 
 
 {-| Get all active situations
+
+  - authorities - Filter by reporting authorities.
+  - severities - Filter by severity.
+
 -}
-situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> Field (List (Maybe decodesTo)) RootQuery
-situations object_ =
-    Object.selectionField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
+situations : (SituationsOptionalArguments -> SituationsOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.PtSituationElement -> SelectionSet (List (Maybe decodesTo)) RootQuery
+situations fillInOptionals object_ =
+    let
+        filledInOptionals =
+            fillInOptionals { authorities = Absent, severities = Absent }
+
+        optionalArgs =
+            [ Argument.optional "authorities" filledInOptionals.authorities (Encode.string |> Encode.maybe |> Encode.list), Argument.optional "severities" filledInOptionals.severities (Encode.enum EnturApi.Enum.Severity.toString |> Encode.maybe |> Encode.list) ]
+                |> List.filterMap identity
+    in
+    Object.selectionForCompositeField "situations" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)

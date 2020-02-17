@@ -2,98 +2,92 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.JourneyPattern exposing (ServiceJourneysForDateOptionalArguments, destinationDisplay, directionType, id, line, name, notices, pointsOnLink, quays, selection, serviceJourneys, serviceJourneysForDate, situations)
+module EnturApi.Object.JourneyPattern exposing (ServiceJourneysForDateOptionalArguments, destinationDisplay, directionType, id, line, name, notices, pointsOnLink, quays, serviceJourneys, serviceJourneysForDate, situations)
 
 import EnturApi.Enum.DirectionType
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.JourneyPattern
-selection constructor =
-    Object.selection constructor
-
-
-id : Field EnturApi.Scalar.Id EnturApi.Object.JourneyPattern
+id : SelectionSet EnturApi.ScalarCodecs.Id EnturApi.Object.JourneyPattern
 id =
-    Object.fieldDecoder "id" [] (Object.scalarDecoder |> Decode.map EnturApi.Scalar.Id)
+    Object.selectionForField "ScalarCodecs.Id" "id" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-line : SelectionSet decodesTo EnturApi.Object.Line -> Field decodesTo EnturApi.Object.JourneyPattern
+line : SelectionSet decodesTo EnturApi.Object.Line -> SelectionSet decodesTo EnturApi.Object.JourneyPattern
 line object_ =
-    Object.selectionField "line" [] object_ identity
+    Object.selectionForCompositeField "line" [] object_ identity
 
 
-directionType : Field (Maybe EnturApi.Enum.DirectionType.DirectionType) EnturApi.Object.JourneyPattern
+directionType : SelectionSet (Maybe EnturApi.Enum.DirectionType.DirectionType) EnturApi.Object.JourneyPattern
 directionType =
-    Object.fieldDecoder "directionType" [] (EnturApi.Enum.DirectionType.decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe Enum.DirectionType.DirectionType)" "directionType" [] (EnturApi.Enum.DirectionType.decoder |> Decode.nullable)
 
 
-name : Field (Maybe String) EnturApi.Object.JourneyPattern
+name : SelectionSet (Maybe String) EnturApi.Object.JourneyPattern
 name =
-    Object.fieldDecoder "name" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "name" [] (Decode.string |> Decode.nullable)
 
 
-destinationDisplay : SelectionSet decodesTo EnturApi.Object.DestinationDisplay -> Field (Maybe decodesTo) EnturApi.Object.JourneyPattern
+destinationDisplay : SelectionSet decodesTo EnturApi.Object.DestinationDisplay -> SelectionSet (Maybe decodesTo) EnturApi.Object.JourneyPattern
 destinationDisplay object_ =
-    Object.selectionField "destinationDisplay" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "destinationDisplay" [] object_ (identity >> Decode.nullable)
 
 
-serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (List decodesTo) EnturApi.Object.JourneyPattern
+serviceJourneys : SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (List decodesTo) EnturApi.Object.JourneyPattern
 serviceJourneys object_ =
-    Object.selectionField "serviceJourneys" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "serviceJourneys" [] object_ (identity >> Decode.list)
 
 
 type alias ServiceJourneysForDateOptionalArguments =
-    { date : OptionalArgument EnturApi.Scalar.Date }
+    { date : OptionalArgument EnturApi.ScalarCodecs.Date }
 
 
 {-| List of service journeys for the journey pattern for a given date
 -}
-serviceJourneysForDate : (ServiceJourneysForDateOptionalArguments -> ServiceJourneysForDateOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> Field (List decodesTo) EnturApi.Object.JourneyPattern
+serviceJourneysForDate : (ServiceJourneysForDateOptionalArguments -> ServiceJourneysForDateOptionalArguments) -> SelectionSet decodesTo EnturApi.Object.ServiceJourney -> SelectionSet (List decodesTo) EnturApi.Object.JourneyPattern
 serviceJourneysForDate fillInOptionals object_ =
     let
         filledInOptionals =
             fillInOptionals { date = Absent }
 
         optionalArgs =
-            [ Argument.optional "date" filledInOptionals.date (\(EnturApi.Scalar.Date raw) -> Encode.string raw) ]
+            [ Argument.optional "date" filledInOptionals.date (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDate) ]
                 |> List.filterMap identity
     in
-    Object.selectionField "serviceJourneysForDate" optionalArgs object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "serviceJourneysForDate" optionalArgs object_ (identity >> Decode.list)
 
 
 {-| Quays visited by service journeys for this journey patterns
 -}
-quays : SelectionSet decodesTo EnturApi.Object.Quay -> Field (List decodesTo) EnturApi.Object.JourneyPattern
+quays : SelectionSet decodesTo EnturApi.Object.Quay -> SelectionSet (List decodesTo) EnturApi.Object.JourneyPattern
 quays object_ =
-    Object.selectionField "quays" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "quays" [] object_ (identity >> Decode.list)
 
 
-pointsOnLink : SelectionSet decodesTo EnturApi.Object.PointsOnLink -> Field (Maybe decodesTo) EnturApi.Object.JourneyPattern
+pointsOnLink : SelectionSet decodesTo EnturApi.Object.PointsOnLink -> SelectionSet (Maybe decodesTo) EnturApi.Object.JourneyPattern
 pointsOnLink object_ =
-    Object.selectionField "pointsOnLink" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "pointsOnLink" [] object_ (identity >> Decode.nullable)
 
 
 {-| Get all situations active for the journey pattern
 -}
-situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> Field (List (Maybe decodesTo)) EnturApi.Object.JourneyPattern
+situations : SelectionSet decodesTo EnturApi.Object.PtSituationElement -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.JourneyPattern
 situations object_ =
-    Object.selectionField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "situations" [] object_ (identity >> Decode.nullable >> Decode.list)
 
 
-notices : SelectionSet decodesTo EnturApi.Object.Notice -> Field (List (Maybe decodesTo)) EnturApi.Object.JourneyPattern
+notices : SelectionSet decodesTo EnturApi.Object.Notice -> SelectionSet (List (Maybe decodesTo)) EnturApi.Object.JourneyPattern
 notices object_ =
-    Object.selectionField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "notices" [] object_ (identity >> Decode.nullable >> Decode.list)

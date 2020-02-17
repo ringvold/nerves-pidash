@@ -17,8 +17,8 @@ config :ui, UiWeb.Endpoint,
 config :ui, :stops,
   [
     %{name: "Storo sør", id: "NSR:StopPlace:58195", quay: "NSR:Quay:11128"},
-    %{name: "Grefsenveien nord", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11770"},
-    %{name: "Grefsenveien sør", id: "NSR:StopPlace:58196", quay: "NSR:Quay:11769"}
+    %{name: "Grefsenveien nord", id: "NSR:StopPlace:58196", quay: "NSR:Quay:104016"},
+    %{name: "Grefsenveien sør", id: "NSR:StopPlace:58196", quay: "NSR:Quay:104015"}
   ]
 
 # Configures Elixir's Logger

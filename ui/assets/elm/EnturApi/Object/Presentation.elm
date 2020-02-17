@@ -2,34 +2,28 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Presentation exposing (colour, selection, textColour)
+module EnturApi.Object.Presentation exposing (colour, textColour)
 
 import EnturApi.InputObject
 import EnturApi.Interface
 import EnturApi.Object
 import EnturApi.Scalar
+import EnturApi.ScalarCodecs
 import EnturApi.Union
-import Graphql.Field as Field exposing (Field)
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.Operation exposing (RootMutation, RootQuery, RootSubscription)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-{-| Select fields to build up a SelectionSet for this object.
--}
-selection : (a -> constructor) -> SelectionSet (a -> constructor) EnturApi.Object.Presentation
-selection constructor =
-    Object.selection constructor
-
-
-colour : Field (Maybe String) EnturApi.Object.Presentation
+colour : SelectionSet (Maybe String) EnturApi.Object.Presentation
 colour =
-    Object.fieldDecoder "colour" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "colour" [] (Decode.string |> Decode.nullable)
 
 
-textColour : Field (Maybe String) EnturApi.Object.Presentation
+textColour : SelectionSet (Maybe String) EnturApi.Object.Presentation
 textColour =
-    Object.fieldDecoder "textColour" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "(Maybe String)" "textColour" [] (Decode.string |> Decode.nullable)

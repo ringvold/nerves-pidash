@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object exposing (Authority(..), BikePark(..), BikeRentalStation(..), BookingArrangement(..), Branding(..), CarPark(..), Contact(..), DebugOutput(..), DestinationDisplay(..), EstimatedCall(..), Interchange(..), JourneyPattern(..), KeyValue(..), Leg(..), Line(..), MultilingualString(..), Notice(..), Operator(..), Organisation(..), PageInfo(..), PathGuidance(..), Place(..), PlaceAtDistance(..), PlaceAtDistanceConnection(..), PlaceAtDistanceEdge(..), PointsOnLink(..), Presentation(..), PtSituationElement(..), Quay(..), QuayAtDistance(..), QuayAtDistanceConnection(..), QuayAtDistanceEdge(..), RoutingParameters(..), ServiceJourney(..), StopPlace(..), TariffZone(..), TimeAndDayOffset(..), TimetabledPassingTime(..), Trip(..), TripPattern(..), ValidityPeriod(..))
+module EnturApi.Object exposing (Authority(..), BikePark(..), BikeRentalStation(..), BookingArrangement(..), Branding(..), CarPark(..), Contact(..), DebugOutput(..), DestinationDisplay(..), EstimatedCall(..), InfoLink(..), Interchange(..), JourneyPattern(..), KeyValue(..), Leg(..), Line(..), MultilingualString(..), Notice(..), Operator(..), Organisation(..), PageInfo(..), PathGuidance(..), Place(..), PlaceAtDistance(..), PlaceAtDistanceConnection(..), PlaceAtDistanceEdge(..), PointsOnLink(..), Presentation(..), PtSituationElement(..), Quay(..), QuayAtDistance(..), QuayAtDistanceConnection(..), QuayAtDistanceEdge(..), RoutingParameters(..), ServiceJourney(..), StopPlace(..), TariffZone(..), TimeAndDayOffset(..), TimetabledPassingTime(..), Trip(..), TripPattern(..), ValidityPeriod(..))
 
 
 type Authority
@@ -43,6 +43,10 @@ type DestinationDisplay
 
 type EstimatedCall
     = EstimatedCall
+
+
+type InfoLink
+    = InfoLink
 
 
 type Interchange
