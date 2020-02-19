@@ -17,6 +17,10 @@ body {
   text-align: center;
 }
 
+.inactive .quick-forecast {
+  color: #545454;
+}
+
 .quick-forecast {
   float: right;
   display: flex;
