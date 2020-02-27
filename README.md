@@ -6,4 +6,6 @@ to build a firmware to boot on Raspberry Pi 3 (https://github.com/LeToteTeam/kio
 ## Why?
 Basically because Nerves. Its awesome and I have wanted to try Elixir for a while.
 
-Follow https://twitch.tv/l0lpalme for some live coding. ^^,
+## Setup
+
+The Raspberry Pi 3 Kiosk Nerves System configuration needs qt to build: `sudo apt-get install qt5-default`
