@@ -14,7 +14,7 @@
     "reinstall": "yarn add rimraf && rimraf node_modules && yarn && yarn elm install",
     "deploy": "rimraf ../priv/static && webpack --mode production",
     "watch": "webpack --mode development --watch-stdin",
-    "graphql-generat": "elm-graphql https://api.entur.io/journey-planner/v2/graphql --base EnturApi --output elm"
+    "graphql-generate": "elm-graphql https://api.entur.io/journey-planner/v2/graphql --base EnturApi --output elm"
   },
   "devDependencies": {
     "@dillonkearns/elm-graphql": "^4.0.0",
