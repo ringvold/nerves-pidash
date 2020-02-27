@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.BikePark exposing (id, latitude, longitude, name, realtime, spacesAvailable)
+module EnturApi.Object.BikePark exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

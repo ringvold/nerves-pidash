@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.VerifyScalarCodecs exposing (placeholder)
+module EnturApi.VerifyScalarCodecs exposing (..)
 
 
 placeholder : String

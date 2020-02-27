@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.BikeRentalStation exposing (allowDropoff, bikesAvailable, description, id, latitude, longitude, name, networks, realtimeOccupancyAvailable, spacesAvailable)
+module EnturApi.Object.BikeRentalStation exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

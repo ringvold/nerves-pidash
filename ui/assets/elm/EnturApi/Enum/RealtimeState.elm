@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.RealtimeState exposing (RealtimeState(..), decoder, fromString, list, toString)
+module EnturApi.Enum.RealtimeState exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

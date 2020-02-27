@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistanceEdge exposing (cursor, node)
+module EnturApi.Object.PlaceAtDistanceEdge exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

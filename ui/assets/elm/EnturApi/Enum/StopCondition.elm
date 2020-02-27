@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.StopCondition exposing (StopCondition(..), decoder, fromString, list, toString)
+module EnturApi.Enum.StopCondition exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

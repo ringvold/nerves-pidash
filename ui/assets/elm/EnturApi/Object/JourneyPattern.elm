@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.JourneyPattern exposing (ServiceJourneysForDateOptionalArguments, destinationDisplay, directionType, id, line, name, notices, pointsOnLink, quays, serviceJourneys, serviceJourneysForDate, situations)
+module EnturApi.Object.JourneyPattern exposing (..)
 
 import EnturApi.Enum.DirectionType
 import EnturApi.InputObject

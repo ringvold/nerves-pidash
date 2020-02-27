@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.OptimisationMethod exposing (OptimisationMethod(..), decoder, fromString, list, toString)
+module EnturApi.Enum.OptimisationMethod exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

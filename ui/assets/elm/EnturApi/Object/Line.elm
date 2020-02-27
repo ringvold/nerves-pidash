@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Line exposing (authority, bikesAllowed, bookingArrangements, description, flexibleLineType, id, journeyPatterns, keyValues, name, notices, operator, organisation, presentation, publicCode, quays, serviceJourneys, situations, transportMode, transportSubmode, url)
+module EnturApi.Object.Line exposing (..)
 
 import EnturApi.Enum.BikesAllowed
 import EnturApi.Enum.FlexibleLineType

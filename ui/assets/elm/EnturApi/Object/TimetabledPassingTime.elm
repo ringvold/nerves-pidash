@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TimetabledPassingTime exposing (arrival, bookingArrangements, departure, destinationDisplay, forAlighting, forBoarding, notices, quay, requestStop, serviceJourney, timingPoint)
+module EnturApi.Object.TimetabledPassingTime exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

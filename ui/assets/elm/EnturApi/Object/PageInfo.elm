@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PageInfo exposing (endCursor, hasNextPage, hasPreviousPage, startCursor)
+module EnturApi.Object.PageInfo exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.ServiceJourney exposing (EstimatedCallsOptionalArguments, activeDates, bikesAllowed, bookingArrangements, directionType, estimatedCalls, flexibleServiceType, id, journeyPattern, keyValues, line, linePublicCode, notices, operator, passingTimes, pointsOnLink, privateCode, publicCode, quays, serviceAlteration, situations, transportSubmode, wheelchairAccessible)
+module EnturApi.Object.ServiceJourney exposing (..)
 
 import EnturApi.Enum.BikesAllowed
 import EnturApi.Enum.DirectionType

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.BookingAccess exposing (BookingAccess(..), decoder, fromString, list, toString)
+module EnturApi.Enum.BookingAccess exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

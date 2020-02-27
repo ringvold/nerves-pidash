@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.InterchangeWeighting exposing (InterchangeWeighting(..), decoder, fromString, list, toString)
+module EnturApi.Enum.InterchangeWeighting exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

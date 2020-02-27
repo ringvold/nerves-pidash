@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Trip exposing (dateTime, debugOutput, fromPlace, messageEnums, messageStrings, toPlace, tripPatterns)
+module EnturApi.Object.Trip exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

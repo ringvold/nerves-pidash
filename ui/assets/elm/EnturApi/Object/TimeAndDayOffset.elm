@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TimeAndDayOffset exposing (dayOffset, time)
+module EnturApi.Object.TimeAndDayOffset exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

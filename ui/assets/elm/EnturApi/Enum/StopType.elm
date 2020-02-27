@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.StopType exposing (StopType(..), decoder, fromString, list, toString)
+module EnturApi.Enum.StopType exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

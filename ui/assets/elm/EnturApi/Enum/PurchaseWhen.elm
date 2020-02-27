@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.PurchaseWhen exposing (PurchaseWhen(..), decoder, fromString, list, toString)
+module EnturApi.Enum.PurchaseWhen exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

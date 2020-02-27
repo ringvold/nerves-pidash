@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.MultilingualString exposing (language, value)
+module EnturApi.Object.MultilingualString exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

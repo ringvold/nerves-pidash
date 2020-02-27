@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.BikesAllowed exposing (BikesAllowed(..), decoder, fromString, list, toString)
+module EnturApi.Enum.BikesAllowed exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

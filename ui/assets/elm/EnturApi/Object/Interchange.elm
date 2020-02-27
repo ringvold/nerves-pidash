@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Interchange exposing (fromLine, fromServiceJourney, guaranteed, staySeated, toLine, toServiceJourney)
+module EnturApi.Object.Interchange exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

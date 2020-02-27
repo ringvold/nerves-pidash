@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.RoutingParameters exposing (alightSlack, allowBikeRental, bikeBoardCost, bikeParkAndRide, bikeParkCost, bikeParkTime, bikeRentalDropOffCost, bikeRentalDropOffTime, bikeRentalPickupCost, bikeRentalPickupTime, bikeSpeed, boardSlack, carAccelerationSpeed, carDecelerationSpeed, carDropOffTime, carSpeed, compactLegsByReversedSearch, disableAlertFiltering, disableRemainingWeightHeuristic, elevatorBoardCost, elevatorBoardTime, elevatorHopCost, elevatorHopTime, geoIdElevation, ignoreRealTimeUpdates, includedPlannedCancellations, interchangeAllowedPenalty, kissAndRide, maxPreTransitTime, maxSlope, maxTransferWalkDistance, maxTransfers, maxWalkDistance, noInterchangePenalty, numItineraries, onlyTransitTrips, otherThanPreferredRoutesPenalty, parkAndRide, preTransitOverageRate, preTransitPenalty, preTransitReluctance, preferredInterchangePenalty, recommendedInterchangePenalty, reverseOptimizeOnTheFly, rideAndKiss, showIntermediateStops, softPreTransitLimiting, softWalkLimiting, softWalkOverageRate, softWalkPenalty, stairsReluctance, transferPenalty, transferSlack, turnReluctance, useTraffic, waitAtBeginningFactor, waitReluctance, walkBoardCost, walkOnStreetReluctance, walkReluctance, walkSpeed, wheelChairAccessible)
+module EnturApi.Object.RoutingParameters exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

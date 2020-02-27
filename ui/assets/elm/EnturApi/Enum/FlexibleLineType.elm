@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.FlexibleLineType exposing (FlexibleLineType(..), decoder, fromString, list, toString)
+module EnturApi.Enum.FlexibleLineType exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

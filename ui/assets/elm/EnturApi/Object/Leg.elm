@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Leg exposing (aimedEndTime, aimedStartTime, authority, bookingArrangements, directDuration, distance, duration, endTime, expectedEndTime, expectedStartTime, fromEstimatedCall, fromPlace, interchangeFrom, interchangeTo, intermediateEstimatedCalls, intermediateQuays, line, mode, operator, organisation, pointsOnLink, realTime, realtime, rentedBike, ride, serviceJourney, serviceJourneyEstimatedCalls, situations, startTime, steps, toEstimatedCall, toPlace, transportSubmode, via)
+module EnturApi.Object.Leg exposing (..)
 
 import EnturApi.Enum.Mode
 import EnturApi.Enum.TransportSubmode

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.EstimatedCall exposing (actualArrivalTime, actualDepartureTime, aimedArrival, aimedArrivalTime, aimedDeparture, aimedDepartureTime, bookingArrangements, cancellation, date, destinationDisplay, expectedArrival, expectedArrivalTime, expectedDeparture, expectedDepartureTime, flexible, forAlighting, forBoarding, hostname, notices, predictionInaccurate, quay, realtime, realtimeState, requestStop, serviceJourney, situations, timingPoint)
+module EnturApi.Object.EstimatedCall exposing (..)
 
 import EnturApi.Enum.RealtimeState
 import EnturApi.InputObject
@@ -32,7 +32,7 @@ aimedArrivalTime =
     Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "aimedArrivalTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
-{-| Expected time of arrival at quay. Updated with real time information if available. Will be null if an actualArrivalTime exists
+{-| Expected time of arrival at quay. Updated with real time information if available.
 -}
 expectedArrivalTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 expectedArrivalTime =
@@ -53,7 +53,7 @@ aimedDepartureTime =
     Object.selectionForField "(Maybe ScalarCodecs.DateTime)" "aimedDepartureTime" [] (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapCodecs |> .codecDateTime |> .decoder |> Decode.nullable)
 
 
-{-| Expected time of departure from quay. Updated with real time information if available. Will be null if an actualDepartureTime exists
+{-| Expected time of departure from quay. Updated with real time information if available.
 -}
 expectedDepartureTime : SelectionSet (Maybe EnturApi.ScalarCodecs.DateTime) EnturApi.Object.EstimatedCall
 expectedDepartureTime =

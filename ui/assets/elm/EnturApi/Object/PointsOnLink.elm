@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PointsOnLink exposing (length, points)
+module EnturApi.Object.PointsOnLink exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

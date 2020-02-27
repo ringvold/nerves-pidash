@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TripPattern exposing (directDuration, distance, duration, endTime, legs, startTime, waitingTime, walkDistance, walkTime, weight)
+module EnturApi.Object.TripPattern exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

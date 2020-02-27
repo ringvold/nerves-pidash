@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Union exposing (placeholder)
+module EnturApi.Union exposing (..)
 
 
 placeholder : String

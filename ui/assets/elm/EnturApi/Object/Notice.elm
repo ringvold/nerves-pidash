@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Notice exposing (id, publicCode, text)
+module EnturApi.Object.Notice exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Branding exposing (description, id, image, name, url)
+module EnturApi.Object.Branding exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

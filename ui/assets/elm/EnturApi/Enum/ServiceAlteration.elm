@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.ServiceAlteration exposing (ServiceAlteration(..), decoder, fromString, list, toString)
+module EnturApi.Enum.ServiceAlteration exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

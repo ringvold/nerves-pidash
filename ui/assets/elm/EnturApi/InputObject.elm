@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.InputObject exposing (InputBanned, InputBannedOptionalFields, InputCoordinates, InputCoordinatesRequiredFields, InputFilters, InputFiltersOptionalFields, InputPreferred, InputPreferredOptionalFields, InputUnpreferred, InputUnpreferredOptionalFields, InputWhiteListed, InputWhiteListedOptionalFields, Location, LocationOptionalFields, TransportSubmodeFilter, TransportSubmodeFilterRequiredFields, buildInputBanned, buildInputCoordinates, buildInputFilters, buildInputPreferred, buildInputUnpreferred, buildInputWhiteListed, buildLocation, buildTransportSubmodeFilter, encodeInputBanned, encodeInputCoordinates, encodeInputFilters, encodeInputPreferred, encodeInputUnpreferred, encodeInputWhiteListed, encodeLocation, encodeTransportSubmodeFilter)
+module EnturApi.InputObject exposing (..)
 
 import EnturApi.Enum.TransportMode
 import EnturApi.Enum.TransportSubmode

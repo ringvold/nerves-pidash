@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Interface.PlaceInterface exposing (Fragments, fragments, id, latitude, longitude, maybeFragments)
+module EnturApi.Interface.PlaceInterface exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

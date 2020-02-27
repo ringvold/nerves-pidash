@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.TariffZone exposing (id, name)
+module EnturApi.Object.TariffZone exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

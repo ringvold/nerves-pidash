@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PtSituationElement exposing (advice, authority, description, detail, id, infoLink, infoLinks, journeyPatterns, lines, organisation, quays, reportAuthority, reportType, serviceJourneys, severity, situationNumber, stopConditions, stopPlaces, summary, validityPeriod)
+module EnturApi.Object.PtSituationElement exposing (..)
 
 import EnturApi.Enum.ReportType
 import EnturApi.Enum.Severity

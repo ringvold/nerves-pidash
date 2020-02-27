@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.QuayAtDistanceEdge exposing (cursor, node)
+module EnturApi.Object.QuayAtDistanceEdge exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

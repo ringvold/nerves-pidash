@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.ScalarCodecs exposing (Coordinates, Date, DateTime, Id, LocalTime, Long, Time, codecs)
+module EnturApi.ScalarCodecs exposing (..)
 
 import EnturApi.Scalar exposing (defaultCodecs)
 import Json.Decode as Decode exposing (Decoder)

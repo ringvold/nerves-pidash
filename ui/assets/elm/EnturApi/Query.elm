@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Query exposing (AuthorityRequiredArguments, BikeParkRequiredArguments, BikeRentalStationRequiredArguments, BikeRentalStationsByBboxOptionalArguments, BikeRentalStationsOptionalArguments, CarParkRequiredArguments, CarParksOptionalArguments, LineRequiredArguments, LinesOptionalArguments, NearestOptionalArguments, NearestRequiredArguments, OperatorRequiredArguments, OrganisationRequiredArguments, QuayRequiredArguments, QuaysByBboxOptionalArguments, QuaysByRadiusOptionalArguments, QuaysByRadiusRequiredArguments, QuaysOptionalArguments, ServiceJourneyRequiredArguments, ServiceJourneysOptionalArguments, SituationsOptionalArguments, StopPlaceRequiredArguments, StopPlacesByBboxOptionalArguments, StopPlacesOptionalArguments, TripOptionalArguments, TripRequiredArguments, authorities, authority, bikePark, bikeParks, bikeRentalStation, bikeRentalStations, bikeRentalStationsByBbox, carPark, carParks, line, lines, nearest, notices, operator, operators, organisation, organisations, quay, quays, quaysByBbox, quaysByRadius, routingParameters, serviceJourney, serviceJourneys, situations, stopPlace, stopPlaces, stopPlacesByBbox, trip)
+module EnturApi.Query exposing (..)
 
 import EnturApi.Enum.FilterPlaceType
 import EnturApi.Enum.FlexibleLineType

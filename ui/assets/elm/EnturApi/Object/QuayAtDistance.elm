@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.QuayAtDistance exposing (distance, id, quay)
+module EnturApi.Object.QuayAtDistance exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

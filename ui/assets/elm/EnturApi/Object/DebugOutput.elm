@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.DebugOutput exposing (totalTime)
+module EnturApi.Object.DebugOutput exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

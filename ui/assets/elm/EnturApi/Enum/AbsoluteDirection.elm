@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.AbsoluteDirection exposing (AbsoluteDirection(..), decoder, fromString, list, toString)
+module EnturApi.Enum.AbsoluteDirection exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

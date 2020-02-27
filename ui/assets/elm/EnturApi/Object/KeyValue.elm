@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.KeyValue exposing (key, typeOfKey, value)
+module EnturApi.Object.KeyValue exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

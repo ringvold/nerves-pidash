@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Quay exposing (EstimatedCallsOptionalArguments, description, estimatedCalls, flexibleArea, id, journeyPatterns, latitude, lines, longitude, name, publicCode, situations, stopPlace, stopType, timezone, wheelchairAccessible)
+module EnturApi.Object.Quay exposing (..)
 
 import EnturApi.Enum.Mode
 import EnturApi.Enum.StopType
@@ -93,6 +93,7 @@ type alias EstimatedCallsOptionalArguments =
     , numberOfDepartures : OptionalArgument Int
     , numberOfDeparturesPerLineAndDestinationDisplay : OptionalArgument Int
     , omitNonBoarding : OptionalArgument Bool
+    , includeCancelledTrips : OptionalArgument Bool
     , whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed
     , whiteListedModes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode))
     }
@@ -103,6 +104,7 @@ type alias EstimatedCallsOptionalArguments =
   - startTime - DateTime for when to fetch estimated calls from. Default value is current time
   - numberOfDepartures - Limit the total number of departures returned.
   - numberOfDeparturesPerLineAndDestinationDisplay - Limit the number of departures per line and destination display returned. The parameter is only applied when the value is between 1 and 'numberOfDepartures'.
+  - includeCancelledTrips - Indicates that realtime-cancelled trips should also be included.
   - whiteListed - Parameters for indicating the only authorities and/or lines or quays to list estimatedCalls for
   - whiteListedModes - Only show estimated calls for selected modes.
 
@@ -111,10 +113,10 @@ estimatedCalls : (EstimatedCallsOptionalArguments -> EstimatedCallsOptionalArgum
 estimatedCalls fillInOptionals object_ =
     let
         filledInOptionals =
-            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, whiteListed = Absent, whiteListedModes = Absent }
+            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, includeCancelledTrips = Absent, whiteListed = Absent, whiteListedModes = Absent }
 
         optionalArgs =
-            [ Argument.optional "startTime" filledInOptionals.startTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "whiteListedModes" filledInOptionals.whiteListedModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list) ]
+            [ Argument.optional "startTime" filledInOptionals.startTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "includeCancelledTrips" filledInOptionals.includeCancelledTrips Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "whiteListedModes" filledInOptionals.whiteListedModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "estimatedCalls" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)

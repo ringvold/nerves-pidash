@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.InfoLink exposing (label, uri)
+module EnturApi.Object.InfoLink exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

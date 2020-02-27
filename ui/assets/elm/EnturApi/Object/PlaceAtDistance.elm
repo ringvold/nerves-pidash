@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistance exposing (distance, id, place)
+module EnturApi.Object.PlaceAtDistance exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

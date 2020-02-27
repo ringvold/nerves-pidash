@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PlaceAtDistanceConnection exposing (edges, pageInfo)
+module EnturApi.Object.PlaceAtDistanceConnection exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

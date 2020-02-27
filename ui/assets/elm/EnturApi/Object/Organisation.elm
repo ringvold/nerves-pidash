@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Organisation exposing (fareUrl, id, lang, lines, name, phone, situations, timezone, url)
+module EnturApi.Object.Organisation exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

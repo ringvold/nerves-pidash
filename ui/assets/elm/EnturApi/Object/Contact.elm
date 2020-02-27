@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Contact exposing (contactPerson, email, furtherDetails, phone, url)
+module EnturApi.Object.Contact exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

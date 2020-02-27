@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.TransportSubmode exposing (TransportSubmode(..), decoder, fromString, list, toString)
+module EnturApi.Enum.TransportSubmode exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

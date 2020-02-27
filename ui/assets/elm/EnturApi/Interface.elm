@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Interface exposing (PlaceInterface(..))
+module EnturApi.Interface exposing (..)
 
 
 type PlaceInterface

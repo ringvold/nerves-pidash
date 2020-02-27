@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.ValidityPeriod exposing (endTime, startTime)
+module EnturApi.Object.ValidityPeriod exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

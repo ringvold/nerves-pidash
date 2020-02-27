@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Enum.FilterPlaceType exposing (FilterPlaceType(..), decoder, fromString, list, toString)
+module EnturApi.Enum.FilterPlaceType exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.PathGuidance exposing (LegStepTextOptionalArguments, area, bogusName, distance, exit, heading, latitude, legStepText, longitude, relativeDirection, stayOn, streetName)
+module EnturApi.Object.PathGuidance exposing (..)
 
 import EnturApi.Enum.AbsoluteDirection
 import EnturApi.Enum.Locale

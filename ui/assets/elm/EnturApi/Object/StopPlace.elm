@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.StopPlace exposing (EstimatedCallsOptionalArguments, QuaysOptionalArguments, adjacentSites, description, estimatedCalls, id, latitude, longitude, name, parent, quays, tariffZones, timezone, transportMode, transportSubmode, weighting, wheelchairBoarding)
+module EnturApi.Object.StopPlace exposing (..)
 
 import EnturApi.Enum.InterchangeWeighting
 import EnturApi.Enum.Mode
@@ -129,6 +129,7 @@ type alias EstimatedCallsOptionalArguments =
     , numberOfDepartures : OptionalArgument Int
     , numberOfDeparturesPerLineAndDestinationDisplay : OptionalArgument Int
     , omitNonBoarding : OptionalArgument Bool
+    , includeCancelledTrips : OptionalArgument Bool
     , whiteListed : OptionalArgument EnturApi.InputObject.InputWhiteListed
     , whiteListedModes : OptionalArgument (List (Maybe EnturApi.Enum.Mode.Mode))
     }
@@ -147,10 +148,10 @@ estimatedCalls : (EstimatedCallsOptionalArguments -> EstimatedCallsOptionalArgum
 estimatedCalls fillInOptionals object_ =
     let
         filledInOptionals =
-            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, whiteListed = Absent, whiteListedModes = Absent }
+            fillInOptionals { startTime = Absent, timeRange = Absent, numberOfDepartures = Absent, numberOfDeparturesPerLineAndDestinationDisplay = Absent, omitNonBoarding = Absent, includeCancelledTrips = Absent, whiteListed = Absent, whiteListedModes = Absent }
 
         optionalArgs =
-            [ Argument.optional "startTime" filledInOptionals.startTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "whiteListedModes" filledInOptionals.whiteListedModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list) ]
+            [ Argument.optional "startTime" filledInOptionals.startTime (EnturApi.ScalarCodecs.codecs |> EnturApi.Scalar.unwrapEncoder .codecDateTime), Argument.optional "timeRange" filledInOptionals.timeRange Encode.int, Argument.optional "numberOfDepartures" filledInOptionals.numberOfDepartures Encode.int, Argument.optional "numberOfDeparturesPerLineAndDestinationDisplay" filledInOptionals.numberOfDeparturesPerLineAndDestinationDisplay Encode.int, Argument.optional "omitNonBoarding" filledInOptionals.omitNonBoarding Encode.bool, Argument.optional "includeCancelledTrips" filledInOptionals.includeCancelledTrips Encode.bool, Argument.optional "whiteListed" filledInOptionals.whiteListed EnturApi.InputObject.encodeInputWhiteListed, Argument.optional "whiteListedModes" filledInOptionals.whiteListedModes (Encode.enum EnturApi.Enum.Mode.toString |> Encode.maybe |> Encode.list) ]
                 |> List.filterMap identity
     in
     Object.selectionForCompositeField "estimatedCalls" optionalArgs object_ (identity >> Decode.nullable >> Decode.list)

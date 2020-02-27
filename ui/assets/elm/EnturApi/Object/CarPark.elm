@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.CarPark exposing (capacity, capacityHandicap, capacityRecharging, id, latitude, longitude, name, realtimeOccupancyAvailable, spacesAvailable, spacesAvailableHandicap, spacesAvailableRecharging)
+module EnturApi.Object.CarPark exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

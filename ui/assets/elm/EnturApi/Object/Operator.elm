@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Operator exposing (branding, id, lines, name, phone, serviceJourney, url)
+module EnturApi.Object.Operator exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Place exposing (bikePark, bikeRentalStation, carPark, latitude, longitude, name, quay, vertexType)
+module EnturApi.Object.Place exposing (..)
 
 import EnturApi.Enum.VertexType
 import EnturApi.InputObject

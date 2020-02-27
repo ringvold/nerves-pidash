@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.BookingArrangement exposing (bookWhen, bookingAccess, bookingContact, bookingMethods, bookingNote, buyWhen, latestBookingTime, minimumBookingPeriod)
+module EnturApi.Object.BookingArrangement exposing (..)
 
 import EnturApi.Enum.BookingAccess
 import EnturApi.Enum.BookingMethod

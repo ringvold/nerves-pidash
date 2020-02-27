@@ -263,15 +263,15 @@ formatDateTime zone maybeTime =
             Maybe.withDefault (Time.millisToPosix 0) maybeTime
     in
     DateFormat.format
-        [ DateFormat.monthFixed
+        [ DateFormat.hourMilitaryFixed
+        , DateFormat.text ":"
+        , DateFormat.minuteFixed
+        , DateFormat.text " "
+        , DateFormat.monthFixed
         , DateFormat.text "."
         , DateFormat.dayOfMonthFixed
         , DateFormat.text "."
         , DateFormat.yearNumber
-        , DateFormat.text " "
-        , DateFormat.hourMilitaryFixed
-        , DateFormat.text ":"
-        , DateFormat.minuteFixed
         ]
         zone
         time

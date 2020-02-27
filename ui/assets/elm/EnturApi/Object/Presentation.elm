@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module EnturApi.Object.Presentation exposing (colour, textColour)
+module EnturApi.Object.Presentation exposing (..)
 
 import EnturApi.InputObject
 import EnturApi.Interface
