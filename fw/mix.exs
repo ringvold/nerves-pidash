@@ -35,20 +35,19 @@ defmodule Firmware.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:nerves, "~> 1.5", runtime: false},
-      {:shoehorn, "~> 0.6"},
-      {:ring_logger, "~> 0.6"},
-      {:toolshed, "~> 0.2"},
+      {:nerves, "~> 1.7.15 or ~> 1.8", runtime: false},
+      {:shoehorn, "~> 0.9"},
+      {:ring_logger, "~> 0.8.6"},
+      {:toolshed, "~> 0.2.26"},
       {:webengine_kiosk, "~> 0.1"},
       {:ui, path: "../ui"},
 
       # Dependencies for all targets except host
-      {:nerves_runtime, "~> 0.6", targets: @all_targets},
-      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
-      {:nerves_time, "~> 0.2", targets: @all_targets},
+      {:nerves_runtime, "~> 0.13.0", targets: @all_targets},
+      {:nerves_pack, "~> 0.7.0", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:kiosk_system_rpi3, "~> 1.8.0", runtime: false, targets: :rpi3}
+      {:nerves_system_rpi3_kiosk, path: "../../nerves_system_rpi3_kiosk", runtime: false, nerves: [compile: true], targets: :rpi3}
     ]
   end
 
